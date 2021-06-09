@@ -1,8 +1,6 @@
 import {
   Button,
-  Center,
   FormControl,
-  Image,
   FormErrorMessage,
   FormLabel,
   Input,
@@ -18,12 +16,9 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import * as Yup from "yup";
-// import { config, SPACING_INPUTS } from "../config";
 import { Field, Form, Formik } from "formik";
 import { validation } from "../utils/validations";
-// import { sendContactMessageRequest } from "../api/requests";
-// import { toastConfig } from "../utils/utils";
-// import logo from "../images/icons/contact.svg";
+import { getFirebaseAdmin } from "next-firebase-auth";
 
 export interface ContactFormValues {
   message: string;
@@ -52,27 +47,35 @@ export const ContactFormModal: React.FC<Props> = ({
   const toast = useToast();
   const [isLargerThan480] = useMediaQuery("(min-width: 480px)");
 
-  async function submitMessage(values: ContactFormValues) {
-    // try {
-    //   await sendContactMessageRequest(values);
-    //   toast(
-    //     toastConfig(
-    //       "Thank you!",
-    //       "info",
-    //       "I will try to get back to you as soon as possible."
-    //     )
-    //   );
-    //   actions.setSubmitting(false);
-    //   modalClose();
-    // } catch (_err) {
-    //   toast(
-    //     toastConfig(
-    //       "Yikes..",
-    //       "warning",
-    //       "There has been an error submitting your message please try again later."
-    //     )
-    //   );
-    // }
+  async function submitMessage(values: ContactFormValues, actions) {
+    console.log(values);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        credentials: "same-origin", // include, *same-origin, omit
+        body: JSON.stringify(values),
+      });
+      console.log(res.json());
+      actions.setSubmitting(false);
+      modalClose();
+      // await sendContactMessageRequest(values);
+      // toast(
+      //   toastConfig(
+      //     "Thank you!",
+      //     "info",
+      //     "I will try to get back to you as soon as possible."
+      //   )
+      // );
+    } catch (_err) {
+      console.log(_err);
+      // toast(
+      //   toastConfig(
+      //     "Yikes..",
+      //     "warning",
+      //     "There has been an error submitting your message please try again later."
+      //   )
+      // );
+    }
   }
 
   return (
@@ -132,8 +135,6 @@ export const ContactFormModal: React.FC<Props> = ({
                 </Field>
                 <Button
                   mt={4}
-                  // colorScheme="cyan"
-                  // variant="outline"
                   isFullWidth
                   type="submit"
                   bgGradient="linear(to-r, cyan.700,purple.500)"
@@ -160,6 +161,7 @@ export const ContactFormModal: React.FC<Props> = ({
             )}
           </Formik>
         </ModalBody>
+        {/* todo: add image at the bottom, test how it would look like */}
         {/* <Center>
           <Image boxSize={["200px"]} src={logo} alt="Register" />
         </Center> */}

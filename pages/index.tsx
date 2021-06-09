@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   useAuthUser,
   withAuthUser,
   withAuthUserTokenSSR,
 } from "next-firebase-auth";
 import { PageLayout } from "../components/PageLayout";
-import { Button, Flex, Heading, Stack, useDisclosure } from "@chakra-ui/react";
-import { LoginModal } from "../components/LoginModal";
+import { Button, Flex, Heading, Stack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 const LandingPage = () => {
   const AuthUser = useAuthUser();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
+
+  useEffect(() => { // todo: move redirect to SSR
+    if (AuthUser.email) router.push("/boards");
+  }, [AuthUser]);
 
   return (
     <PageLayout>
@@ -24,7 +26,7 @@ const LandingPage = () => {
       >
         <Heading mb={8}>Deepflow</Heading>
         {!AuthUser.email ? (
-          <Stack spacing={0} >
+          <Stack spacing={0}>
             <Button
               colorScheme="purple"
               size="lg"
@@ -34,7 +36,6 @@ const LandingPage = () => {
               _hover={{
                 bgGradient: "linear(to-r, cyan.600,purple.400)",
               }}
-              // onClick={onOpen}
               onClick={() => router.push("/auth")}
             >
               Login / Register
@@ -55,7 +56,6 @@ const LandingPage = () => {
           </Button>
         )}
       </Flex>
-      <LoginModal modalOpen={isOpen} modalClose={onClose} />
     </PageLayout>
   );
 };
