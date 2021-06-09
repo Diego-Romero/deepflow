@@ -90,7 +90,7 @@ export const ContactFormModal: React.FC<Props> = ({
             validateOnChange={false}
             validateOnBlur={false}
             onSubmit={(values, actions) => {
-              submitMessage(values);
+              submitMessage(values, actions);
             }}
             validationSchema={validationSchema}
           >
