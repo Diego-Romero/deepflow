@@ -1,11 +1,12 @@
-import React from 'react'
+import React from "react";
 import {
   useAuthUser,
   withAuthUser,
   withAuthUserTokenSSR,
-} from 'next-firebase-auth'
-import Header from '../components/Header'
-import DemoPageLinks from '../components/DemoPageLinks'
+} from "next-firebase-auth";
+import Header from "../components/Header";
+import DemoPageLinks from "../components/DemoPageLinks";
+import { PageLayout } from "../components/PageLayout";
 
 const styles = {
   content: {
@@ -14,13 +15,13 @@ const styles = {
   infoTextContainer: {
     marginBottom: 32,
   },
-}
+};
 
-const Demo = () => {
-  const AuthUser = useAuthUser()
+const DemoLandingPage = () => {
+  const AuthUser = useAuthUser();
   return (
-    <div>
-      <Header email={AuthUser.email} signOut={AuthUser.signOut} />
+    <PageLayout>
+      {/* <Header email={AuthUser.email} signOut={AuthUser.signOut} /> */}
       <div style={styles.content}>
         <div style={styles.infoTextContainer}>
           <h3>Home</h3>
@@ -35,10 +36,10 @@ const Demo = () => {
         </div>
         <DemoPageLinks />
       </div>
-    </div>
-  )
-}
+    </PageLayout>
+  );
+};
 
-export const getServerSideProps = withAuthUserTokenSSR()()
+export const getServerSideProps = withAuthUserTokenSSR()();
 
-export default withAuthUser()(Demo)
+export default withAuthUser()(DemoLandingPage);
