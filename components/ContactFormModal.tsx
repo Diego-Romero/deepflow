@@ -76,7 +76,7 @@ export const ContactFormModal: React.FC<Props> = ({
   }
 
   return (
-    <Modal isOpen={modalOpen} onClose={modalClose} size="2xl">
+    <Modal isOpen={modalOpen} onClose={modalClose} size="xl">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Contact</ModalHeader>

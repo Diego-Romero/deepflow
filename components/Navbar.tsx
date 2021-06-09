@@ -84,19 +84,7 @@ export const NavBar: React.FC = () => {
               />
             </Tooltip>
           </>
-        ) : (
-          <Tooltip label="Login" aria-label="Login">
-            <IconButton
-              size="md"
-              variant="ghost"
-              color="current"
-              fontSize="2xl"
-              icon={<IoMdLogIn />}
-              onClick={() => router.push("/auth")}
-              aria-label={`Login`}
-            />
-          </Tooltip>
-        )}
+        ) : null}
       </HStack>
     </Flex>
   );

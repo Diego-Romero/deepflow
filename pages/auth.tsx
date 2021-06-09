@@ -3,20 +3,31 @@ import { withAuthUser, AuthAction } from "next-firebase-auth";
 import FirebaseAuth from "../components/FirebaseAuth";
 import { PageLayout } from "../components/PageLayout";
 import { Card } from "../components/Card";
-import { Flex, Heading, Stack } from "@chakra-ui/react";
+import { Button, Flex, Heading, Stack } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
-const Auth = () => (
-  <PageLayout>
-    <Flex alignItems="flex-start" justifyContent="center" mt={12}>
-      <Card>
-        <Stack spacing="4" textAlign="center">
-          <Heading size="md">Login / Register</Heading>
-          <FirebaseAuth />
-        </Stack>
-      </Card>
-    </Flex>
-  </PageLayout>
-);
+const Auth = () => {
+  const router = useRouter();
+  return (
+    <PageLayout>
+      <Flex alignItems="flex-start" justifyContent="center" mt={12}>
+        <Card>
+          <Stack spacing="4" textAlign="center">
+            <Heading size="md">Login / Register</Heading>
+            <FirebaseAuth />
+            <Button
+              colorScheme="gray"
+              size="sm"
+              onClick={() => router.push("/")}
+            >
+              Back to home
+            </Button>
+          </Stack>
+        </Card>
+      </Flex>
+    </PageLayout>
+  );
+};
 
 export default withAuthUser({
   whenAuthed: AuthAction.REDIRECT_TO_APP,

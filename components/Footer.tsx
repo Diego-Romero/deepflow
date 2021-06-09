@@ -24,13 +24,13 @@ export const Footer: React.FC = () => {
           spacing={4}
         >
           <Heading size="sm">
-            Made with ☕️ {"_"} by{" "}
+            Made with 🍹 {" "}
             <Link
               href="https://www.linkedin.com/in/dev-diego-romero/"
               isExternal
               textDecor="underline"
             >
-              Diego Romero
+              by Diego Romero
             </Link>
           </Heading>
           <IconButton

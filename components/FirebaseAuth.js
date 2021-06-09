@@ -16,13 +16,10 @@ const firebaseAuthConfig = {
       provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       requireDisplayName: false,
     },
-    // {
-    //   provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-    //   requireDisplayName: false,
-    // },
     firebase.auth.GithubAuthProvider.PROVIDER_ID,
+    // todo: add FB as a provider
   ],
-  signInSuccessUrl: "/",
+  signInSuccessUrl: "/boards",
   credentialHelper: "none",
   callbacks: {
     // https://github.com/firebase/firebaseui-web#signinsuccesswithauthresultauthresult-redirecturl
@@ -42,6 +39,7 @@ const FirebaseAuth = () => {
       setRenderAuth(true);
     }
   }, []);
+
   return (
     <div>
       {renderAuth ? (
