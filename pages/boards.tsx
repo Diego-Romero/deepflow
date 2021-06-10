@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useAuthUser, withAuthUser, AuthAction } from "next-firebase-auth";
 import FullPageLoader from "../components/FullPageLoader";
-import getAbsoluteURL from "../utils/getAbsoluteURL";
 import { PageLayout } from "../components/PageLayout";
 import { Card } from "../components/Card";
 import { Heading } from "@chakra-ui/react";
+import { getAbsoluteURL } from "../utils/util-functions";
 
 const BoardsPage = () => {
   const AuthUser = useAuthUser(); 

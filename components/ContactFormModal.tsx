@@ -17,10 +17,9 @@ import {
 import React from "react";
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
-import { validation } from "../utils/validations";
-import { getFirebaseAdmin } from "next-firebase-auth";
 import axios from "axios";
 import { toastConfig } from "../utils/toastConfig";
+import { validation } from "../utils/util-functions";
 
 export interface ContactFormValues {
   message: string;
@@ -57,7 +56,7 @@ export const ContactFormModal: React.FC<Props> = ({
       toast(
         toastConfig(
           "Thank you!",
-          "info",
+          "success",
           "I will try to get back to you as soon as possible."
         )
       );

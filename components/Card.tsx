@@ -13,7 +13,7 @@ export const Card: React.FC<Props> = ({ children, maxHeight = "auto" }) => (
     maxHeight={maxHeight}
     overflow="auto"
     p={6}
-    boxShadow="0px 2px 6px rgb(0 0 0 / 10%)"
+    shadow="md"
     borderColor="gray.200"
     borderWidth="1px"
   >

@@ -1,16 +1,7 @@
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  IconButton,
-  Tooltip,
-  useColorMode,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, IconButton, Tooltip } from "@chakra-ui/react";
 import * as React from "react";
-import { IoMdHome, IoMdLogIn, IoMdLogOut } from "react-icons/io";
-import { AiOutlineUnorderedList } from "react-icons/ai";
+import { IoMdHome, IoMdLogOut } from "react-icons/io";
+import { VscListTree } from "react-icons/vsc";
 import { FaRegKeyboard } from "react-icons/fa";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { useAuthUser } from "next-firebase-auth";
@@ -32,26 +23,13 @@ export const NavBar: React.FC = () => {
       <Box>
         {AuthUser.email ? (
           <>
-            <Tooltip label="Keyboard shortcuts" aria-label="Keyboard shortcuts">
-              <IconButton
-                ml={4}
-                display={["none", "none", "none", "inline-flex"]}
-                size="md"
-                variant="ghost"
-                color="current"
-                fontSize="2xl"
-                // onClick={onOpen}
-                icon={<FaRegKeyboard />}
-                aria-label={`Keyboard shortcuts`}
-              />
-            </Tooltip>
-            <Tooltip label="Go to lists" aria-label="go to lists">
+            <Tooltip label="Go to boards" aria-label="Go to boards">
               <IconButton
                 size="md"
                 variant="ghost"
                 color="current"
                 fontSize="2xl"
-                icon={<AiOutlineUnorderedList />}
+                icon={<VscListTree />}
                 aria-label={`Go to lists`}
               />
             </Tooltip>
@@ -72,6 +50,19 @@ export const NavBar: React.FC = () => {
         <ColorModeSwitcher justifySelf="flex-end" />
         {AuthUser.email ? (
           <>
+            <Tooltip label="Keyboard shortcuts" aria-label="Keyboard shortcuts">
+              <IconButton
+                ml={4}
+                display={["none", "none", "none", "inline-flex"]}
+                size="md"
+                variant="ghost"
+                color="current"
+                fontSize="2xl"
+                // onClick={onOpen}
+                icon={<FaRegKeyboard />}
+                aria-label={`Keyboard shortcuts`}
+              />
+            </Tooltip>
             <Tooltip label="Logout" aria-label="Logout">
               <IconButton
                 size="md"

@@ -1,12 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import sgMail from "@sendgrid/mail";
 import { INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from "http-status";
+import config from "../../utils/config";
 
 type Response = {
   message: string;
 };
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
+sgMail.setApiKey(config.env.sendGridApiKey as string);
 
 export const contactMessageEmail = (message: string, email: string) => ({
   to: "dev.diego.romero@gmail.com",
