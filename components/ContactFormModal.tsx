@@ -19,6 +19,8 @@ import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
 import { validation } from "../utils/validations";
 import { getFirebaseAdmin } from "next-firebase-auth";
+import axios from "axios";
+import { toastConfig } from "../utils/toastConfig";
 
 export interface ContactFormValues {
   message: string;
@@ -48,33 +50,25 @@ export const ContactFormModal: React.FC<Props> = ({
   const [isLargerThan480] = useMediaQuery("(min-width: 480px)");
 
   async function submitMessage(values: ContactFormValues, actions) {
-    console.log(values);
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        credentials: "same-origin", // include, *same-origin, omit
-        body: JSON.stringify(values),
-      });
-      console.log(res.json());
+      await axios.post("/api/contact", values);
       actions.setSubmitting(false);
       modalClose();
-      // await sendContactMessageRequest(values);
-      // toast(
-      //   toastConfig(
-      //     "Thank you!",
-      //     "info",
-      //     "I will try to get back to you as soon as possible."
-      //   )
-      // );
+      toast(
+        toastConfig(
+          "Thank you!",
+          "info",
+          "I will try to get back to you as soon as possible."
+        )
+      );
     } catch (_err) {
-      console.log(_err);
-      // toast(
-      //   toastConfig(
-      //     "Yikes..",
-      //     "warning",
-      //     "There has been an error submitting your message please try again later."
-      //   )
-      // );
+      toast(
+        toastConfig(
+          "Yikes..",
+          "warning",
+          "There has been an error submitting your message please try again later."
+        )
+      );
     }
   }
 
