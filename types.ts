@@ -1,12 +1,17 @@
 
-export type columnItem = {
+export type ColumnItemType = {
   name: string;
   id: string;
   description?: string;
 };
 
-export type column = {
+export type ColumnType = {
   name: string;
   id: string;
-  items: columnItem[];
+  items: ColumnItemType[];
 };
+
+export type BoardType = {
+  id: string;
+  name: string;
+}

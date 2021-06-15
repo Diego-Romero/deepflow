@@ -1,10 +1,10 @@
 import { UseToastOptions } from "@chakra-ui/react";
 import { NextApiRequest } from "next";
 import * as Yup from "yup";
-import { column, columnItem } from "../types";
+import { ColumnType, ColumnItemType } from "../types";
 
 export const reorder = (
-  list: columnItem[],
+  list: ColumnItemType[],
   startIndex: number,
   endIndex: number
 ) => {
@@ -16,10 +16,10 @@ export const reorder = (
 };
 
 export function reorderList(
-  columns: column[],
+  columns: ColumnType[],
   startIndex: number,
   endIndex: number
-): column[] {
+): ColumnType[] {
   const result = Array.from(columns);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
@@ -31,8 +31,8 @@ export function reorderList(
  * Moves an item from one list to another list.
  */
 export const move = (
-  source: column,
-  destination: column,
+  source: ColumnType,
+  destination: ColumnType,
   droppableSource,
   droppableDestination
 ) => {
@@ -53,8 +53,8 @@ export function generateMockColumn(
   name: string,
   index: number,
   count: number
-): column {
-  const column: column = {
+): ColumnType {
+  const column: ColumnType = {
     name,
     id: index.toString(),
     items: [],
@@ -78,7 +78,7 @@ export const PASSWORD_MIN_LENGTH = 6;
 export const validation = {
   email: Yup.string().email("Invalid Email").required(REQUIRED_FIELD_ERROR),
   name: Yup.string()
-    .min(2, REQUIRED_FIELD_TOO_SHORT_TEXT)
+    .min(1, REQUIRED_FIELD_TOO_SHORT_TEXT)
     .max(2000, REQUIRED_FIELD_TOO_LONG_TEXT),
   description: Yup.string().max(500, REQUIRED_FIELD_TOO_LONG_TEXT),
   password: Yup.string()

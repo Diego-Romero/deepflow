@@ -1,11 +1,12 @@
 import { Box, Flex, HStack, IconButton, Tooltip } from "@chakra-ui/react";
 import * as React from "react";
 import { IoMdHome, IoMdLogOut } from "react-icons/io";
-import { VscListTree } from "react-icons/vsc";
+import { FaListUl } from "react-icons/fa";
 import { FaRegKeyboard } from "react-icons/fa";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { useAuthUser } from "next-firebase-auth";
 import { useRouter } from "next/router";
+import config from "../utils/config";
 
 export const NavBar: React.FC = () => {
   const router = useRouter();
@@ -29,8 +30,9 @@ export const NavBar: React.FC = () => {
                 variant="ghost"
                 color="current"
                 fontSize="2xl"
-                icon={<VscListTree />}
+                icon={<FaListUl />}
                 aria-label={`Go to lists`}
+                onClick={() => router.push(config.routes.boards)}
               />
             </Tooltip>
           </>

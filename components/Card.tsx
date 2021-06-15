@@ -7,7 +7,6 @@ interface Props {
 
 export const Card: React.FC<Props> = ({ children, maxHeight = "auto" }) => (
   <Box
-    // w={["85vw", "80vw", "75vw", "55vw", "50vw", "40vw"]}
     borderStyle="solid"
     borderRadius="12px"
     maxHeight={maxHeight}
