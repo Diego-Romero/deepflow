@@ -17,13 +17,14 @@ import {
   useDisclosure,
   CircularProgress,
 } from "@chakra-ui/react";
-import { BoardType } from "../types";
+import { BoardType, ColumnType } from "../types";
 import { useRouter } from "next/router";
 import { IoMdArrowForward } from "react-icons/io";
 import { CreateBoardModal } from "../components/CreateBoardModal";
+import { Fragment } from "react";
 
 type FirebaseBoards = {
-  [id: string]: { name: string };
+  [id: string]: { name: string; columns: ColumnType[] };
 };
 
 const mapBoardsFromFirebase = (values: FirebaseBoards): BoardType[] => {
@@ -46,21 +47,25 @@ const BoardsPage = () => {
   const { colorMode } = useColorMode();
   const authUser = useAuthUser();
   const dbPath = `/${authUser.id}/boards`;
+  const boardsRef = Firebase.database().ref(dbPath);
 
   const createBoard = (name: string) => {
-    const boardsRef = Firebase.database().ref(dbPath);
-    boardsRef.push({
-      name,
-    });
+    const newBoard = { name, columns: [
+      { name: 'to do', items: [ {name: 'to do item'}] },
+      { name: 'to do', items: [ {name: 'to do item'}] },
+      { name: 'to do', items: [ {name: 'to do item'}] },
+    ] };
+    boardsRef.push(newBoard);
   };
 
   const getBoards = () => {
-    const boardsRef = Firebase.database().ref(dbPath);
     boardsRef.on("value", (snapshot) => {
-      const nextBoards = mapBoardsFromFirebase(
-        snapshot.val() as FirebaseBoards
-      );
-      setBoards(nextBoards);
+      if (snapshot.val()) {
+        const nextBoards = mapBoardsFromFirebase(
+          snapshot.val() as FirebaseBoards
+        );
+        setBoards(nextBoards);
+      } else setBoards([]);
       setLoading(false);
     });
   };
@@ -91,34 +96,40 @@ const BoardsPage = () => {
             ) : (
               <Box>
                 <Flex flexDirection="column">
-                  {boards.map((board) => (
-                    <Box>
-                      <Flex
-                        p={2}
-                        cursor="pointer"
-                        key={board.id}
-                        alignItems="center"
-                        _hover={{
-                          backgroundColor:
-                            colorMode === "light" ? "gray.100" : "gray.900",
-                        }}
-                        justifyContent="space-between"
-                        onClick={() => router.push(`/board/${board.id}`)}
-                      >
-                        <Text fontSize="lg" noOfLines={1} isTruncated>
-                          {board.name}
-                        </Text>
-                        <IconButton
-                          colorScheme="purple"
-                          isRound
-                          variant="ghost"
-                          aria-label="Navigate to board"
-                          icon={<IoMdArrowForward />}
-                        />
-                      </Flex>
-                      <Divider />
-                    </Box>
-                  ))}
+                  {boards.length === 0 ? (
+                    <Text>You do not have any boards</Text>
+                  ) : (
+                    <Fragment>
+                      {boards.map((board) => (
+                        <Box key={board.id}>
+                          <Flex
+                            p={2}
+                            cursor="pointer"
+                            key={board.id}
+                            alignItems="center"
+                            _hover={{
+                              backgroundColor:
+                                colorMode === "light" ? "gray.100" : "gray.900",
+                            }}
+                            justifyContent="space-between"
+                            onClick={() => router.push(`/board/${board.id}`)}
+                          >
+                            <Text fontSize="lg" noOfLines={1} isTruncated>
+                              {board.name}
+                            </Text>
+                            <IconButton
+                              colorScheme="purple"
+                              isRound
+                              variant="ghost"
+                              aria-label="Navigate to board"
+                              icon={<IoMdArrowForward />}
+                            />
+                          </Flex>
+                          <Divider />
+                        </Box>
+                      ))}
+                    </Fragment>
+                  )}
                 </Flex>
                 <Button
                   mt={8}

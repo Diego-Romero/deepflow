@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { withAuthUser, AuthAction } from "next-firebase-auth";
-import { Flex, Grid, HStack, useDisclosure } from "@chakra-ui/react";
+import { withAuthUser, AuthAction, useAuthUser } from "next-firebase-auth";
+import { Flex, HStack, useDisclosure } from "@chakra-ui/react";
+import Firebase from "firebase";
 import { PageLayout } from "../../components/PageLayout";
 import FullPageLoader from "../../components/FullPageLoader";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import produce from "immer";
-import { ColumnType, ColumnItemType } from "../../types";
+import { ColumnType, ColumnItemType, BoardType } from "../../types";
 import {
   generateMockColumn,
   move,
@@ -16,6 +17,7 @@ import { BoardHeader } from "../../components/BoardHeader";
 import { Column } from "../../components/Column";
 import { CreateColumnModal } from "../../components/CreateColumnModal";
 import { BoardSettingsModal } from "../../components/BoardSettingsModal";
+import { useRouter } from "next/router";
 
 const BoardPage = () => {
   const [columns, setColumns] = useState<ColumnType[]>([]);
@@ -25,22 +27,38 @@ const BoardPage = () => {
     onOpen: onSettingsOpen,
     onClose: onSettingsClose,
   } = useDisclosure();
+  const authUser = useAuthUser();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const { id } = router.query;
+  const [name, setName] = useState("Loading");
+  const dbPath = `/${authUser.id}/boards/${id}`;
+  const boardDbRef = Firebase.database().ref(dbPath);
+  console.log(id, dbPath);
+
+  const getBoard = () => {
+    boardDbRef.on("value", (snapshot) => {
+      console.log(snapshot.val());
+      const board = snapshot.val() as BoardType;
+      setName(board.name);
+      if (board.columns) setColumns(board.columns);
+    });
+  };
+
   useEffect(() => {
-    const cols: ColumnType[] = [
-      generateMockColumn("todo", 1, 10),
-      generateMockColumn("doing", 2, 3),
-      generateMockColumn("done", 3, 5),
-      generateMockColumn("monday", 4, 4),
-      generateMockColumn("tuesday", 5, 4),
-      generateMockColumn("wednesday", 6, 4),
-      generateMockColumn("column with a very long name", 7, 4),
-      generateMockColumn("testing", 8, 4),
-      generateMockColumn("testing 2", 9, 4),
-    ];
-    setColumns(cols);
-    return () => {
-      setColumns([]);
-    };
+    // const cols: ColumnType[] = [
+    //   generateMockColumn("todo", 1, 10),
+    //   generateMockColumn("doing", 2, 3),
+    //   generateMockColumn("done", 3, 5),
+    //   generateMockColumn("monday", 4, 4),
+    //   generateMockColumn("tuesday", 5, 4),
+    //   generateMockColumn("wednesday", 6, 4),
+    //   generateMockColumn("column with a very long name", 7, 4),
+    //   generateMockColumn("testing", 8, 4),
+    //   generateMockColumn("testing 2", 9, 4),
+    // ];
+    // setColumns(cols);
+    getBoard();
   }, []);
 
   const createNewItem = (listIndex: number, name: string) => {
@@ -74,9 +92,9 @@ const BoardPage = () => {
   };
 
   const updateBoard = (name: string) => {
-    // todo: update board goes here
     console.log(name);
-    alert("implement update board");
+    const updatedBoard = { name, columns, id };
+    boardDbRef.set(updatedBoard)
   };
 
   const deleteBoard = () => {
@@ -130,6 +148,7 @@ const BoardPage = () => {
         <BoardHeader
           openNewColumnModal={onOpen}
           openSettings={onSettingsOpen}
+          name={name}
         />
         <DragDropContext onDragEnd={onDragEnd}>
           <HStack align="flex-start">
