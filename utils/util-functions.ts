@@ -31,15 +31,16 @@ export function reorderList(
  * Moves an item from one list to another list.
  */
 export const move = (
-  sourceCol: ColumnType,
-  destCol: ColumnType,
+  sourceCol: ColumnItemType[] = [],
+  destCol: ColumnItemType[] = [],
   sourceIndex: number,
   destinationIndex: number,
   sourceColIndex: number,
   destColIndex: number
 ): { [key: number]: ColumnItemType[] } => {
-  const sourceClone = Array.from(sourceCol.items);
-  const destClone = Array.from(destCol.items);
+  console.log(sourceCol, destCol)
+  const sourceClone = Array.from(sourceCol);
+  const destClone = Array.from(destCol);
   const [removed] = sourceClone.splice(sourceIndex, 1);
 
   destClone.splice(destinationIndex, 0, removed);

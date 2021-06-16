@@ -30,6 +30,7 @@ export const ColumnItem: React.FC<{
           alignItems="center"
           shadow={dragSnapshot.isDragging ? "lg" : "sm"}
           cursor="pointer"
+          mb={2}
         >
           <Text ml={1} noOfLines={1}>
             {item.name}

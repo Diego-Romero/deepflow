@@ -14,6 +14,7 @@ import {
   Tooltip,
   useColorMode,
   useDisclosure,
+  Grid,
 } from "@chakra-ui/react";
 import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
@@ -48,14 +49,16 @@ export const Column: React.FC<Props> = ({
     onClose: onSettingsClose,
   } = useDisclosure();
   const { colorMode } = useColorMode();
+  
   return (
     <Draggable draggableId={`column-${index}`} index={index}>
       {(provided, snapshot) => (
-        <Flex
+        <Grid
           ref={provided.innerRef}
           {...provided.draggableProps}
           mr={4}
           p={2}
+          gridTemplateRows="auto 1fr"
           minH="70vh"
           borderRadius="md"
           width={["90vw", "45vw", "250px", "350px"]}
@@ -68,7 +71,6 @@ export const Column: React.FC<Props> = ({
           }
           shadow="sm"
           borderWidth="1px"
-          flexDir="column"
         >
           <Flex
             flexDir="row"
@@ -117,10 +119,13 @@ export const Column: React.FC<Props> = ({
           </Flex>
 
           <Droppable droppableId={`column-${index}`} type="item">
-            {(itemsProvided, _itemsSnapshot) => (
-              <Stack
+            {(itemsProvided, itemsSnapshot) => (
+              <Flex
+                flexDir="column"
                 ref={itemsProvided.innerRef}
                 {...itemsProvided.droppableProps}
+                bgColor={itemsSnapshot.isDraggingOver ? "gray.500" : "inherit"}
+                height="100%"
               >
                 {column.items
                   ? column.items.map((item, itemIndex) => (
@@ -133,7 +138,7 @@ export const Column: React.FC<Props> = ({
                     ))
                   : null}
                 {itemsProvided.placeholder}
-              </Stack>
+              </Flex>
             )}
           </Droppable>
           <CreateItemModal
@@ -150,7 +155,7 @@ export const Column: React.FC<Props> = ({
             index={index}
             name={column.name}
           />
-        </Flex>
+        </Grid>
       )}
     </Draggable>
   );

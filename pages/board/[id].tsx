@@ -120,9 +120,10 @@ const BoardPage = () => {
       firebaseUpdateBoard({ ...board!, columns });
     } else {
       // moving around 2 diff columns
+      console.log(source, destination)
       const result = move(
-        board!.columns[sourceColumnIndex],
-        board!.columns[destinationColumnIndex],
+        board!.columns[sourceColumnIndex].items,
+        board!.columns[destinationColumnIndex].items,
         source.index,
         destination.index,
         sourceColumnIndex,
