@@ -42,6 +42,7 @@ export const BoardHeader: React.FC<Props> = ({
           <IconButton
             isRound
             onClick={openNewColumnModal}
+            variant="outline"
             aria-label="Add row"
             colorScheme="purple"
             icon={<AddIcon />}

@@ -18,25 +18,29 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { ColumnType as Col } from "../types";
+import { ColumnItemType, ColumnType as Col } from "../types";
 import { ColumnItem } from "./ColumnItem";
 import { ColumnSettingsModal } from "./ColumnSettingsModal";
 import { CreateItemModal } from "./CreateItemModal";
 
 interface Props {
   column: Col;
-  index: number;
+  columnIndex: number;
   createNewItem: (listIndex: number, name: string) => void;
+  updateItem: (columnIndex: number, itemIndex: number, item: ColumnItemType) => void;
+  deleteItem: (columnIndex: number, itemIndex: number) => void;
   deleteColumn: (index: number) => void;
   updateColumn: (name: string, index: number) => void;
 }
 
 export const Column: React.FC<Props> = ({
   column,
-  index,
+  columnIndex,
   createNewItem,
   deleteColumn,
   updateColumn,
+  updateItem, 
+  deleteItem
 }) => {
   const {
     isOpen: isCreateItemModalOpen,
@@ -49,15 +53,14 @@ export const Column: React.FC<Props> = ({
     onClose: onSettingsClose,
   } = useDisclosure();
   const { colorMode } = useColorMode();
-  
+
   return (
-    <Draggable draggableId={`column-${index}`} index={index}>
+    <Draggable draggableId={`column-${columnIndex}`} index={columnIndex}>
       {(provided, snapshot) => (
         <Grid
           ref={provided.innerRef}
           {...provided.draggableProps}
           mr={4}
-          p={2}
           gridTemplateRows="auto 1fr"
           minH="70vh"
           borderRadius="md"
@@ -75,6 +78,8 @@ export const Column: React.FC<Props> = ({
           <Flex
             flexDir="row"
             mb={4}
+            px="2"
+            pt="2"
             alignItems="center"
             justifyContent="space-between"
             onClick={(e) => {
@@ -118,21 +123,20 @@ export const Column: React.FC<Props> = ({
             </HStack>
           </Flex>
 
-          <Droppable droppableId={`column-${index}`} type="item">
+          <Droppable droppableId={`column-${columnIndex}`} type="item">
             {(itemsProvided, itemsSnapshot) => (
               <Flex
                 flexDir="column"
                 ref={itemsProvided.innerRef}
                 {...itemsProvided.droppableProps}
-                // bgColor={itemsSnapshot.isDraggingOver ? "gray.500" : "inherit"}
-
-                      bg={
-                        itemsSnapshot.isDraggingOver
-                          ? colorMode === "light"
-                            ? "gray.200"
-                            : "gray.700"
-                          : "inherit"
-                      }
+                p="2"
+                bg={
+                  itemsSnapshot.isDraggingOver
+                    ? colorMode === "light"
+                      ? "gray.100"
+                      : "gray.800"
+                    : "inherit"
+                }
                 height="100%"
               >
                 {column.items
@@ -140,8 +144,10 @@ export const Column: React.FC<Props> = ({
                       <ColumnItem
                         key={itemIndex.toString()}
                         item={item}
-                        index={itemIndex}
-                        columnIndex={index}
+                        itemIndex={itemIndex}
+                        columnIndex={columnIndex}
+                        updateItem={updateItem}
+                        deleteItem={deleteItem}
                       />
                     ))
                   : null}
@@ -153,14 +159,14 @@ export const Column: React.FC<Props> = ({
             modalOpen={isCreateItemModalOpen}
             modalClose={onCreateModalClose}
             createNewItem={createNewItem}
-            columnIndex={index}
+            columnIndex={columnIndex}
           />
           <ColumnSettingsModal
             modalOpen={isSettingsOpen}
             modalClose={onSettingsClose}
             deleteColumn={deleteColumn}
             updateColumn={updateColumn}
-            index={index}
+            index={columnIndex}
             name={column.name}
           />
         </Grid>

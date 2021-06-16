@@ -60,7 +60,7 @@ export const BoardSettingsModal: React.FC<Props> = ({
   };
 
   return (
-    <Modal isOpen={modalOpen} onClose={modalClose} size="md">
+    <Modal isOpen={modalOpen} onClose={modalClose} size="sm">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Update Board</ModalHeader>

@@ -87,6 +87,25 @@ const BoardPage = () => {
     router.push(config.routes.dashboard);
   };
 
+  const deleteItem = (columnIndex: number, itemIndex: number) => {
+    const updatedBoard = produce(board!, (draft) => {
+      const items = draft!.columns[columnIndex].items;
+      items.splice(itemIndex, 1);
+    });
+    firebaseUpdateBoard(updatedBoard);
+  };
+
+  const updateItem = (
+    columnIndex: number,
+    itemIndex: number,
+    item: ColumnItemType
+  ) => {
+    const updatedBoard = produce(board!, (draft) => {
+      board!.columns[columnIndex].items[itemIndex] = item;
+    });
+    firebaseUpdateBoard(updatedBoard);
+  };
+
   function onDragEnd(result) {
     const { source, destination } = result;
     if (!destination) {
@@ -155,7 +174,7 @@ const BoardPage = () => {
               openSettings={onSettingsOpen}
               name={board.name}
             />
-            <Divider mb={8} />
+            <Divider mb={4} />
             <Box>
               <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable
@@ -168,6 +187,7 @@ const BoardPage = () => {
                       flexDir="row"
                       ref={provided.innerRef}
                       justifyContent="center"
+                      p="2"
                       {...provided.droppableProps}
                       alignItems="flex-start"
                       bg={
@@ -181,11 +201,13 @@ const BoardPage = () => {
                       {board.columns.map((column, index) => (
                         <Column
                           column={column}
-                          index={index}
+                          columnIndex={index}
                           key={index}
                           createNewItem={createNewItem}
                           deleteColumn={deleteColumn}
                           updateColumn={updateColumn}
+                          updateItem={updateItem}
+                          deleteItem={deleteItem}
                         />
                       ))}
                       {provided.placeholder}

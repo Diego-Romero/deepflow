@@ -24,6 +24,7 @@ import React, { RefObject } from "react";
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
 import { validation } from "../utils/util-functions";
+import { ColumnItemType } from "../types";
 import { DeleteIcon } from "@chakra-ui/icons";
 
 export interface ContactFormValues {
@@ -37,37 +38,37 @@ const validationSchema = Yup.object().shape({
 interface Props {
   modalOpen: boolean;
   modalClose: () => void;
-  updateColumn: (name: string, index: number) => void;
-  deleteColumn: (index: number) => void;
-  index: number;
-  name: string;
+  itemIndex: number;
+  colIndex: number;
+  updateItem: (
+    columnIndex: number,
+    itemIndex: number,
+    item: ColumnItemType
+  ) => void;
+  deleteItem: (columnIndex: number, itemIndex: number) => void;
+  item: ColumnItemType;
 }
 
-export const ColumnSettingsModal: React.FC<Props> = ({
+export const ItemSettingsModal: React.FC<Props> = ({
   modalOpen,
   modalClose,
-  updateColumn,
-  deleteColumn,
-  index,
-  name,
+  updateItem,
+  deleteItem,
+  itemIndex,
+  colIndex,
+  item,
 }) => {
   const [isLargerThan480] = useMediaQuery("(min-width: 480px)");
-  const alertDialogCancelRef = React.useRef();
-  const {
-    isOpen: isDeleteAlertOpen,
-    onOpen: onDeleteAlertOpen,
-    onClose: onDeleteAlertClose,
-  } = useDisclosure();
 
   const initialValues: ContactFormValues = {
-    name,
+    name: item.name,
   };
 
   return (
     <Modal isOpen={modalOpen} onClose={modalClose} size="sm">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Update Column</ModalHeader>
+        <ModalHeader>Update Item</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Formik
@@ -76,7 +77,7 @@ export const ColumnSettingsModal: React.FC<Props> = ({
             validateOnBlur={false}
             onSubmit={(values, actions) => {
               actions.setSubmitting(false);
-              updateColumn(values.name, index);
+              updateItem(colIndex, itemIndex, values);
               modalClose();
             }}
             validationSchema={validationSchema}
@@ -117,7 +118,10 @@ export const ColumnSettingsModal: React.FC<Props> = ({
                   mb={4}
                   colorScheme="red"
                   size="md"
-                  onClick={onDeleteAlertOpen}
+                  onClick={() => {
+                    deleteItem(colIndex, itemIndex);
+                    modalClose();
+                  }}
                   icon={<DeleteIcon />}
                   aria-label={"Delete"}
                 />
@@ -126,43 +130,6 @@ export const ColumnSettingsModal: React.FC<Props> = ({
           </Formik>
         </ModalBody>
       </ModalContent>
-      <AlertDialog
-        isOpen={isDeleteAlertOpen}
-        leastDestructiveRef={alertDialogCancelRef as RefObject<any>}
-        onClose={onDeleteAlertClose}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete column
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              Are you sure? You can not undo this action afterwards.
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button
-                ref={alertDialogCancelRef as any}
-                onClick={onDeleteAlertClose}
-              >
-                Cancel
-              </Button>
-              <Button
-                colorScheme="red"
-                onClick={() => {
-                  deleteColumn(index);
-                  onDeleteAlertClose();
-                  modalClose();
-                }}
-                ml={3}
-              >
-                Delete column
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
     </Modal>
   );
 };
