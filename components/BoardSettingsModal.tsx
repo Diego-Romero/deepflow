@@ -16,25 +16,17 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Textarea,
   useDisclosure,
   useMediaQuery,
-  useToast,
 } from "@chakra-ui/react";
 import React, { RefObject } from "react";
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
-import axios from "axios";
-import { toastConfig } from "../utils/toastConfig";
 import { validation } from "../utils/util-functions";
 
 export interface ContactFormValues {
   name: string;
 }
-
-const initialValues: ContactFormValues = {
-  name: "",
-};
 
 const validationSchema = Yup.object().shape({
   name: validation.name,
@@ -45,6 +37,7 @@ interface Props {
   modalClose: () => void;
   updateBoard: (name: string) => void;
   deleteBoard: () => void;
+  boardName: string;
 }
 
 export const BoardSettingsModal: React.FC<Props> = ({
@@ -52,6 +45,7 @@ export const BoardSettingsModal: React.FC<Props> = ({
   modalClose,
   updateBoard,
   deleteBoard,
+  boardName,
 }) => {
   const [isLargerThan480] = useMediaQuery("(min-width: 480px)");
   const alertDialogCancelRef = React.useRef();
@@ -60,6 +54,10 @@ export const BoardSettingsModal: React.FC<Props> = ({
     onOpen: onDeleteAlertOpen,
     onClose: onDeleteAlertClose,
   } = useDisclosure();
+
+  const initialValues: ContactFormValues = {
+    name: boardName,
+  };
 
   return (
     <Modal isOpen={modalOpen} onClose={modalClose} size="md">
@@ -112,7 +110,7 @@ export const BoardSettingsModal: React.FC<Props> = ({
                   mt={4}
                   mb={4}
                   colorScheme="red"
-                  variant="solid"
+                  variant="outline"
                   isFullWidth
                   onClick={onDeleteAlertOpen}
                 >
@@ -139,7 +137,10 @@ export const BoardSettingsModal: React.FC<Props> = ({
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button ref={alertDialogCancelRef as any} onClick={onDeleteAlertClose}>
+              <Button
+                ref={alertDialogCancelRef as any}
+                onClick={onDeleteAlertClose}
+              >
                 Cancel
               </Button>
               <Button

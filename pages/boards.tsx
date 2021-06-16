@@ -52,8 +52,8 @@ const BoardsPage = () => {
   const createBoard = (name: string) => {
     const newBoard = { name, columns: [
       { name: 'to do', items: [ {name: 'to do item'}] },
-      { name: 'to do', items: [ {name: 'to do item'}] },
-      { name: 'to do', items: [ {name: 'to do item'}] },
+      { name: 'doing', items: [ {name: 'doing item'}] },
+      { name: 'done', items: [ {name: 'done item'}] },
     ] };
     boardsRef.push(newBoard);
   };

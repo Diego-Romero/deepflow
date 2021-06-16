@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { withAuthUser, AuthAction, useAuthUser } from "next-firebase-auth";
-import { Flex, HStack, useDisclosure } from "@chakra-ui/react";
+import { Box, Divider, Flex, useColorMode, useDisclosure } from "@chakra-ui/react";
 import Firebase from "firebase";
 import { PageLayout } from "../../components/PageLayout";
 import FullPageLoader from "../../components/FullPageLoader";
@@ -18,31 +18,33 @@ import { Column } from "../../components/Column";
 import { CreateColumnModal } from "../../components/CreateColumnModal";
 import { BoardSettingsModal } from "../../components/BoardSettingsModal";
 import { useRouter } from "next/router";
+import config from "../../utils/config";
 
 const BoardPage = () => {
-  const [columns, setColumns] = useState<ColumnType[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isSettingsOpen,
     onOpen: onSettingsOpen,
     onClose: onSettingsClose,
   } = useDisclosure();
+  const { colorMode } = useColorMode();
   const authUser = useAuthUser();
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
   const { id } = router.query;
-  const [name, setName] = useState("Loading");
+  const [board, setBoard] = useState<BoardType | null>(null);
   const dbPath = `/${authUser.id}/boards/${id}`;
   const boardDbRef = Firebase.database().ref(dbPath);
   console.log(id, dbPath);
 
   const getBoard = () => {
     boardDbRef.on("value", (snapshot) => {
-      console.log(snapshot.val());
       const board = snapshot.val() as BoardType;
-      setName(board.name);
-      if (board.columns) setColumns(board.columns);
+      setBoard(board);
     });
+  };
+
+  const updateBoard = (nextBoard: BoardType) => {
+    boardDbRef.set(nextBoard);
   };
 
   useEffect(() => {
@@ -62,44 +64,39 @@ const BoardPage = () => {
   }, []);
 
   const createNewItem = (listIndex: number, name: string) => {
-    const next = produce(columns, (draft) => {
-      draft[listIndex].items = [
-        { name, id: new Date().getTime().toString() },
-        ...columns[listIndex].items,
-      ];
+    const columns = produce(board!.columns, (draft) => {
+      draft[listIndex].items = [{ name }, ...board!.columns[listIndex].items];
     });
-    setColumns(next);
+    setBoard({ ...board!, columns });
   };
 
   const createNewColumn = (name: string) => {
-    setColumns([
-      ...columns,
-      { name, id: new Date().getTime().toString(), items: [] },
-    ]);
+    const columns = [...board!.columns, { name, items: [] }];
+    const nextBoard = { ...board!, columns };
+    updateBoard(nextBoard);
   };
 
   const deleteColumn = (index: number) => {
-    const clone = [...columns];
-    clone.splice(index, 1);
-    setColumns(clone);
+    const columns = [...board!.columns];
+    columns.splice(index, 1);
+    updateBoard({ ...board!, columns });
   };
 
   const updateColumn = (name: string, index: number) => {
-    const next = produce(columns, (draft) => {
+    const columns = produce(board!.columns, (draft) => {
       draft[index].name = name;
     });
-    setColumns(next);
+    setBoard({ ...board!, columns });
   };
 
-  const updateBoard = (name: string) => {
-    console.log(name);
-    const updatedBoard = { name, columns, id };
-    boardDbRef.set(updatedBoard)
+  const updateBoardMetadata = (name: string) => {
+    const updatedBoard = { ...board!, name };
+    updateBoard(updatedBoard);
   };
 
   const deleteBoard = () => {
-    // todo: delete board goes here
-    alert("implement delete board");
+    boardDbRef.remove();
+    router.push(config.routes.boards);
   };
 
   function onDragEnd(result) {
@@ -108,87 +105,112 @@ const BoardPage = () => {
       return;
     }
     if (result.type === "column") {
-      const columnOrder = reorderList(columns, source.index, destination.index);
-      setColumns(columnOrder);
+      const columnOrder = reorderList(
+        board!.columns,
+        source.index,
+        destination.index
+      );
+      setBoard({ ...board!, columns: columnOrder });
       return;
     }
 
     const sourceIndex = +source.droppableId;
     const destinationIndex = +destination.droppableId;
+    console.log(sourceIndex, destinationIndex);
     if (sourceIndex === destinationIndex) {
       // if moving around the same list
       const items = reorder(
-        columns[sourceIndex].items,
+        board!.columns[sourceIndex].items,
         source.index,
         destination.index
       ) as ColumnItemType[];
-      const newState = produce(columns, (draft) => {
+      const columns = produce(board!.columns, (draft) => {
         draft[sourceIndex].items = items;
       });
-      setColumns(newState);
+      setBoard({ ...board!, columns });
+      return;
     } else {
       // moving around 2 diff columns
       const result = move(
-        columns[sourceIndex],
-        columns[destinationIndex],
+        board!.columns[sourceIndex],
+        board!.columns[destinationIndex],
         source,
         destination
       );
-      const updatedColumns = produce(columns, (draft) => {
+      const columns = produce(board!.columns, (draft) => {
         draft[sourceIndex].items = result[sourceIndex];
         draft[destinationIndex].items = result[destinationIndex];
       });
-      setColumns(updatedColumns);
+      setBoard({ ...board!, columns });
     }
   }
 
   return (
     <PageLayout>
-      <Flex px={8} py={8} flexDir="column">
-        <BoardHeader
-          openNewColumnModal={onOpen}
-          openSettings={onSettingsOpen}
-          name={name}
-        />
-        <DragDropContext onDragEnd={onDragEnd}>
-          <HStack align="flex-start">
-            <Droppable droppableId="board" direction="horizontal" type="column">
-              {(provided) => (
-                <Flex
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  flexDir="row"
-                  justifyContent="center"
-                  alignItems="flex-start"
+      {board === null ? (
+        <FullPageLoader />
+      ) : (
+        <Box>
+          <Flex
+            px={8}
+            py={8}
+            flexDir="column"
+            alignItems="flex-start"
+            justifyContent="flex-start"
+          >
+            <BoardHeader
+              openNewColumnModal={onOpen}
+              openSettings={onSettingsOpen}
+              name={board.name}
+            />
+            <Divider mb={8} />
+            <Box>
+              <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable
+                  droppableId="board"
+                  direction="horizontal"
+                  type="column"
                 >
-                  {columns.map((column, index) => (
-                    <Column
-                      column={column}
-                      index={index}
-                      key={column.id}
-                      createNewItem={createNewItem}
-                      deleteColumn={deleteColumn}
-                      updateColumn={updateColumn}
-                    />
-                  ))}
-                  {provided.placeholder}
-                </Flex>
-              )}
-            </Droppable>
-          </HStack>
-        </DragDropContext>
-      </Flex>
-      <CreateColumnModal
-        modalOpen={isOpen}
-        modalClose={onClose}
-        createColumn={createNewColumn}
-      />
-      <BoardSettingsModal
-        modalOpen={isSettingsOpen}
-        modalClose={onSettingsClose}
-        updateBoard={updateBoard}
-        deleteBoard={deleteBoard}
-      />
+                  {(provided, snapshot) => (
+                    <Flex
+                      flexDir="row"
+                      ref={provided.innerRef}
+                      justifyContent="center"
+                      {...provided.droppableProps}
+                      alignItems="flex-start"
+                      bg={snapshot.isDraggingOver ? colorMode === "light" ? "gray.200" : "gray.700" : "inherit"}
+                    >
+                      {board.columns.map((column, index) => (
+                        <Column
+                          column={column}
+                          index={index}
+                          key={index}
+                          createNewItem={createNewItem}
+                          deleteColumn={deleteColumn}
+                          updateColumn={updateColumn}
+                        />
+                      ))}
+                      {provided.placeholder}
+                    </Flex>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            </Box>
+          </Flex>
+          <CreateColumnModal
+            modalOpen={isOpen}
+            modalClose={onClose}
+            createColumn={createNewColumn}
+          />
+          <BoardSettingsModal
+            modalOpen={isSettingsOpen}
+            modalClose={onSettingsClose}
+            boardName={board!.name}
+            updateBoard={updateBoardMetadata}
+            deleteBoard={deleteBoard}
+          />
+        </Box>
+      )}
     </PageLayout>
   );
 };

@@ -1,4 +1,9 @@
-import { AddIcon, SettingsIcon } from "@chakra-ui/icons";
+import {
+  AddIcon,
+  DragHandleIcon,
+  EditIcon,
+  SettingsIcon,
+} from "@chakra-ui/icons";
 import {
   Flex,
   Box,
@@ -44,84 +49,113 @@ export const Column: React.FC<Props> = ({
   } = useDisclosure();
   const { colorMode } = useColorMode();
   return (
-    <Box width="300px">
-      <Draggable draggableId={column.id} index={index}>
-        {(provided, snapshot) => (
-          <Stack
-            ref={provided.innerRef}
-            bg={snapshot.isDragging ? "purple.100" : "inherit"}
-            {...provided.draggableProps}
-            mr={4}
-            p={2}
-            borderRadius="md"
-            borderWidth="1px"
-            bgColor={colorMode === "light" ? "gray.100" : "gray.900"}
-            shadow="sm"
+    <Draggable draggableId={index.toString()} index={index}>
+      {/* <Draggable draggableId={column.id} index={index}> */}
+      {(provided, snapshot) => (
+        <Flex
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          mr={4}
+          p={2}
+          minH="70vh"
+          onClick={(e) => {
+            e.stopPropagation();
+            onCreateModalOpen();
+          }}
+          borderRadius="md"
+          width={["90vw", "45vw", "250px", "350px"]}
+          bgColor={
+            colorMode === "light"
+              ? snapshot.isDragging
+                ? "gray.100"
+                : "white"
+              : "gray.800"
+          }
+          shadow="sm"
+          borderWidth="1px"
+          flexDir="column"
+        >
+          <Flex
+            flexDir="row"
+            pb={4}
+            alignItems="center"
+            justifyContent="space-between"
+            onClick={(e) => {
+              e.stopPropagation();
+              onSettingsOpen();
+            }}
+            {...provided.dragHandleProps}
           >
-            <Flex
-              flexDir="row"
-              pb={2}
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Heading size="md" noOfLines={1} {...provided.dragHandleProps}>
+            <Flex alignItems="center" justifyContent="center">
+              <DragHandleIcon mr={1} w={3} h={3} />
+              <Heading size="md" noOfLines={1}>
                 {column.name}
               </Heading>
-              <HStack spacing={1}>
-                <Tooltip label="Column settings" aria-label="Column settings">
-                  <IconButton
-                    size="sm"
-                    variant="outline"
-                    colorScheme="gray"
-                    isRound
-                    onClick={onSettingsOpen}
-                    icon={<SettingsIcon />}
-                    aria-label={"Column settings"}
-                  />
-                </Tooltip>
-                <Tooltip label="Create new item" aria-label="Create new item">
-                  <IconButton
-                    size="sm"
-                    variant="outline"
-                    //     colorScheme="purple"
-                    isRound
-                    onClick={onCreateModalOpen}
-                    icon={<AddIcon />}
-                    aria-label={"Create new item"}
-                  />
-                </Tooltip>
-              </HStack>
             </Flex>
+            <HStack spacing={1}>
+              <Tooltip label="Edit" aria-label="edit">
+                <IconButton
+                  size="sm"
+                  variant="ghost"
+                  // colorScheme="yellow"
+                  isRound
+                  onClick={onSettingsOpen}
+                  icon={<EditIcon />}
+                  aria-label={"Column settings"}
+                />
+              </Tooltip>
+              <Tooltip label="Create new item" aria-label="Create new item">
+                <IconButton
+                  size="sm"
+                  variant="solid"
+                  colorScheme="purple"
+                  isRound
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onCreateModalOpen();
+                  }}
+                  icon={<AddIcon />}
+                  aria-label={"Create new item"}
+                />
+              </Tooltip>
+            </HStack>
+          </Flex>
 
-            <Droppable droppableId={`${index}`} type="item">
-              {(itemsProvided, _itemsSnapshot) => (
-                <Stack
-                  ref={itemsProvided.innerRef}
-                  {...itemsProvided.droppableProps}
-                >
-                  {column.items.map((item, index) => (
-                    <ColumnItem key={item.id} item={item} index={index} />
-                  ))}
-                  {itemsProvided.placeholder}
-                </Stack>
-              )}
-            </Droppable>
-          </Stack>
-        )}
-      </Draggable>
-      <CreateItemModal
-        modalOpen={isCreateItemModalOpen}
-        modalClose={onCreateModalClose}
-        createNewItem={createNewItem}
-        columnIndex={index}
-      />
-      <ColumnSettingsModal
-        modalOpen={isSettingsOpen}
-        modalClose={onSettingsClose}
-        deleteColumn={deleteColumn}
-        updateColumn={updateColumn}
-        index={index}
-      />
-    </Box>
+          <Droppable droppableId={`column-${index}`} type="item">
+            {(itemsProvided, _itemsSnapshot) => (
+              <Stack
+                ref={itemsProvided.innerRef}
+                {...itemsProvided.droppableProps}
+              >
+                {column.items
+                  ? column.items.map((item, index) => (
+                      <ColumnItem
+                        key={index.toString()}
+                        item={item}
+                        index={index}
+                      />
+                    ))
+                  : null}
+                {itemsProvided.placeholder}
+              </Stack>
+            )}
+          </Droppable>
+          <CreateItemModal
+            modalOpen={isCreateItemModalOpen}
+            modalClose={onCreateModalClose}
+            createNewItem={createNewItem}
+            columnIndex={index}
+          />
+          <ColumnSettingsModal
+            modalOpen={isSettingsOpen}
+            modalClose={onSettingsClose}
+            deleteColumn={deleteColumn}
+            updateColumn={updateColumn}
+            index={index}
+            name={column.name}
+          />
+        </Flex>
+      )}
+    </Draggable>
   );
 };

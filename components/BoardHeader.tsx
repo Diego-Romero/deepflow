@@ -22,7 +22,7 @@ export const BoardHeader: React.FC<Props> = ({
   return (
     <Flex
       alignItems="center"
-      mb={8}
+      mb={4}
       flexDir={["column", null, "row"]}
     >
       <Heading noOfLines={1} isTruncated mb={[6, null, 0]}>
@@ -34,6 +34,7 @@ export const BoardHeader: React.FC<Props> = ({
             isRound
             aria-label="update"
             icon={<EditIcon />}
+            variant="ghost"
             onClick={openSettings}
           />
         </Tooltip>

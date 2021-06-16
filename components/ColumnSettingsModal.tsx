@@ -28,10 +28,6 @@ export interface ContactFormValues {
   name: string;
 }
 
-const initialValues: ContactFormValues = {
-  name: "",
-};
-
 const validationSchema = Yup.object().shape({
   name: validation.name,
 });
@@ -42,6 +38,7 @@ interface Props {
   updateColumn: (name: string, index: number) => void;
   deleteColumn: (index: number) => void;
   index: number;
+  name: string;
 }
 
 export const ColumnSettingsModal: React.FC<Props> = ({
@@ -50,6 +47,7 @@ export const ColumnSettingsModal: React.FC<Props> = ({
   updateColumn,
   deleteColumn,
   index,
+  name,
 }) => {
   const [isLargerThan480] = useMediaQuery("(min-width: 480px)");
   const alertDialogCancelRef = React.useRef();
@@ -58,6 +56,10 @@ export const ColumnSettingsModal: React.FC<Props> = ({
     onOpen: onDeleteAlertOpen,
     onClose: onDeleteAlertClose,
   } = useDisclosure();
+
+  const initialValues: ContactFormValues = {
+    name,
+  };
 
   return (
     <Modal isOpen={modalOpen} onClose={modalClose} size="md">
