@@ -43,23 +43,11 @@ const BoardPage = () => {
     });
   };
 
-  const updateBoard = (nextBoard: BoardType) => {
+  const firebaseUpdateBoard = (nextBoard: BoardType) => {
     boardDbRef.set(nextBoard);
   };
 
   useEffect(() => {
-    // const cols: ColumnType[] = [
-    //   generateMockColumn("todo", 1, 10),
-    //   generateMockColumn("doing", 2, 3),
-    //   generateMockColumn("done", 3, 5),
-    //   generateMockColumn("monday", 4, 4),
-    //   generateMockColumn("tuesday", 5, 4),
-    //   generateMockColumn("wednesday", 6, 4),
-    //   generateMockColumn("column with a very long name", 7, 4),
-    //   generateMockColumn("testing", 8, 4),
-    //   generateMockColumn("testing 2", 9, 4),
-    // ];
-    // setColumns(cols);
     getBoard();
   }, []);
 
@@ -67,19 +55,19 @@ const BoardPage = () => {
     const columns = produce(board!.columns, (draft) => {
       draft[listIndex].items = [{ name }, ...board!.columns[listIndex].items];
     });
-    setBoard({ ...board!, columns });
+    firebaseUpdateBoard({ ...board!, columns });
   };
 
   const createNewColumn = (name: string) => {
     const columns = [...board!.columns, { name, items: [] }];
     const nextBoard = { ...board!, columns };
-    updateBoard(nextBoard);
+    firebaseUpdateBoard(nextBoard);
   };
 
   const deleteColumn = (index: number) => {
     const columns = [...board!.columns];
     columns.splice(index, 1);
-    updateBoard({ ...board!, columns });
+    firebaseUpdateBoard({ ...board!, columns });
   };
 
   const updateColumn = (name: string, index: number) => {
@@ -91,7 +79,7 @@ const BoardPage = () => {
 
   const updateBoardMetadata = (name: string) => {
     const updatedBoard = { ...board!, name };
-    updateBoard(updatedBoard);
+    firebaseUpdateBoard(updatedBoard);
   };
 
   const deleteBoard = () => {
@@ -105,43 +93,46 @@ const BoardPage = () => {
       return;
     }
     if (result.type === "column") {
-      const columnOrder = reorderList(
+      const columns = reorderList(
         board!.columns,
         source.index,
         destination.index
       );
-      setBoard({ ...board!, columns: columnOrder });
+      firebaseUpdateBoard({ ...board!, columns });
       return;
     }
 
-    const sourceIndex = +source.droppableId;
-    const destinationIndex = +destination.droppableId;
-    console.log(sourceIndex, destinationIndex);
-    if (sourceIndex === destinationIndex) {
+    const sourceColumnIndex = parseInt(source.droppableId.split("-")[1]); // getting column index with the id
+    const destinationColumnIndex = parseInt(
+      destination.droppableId.split("-")[1]
+    ); // getting column index with the id
+
+    if (source.droppableId === destination.droppableId) {
       // if moving around the same list
       const items = reorder(
-        board!.columns[sourceIndex].items,
+        board!.columns[sourceColumnIndex].items,
         source.index,
         destination.index
       ) as ColumnItemType[];
       const columns = produce(board!.columns, (draft) => {
-        draft[sourceIndex].items = items;
+        draft[sourceColumnIndex].items = items;
       });
-      setBoard({ ...board!, columns });
-      return;
+      firebaseUpdateBoard({ ...board!, columns });
     } else {
       // moving around 2 diff columns
       const result = move(
-        board!.columns[sourceIndex],
-        board!.columns[destinationIndex],
-        source,
-        destination
+        board!.columns[sourceColumnIndex],
+        board!.columns[destinationColumnIndex],
+        source.index,
+        destination.index,
+        sourceColumnIndex,
+        destinationColumnIndex
       );
       const columns = produce(board!.columns, (draft) => {
-        draft[sourceIndex].items = result[sourceIndex];
-        draft[destinationIndex].items = result[destinationIndex];
+        draft[sourceColumnIndex].items = result[sourceColumnIndex];
+        draft[destinationColumnIndex].items = result[destinationColumnIndex];
       });
-      setBoard({ ...board!, columns });
+      firebaseUpdateBoard({ ...board!, columns });
     }
   }
 
@@ -151,6 +142,7 @@ const BoardPage = () => {
         <FullPageLoader />
       ) : (
         <Box>
+          {/* <pre>{JSON.stringify(board, null, 2)}</pre> */}
           <Flex
             px={8}
             py={8}

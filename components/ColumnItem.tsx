@@ -3,14 +3,17 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { ColumnItemType as ColItem } from "../types";
 
-export const ColumnItem: React.FC<{ item: ColItem; index: number }> = ({
-  item,
-  index,
-}) => {
+export const ColumnItem: React.FC<{
+  item: ColItem;
+  index: number;
+  columnIndex: number;
+}> = ({ item, index, columnIndex }) => {
   const { colorMode } = useColorMode();
   return (
-    <Draggable key={index} draggableId={index.toString()} index={index}>
-      {/* <Draggable key={item.id} draggableId={item.id} index={index}> */}
+    <Draggable
+      draggableId={`column-${columnIndex}-item-${index}`}
+      index={index}
+    >
       {(dragProvided, dragSnapshot) => (
         <Flex
           borderWidth="1px"

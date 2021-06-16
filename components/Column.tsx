@@ -49,8 +49,7 @@ export const Column: React.FC<Props> = ({
   } = useDisclosure();
   const { colorMode } = useColorMode();
   return (
-    <Draggable draggableId={index.toString()} index={index}>
-      {/* <Draggable draggableId={column.id} index={index}> */}
+    <Draggable draggableId={`column-${index}`} index={index}>
       {(provided, snapshot) => (
         <Flex
           ref={provided.innerRef}
@@ -58,11 +57,6 @@ export const Column: React.FC<Props> = ({
           mr={4}
           p={2}
           minH="70vh"
-          cursor="pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            onCreateModalOpen();
-          }}
           borderRadius="md"
           width={["90vw", "45vw", "250px", "350px"]}
           bgColor={
@@ -78,7 +72,7 @@ export const Column: React.FC<Props> = ({
         >
           <Flex
             flexDir="row"
-            pb={4}
+            mb={4}
             alignItems="center"
             justifyContent="space-between"
             onClick={(e) => {
@@ -129,11 +123,12 @@ export const Column: React.FC<Props> = ({
                 {...itemsProvided.droppableProps}
               >
                 {column.items
-                  ? column.items.map((item, index) => (
+                  ? column.items.map((item, itemIndex) => (
                       <ColumnItem
-                        key={index.toString()}
+                        key={itemIndex.toString()}
                         item={item}
-                        index={index}
+                        index={itemIndex}
+                        columnIndex={index}
                       />
                     ))
                   : null}

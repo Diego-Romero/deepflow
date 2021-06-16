@@ -11,6 +11,7 @@ import config from "../utils/config";
 export const NavBar: React.FC = () => {
   const router = useRouter();
   const AuthUser = useAuthUser();
+  console.log(AuthUser.email);
 
   return (
     <Flex
@@ -72,7 +73,7 @@ export const NavBar: React.FC = () => {
                 color="current"
                 fontSize="2xl"
                 onClick={() => {
-AuthUser.signOut()
+                  AuthUser.signOut();
                 }}
                 icon={<IoMdLogOut />}
                 aria-label={`Logout`}

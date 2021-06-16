@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "firebase/app";
 import "firebase/auth";
+import config from "../utils/config";
 
 // Note that next-firebase-auth inits Firebase for us,
 // so we don't need to.
@@ -21,9 +22,9 @@ const firebaseAuthConfig = {
       requireDisplayName: false,
     },
     firebase.auth.GithubAuthProvider.PROVIDER_ID,
-    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+    // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
   ],
-  signInSuccessUrl: "/boards",
+  signInSuccessUrl: config.routes.dashboard,
   // credentialHelper: "none",
   callbacks: {
     // https://github.com/firebase/firebaseui-web#signinsuccesswithauthresultauthresult-redirecturl

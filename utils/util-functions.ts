@@ -31,42 +31,25 @@ export function reorderList(
  * Moves an item from one list to another list.
  */
 export const move = (
-  source: ColumnType,
-  destination: ColumnType,
-  droppableSource,
-  droppableDestination
-) => {
-  const sourceClone = Array.from(source.items);
-  const destClone = Array.from(destination.items);
-  const [removed] = sourceClone.splice(droppableSource.index, 1);
+  sourceCol: ColumnType,
+  destCol: ColumnType,
+  sourceIndex: number,
+  destinationIndex: number,
+  sourceColIndex: number,
+  destColIndex: number
+): { [key: number]: ColumnItemType[] } => {
+  const sourceClone = Array.from(sourceCol.items);
+  const destClone = Array.from(destCol.items);
+  const [removed] = sourceClone.splice(sourceIndex, 1);
 
-  destClone.splice(droppableDestination.index, 0, removed);
+  destClone.splice(destinationIndex, 0, removed);
 
   const result = {};
-  result[droppableSource.droppableId] = sourceClone;
-  result[droppableDestination.droppableId] = destClone;
+  result[sourceColIndex] = sourceClone;
+  result[destColIndex] = destClone;
 
   return result;
 };
-
-// export function generateMockColumn(
-//   name: string,
-//   index: number,
-//   count: number
-// ): ColumnType {
-//   const column: ColumnType = {
-//     name,
-//     id: index.toString(),
-//     items: [],
-//   };
-//   for (let i = 0; i < count; i++)
-//     column.items.push({
-//       name: `${name} - ${i}`,
-//       id: (index * 100 + i).toString(),
-//     });
-
-//   return column;
-// }
 
 export const REQUIRED_FIELD_ERROR = "Required";
 export const REQUIRED_FIELD_TOO_SHORT_TEXT = "Too Short!";
