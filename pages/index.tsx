@@ -1,15 +1,18 @@
-import React from "react";
-import {
-  useAuthUser,
-  withAuthUser,
-} from "next-firebase-auth";
+import React, { useEffect } from "react";
+import { AuthAction, useAuthUser, withAuthUser, withAuthUserTokenSSR } from "next-firebase-auth";
 import { PageLayout } from "../components/PageLayout";
 import { Button, Flex, Heading, Stack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import config from "../utils/config";
 
 const LandingPage = () => {
   const AuthUser = useAuthUser();
   const router = useRouter();
+
+  // useEffect(() => {
+  //   console.log(AuthUser);
+  //   if (AuthUser.email) router.push(config.routes.dashboard);
+  // }, [AuthUser]);
 
   return (
     <PageLayout>
@@ -32,7 +35,7 @@ const LandingPage = () => {
                 bgGradient: "linear(to-r, cyan.600,purple.400)",
               }}
               onClick={() => {
-                router.push("/auth");
+                router.push(config.routes.auth);
               }}
             >
               Login / Register
@@ -46,7 +49,7 @@ const LandingPage = () => {
             _hover={{
               bgGradient: "linear(to-r, cyan.600,purple.400)",
             }}
-            onClick={() => router.push("/boards")}
+            onClick={() => router.push(config.routes.dashboard)}
             mb={4}
           >
             Boards
@@ -57,4 +60,11 @@ const LandingPage = () => {
   );
 };
 
-export default withAuthUser()(LandingPage);
+export const getServerSideProps = withAuthUserTokenSSR({
+  whenAuthed: AuthAction.REDIRECT_TO_APP,
+})();
+
+export default withAuthUser({
+  // whenAuthed: AuthAction.REDIRECT_TO_APP,
+  // appPageURL: config.routes.dashboard,
+})(LandingPage);

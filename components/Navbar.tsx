@@ -32,7 +32,7 @@ export const NavBar: React.FC = () => {
                 fontSize="2xl"
                 icon={<FaListUl />}
                 aria-label={`Go to lists`}
-                onClick={() => router.push(config.routes.boards)}
+                onClick={() => router.push(config.routes.dashboard)}
               />
             </Tooltip>
           </>

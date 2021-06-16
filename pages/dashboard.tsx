@@ -35,7 +35,7 @@ const mapBoardsFromFirebase = (values: FirebaseBoards): BoardType[] => {
   return nextBoards;
 };
 
-const BoardsPage = () => {
+const DashboardPage = () => {
   const {
     isOpen: isCreateModalOpen,
     onOpen: onCreateModalOpen,
@@ -164,4 +164,4 @@ export default withAuthUser({
   whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
   whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
   LoaderComponent: FullPageLoader,
-})(BoardsPage);
+})(DashboardPage);

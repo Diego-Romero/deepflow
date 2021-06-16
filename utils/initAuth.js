@@ -1,12 +1,13 @@
 import { init } from 'next-firebase-auth'
+import config from './config'
 
 const TWELVE_DAYS_IN_MS = 12 * 60 * 60 * 24 * 1000
 
 const initAuth = () => {
   init({
     debug: false,
-    authPageURL: '/auth',
-    appPageURL: '/',
+    authPageURL: config.routes.auth,
+    appPageURL: config.routes.dashboard,
     loginAPIEndpoint: '/api/login',
     logoutAPIEndpoint: '/api/logout',
     firebaseAdminInitConfig: {

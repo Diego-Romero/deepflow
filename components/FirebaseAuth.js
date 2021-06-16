@@ -14,14 +14,14 @@ const firebaseAuthConfig = {
   signInOptions: [
     {
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-      requireDisplayName: true
+      requireDisplayName: true,
     },
     {
       provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       requireDisplayName: false,
     },
     firebase.auth.GithubAuthProvider.PROVIDER_ID,
-    // todo: add FB, Twitter as well
+    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
   ],
   signInSuccessUrl: "/boards",
   // credentialHelper: "none",

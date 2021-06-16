@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { withAuthUser, AuthAction, useAuthUser } from "next-firebase-auth";
-import { Box, Divider, Flex, useColorMode, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Divider,
+  Flex,
+  useColorMode,
+  useDisclosure,
+} from "@chakra-ui/react";
 import Firebase from "firebase";
 import { PageLayout } from "../../components/PageLayout";
 import FullPageLoader from "../../components/FullPageLoader";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import produce from "immer";
-import { ColumnType, ColumnItemType, BoardType } from "../../types";
-import {
-  generateMockColumn,
-  move,
-  reorder,
-  reorderList,
-} from "../../utils/util-functions";
+import { ColumnItemType, BoardType } from "../../types";
+import { move, reorder, reorderList } from "../../utils/util-functions";
 import { BoardHeader } from "../../components/BoardHeader";
 import { Column } from "../../components/Column";
 import { CreateColumnModal } from "../../components/CreateColumnModal";
@@ -95,7 +96,7 @@ const BoardPage = () => {
 
   const deleteBoard = () => {
     boardDbRef.remove();
-    router.push(config.routes.boards);
+    router.push(config.routes.dashboard);
   };
 
   function onDragEnd(result) {
@@ -177,7 +178,13 @@ const BoardPage = () => {
                       justifyContent="center"
                       {...provided.droppableProps}
                       alignItems="flex-start"
-                      bg={snapshot.isDraggingOver ? colorMode === "light" ? "gray.200" : "gray.700" : "inherit"}
+                      bg={
+                        snapshot.isDraggingOver
+                          ? colorMode === "light"
+                            ? "gray.200"
+                            : "gray.700"
+                          : "inherit"
+                      }
                     >
                       {board.columns.map((column, index) => (
                         <Column

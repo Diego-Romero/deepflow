@@ -2,7 +2,7 @@ const config = {
   routes: {
     home: "/",
     auth: "/auth",
-    boards: "/boards",
+    dashboard: "/dashboard",
   },
   collections: {
     mail: "mail",

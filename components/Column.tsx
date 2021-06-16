@@ -58,6 +58,7 @@ export const Column: React.FC<Props> = ({
           mr={4}
           p={2}
           minH="70vh"
+          cursor="pointer"
           onClick={(e) => {
             e.stopPropagation();
             onCreateModalOpen();

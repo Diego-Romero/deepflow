@@ -49,24 +49,24 @@ export const move = (
   return result;
 };
 
-export function generateMockColumn(
-  name: string,
-  index: number,
-  count: number
-): ColumnType {
-  const column: ColumnType = {
-    name,
-    id: index.toString(),
-    items: [],
-  };
-  for (let i = 0; i < count; i++)
-    column.items.push({
-      name: `${name} - ${i}`,
-      id: (index * 100 + i).toString(),
-    });
+// export function generateMockColumn(
+//   name: string,
+//   index: number,
+//   count: number
+// ): ColumnType {
+//   const column: ColumnType = {
+//     name,
+//     id: index.toString(),
+//     items: [],
+//   };
+//   for (let i = 0; i < count; i++)
+//     column.items.push({
+//       name: `${name} - ${i}`,
+//       id: (index * 100 + i).toString(),
+//     });
 
-  return column;
-}
+//   return column;
+// }
 
 export const REQUIRED_FIELD_ERROR = "Required";
 export const REQUIRED_FIELD_TOO_SHORT_TEXT = "Too Short!";
@@ -87,10 +87,7 @@ export const validation = {
     .required(REQUIRED_FIELD_ERROR),
 };
 
-export const getAbsoluteURL = (
-  url: string,
-  req: any = null
-) => {
+export const getAbsoluteURL = (url: string, req: any = null) => {
   let host;
   if (req !== null) {
     host = req.headers.host;
