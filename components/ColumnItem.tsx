@@ -18,14 +18,18 @@ export const ColumnItem: React.FC<{
         <Flex
           borderWidth="1px"
           borderRadius="md"
-          bgColor={colorMode === "light" ? "white" : "inherit"}
+          // bgColor={colorMode === "light" ? "white" : "inherit"}
+          bgColor={
+            colorMode === "light"
+              ? dragSnapshot.isDragging
+                ? "gray.100"
+                : "white"
+              : "gray.800"
+          }
           ref={dragProvided.innerRef}
           {...dragProvided.draggableProps}
           {...dragProvided.dragHandleProps}
           style={{ ...dragProvided.draggableProps.style }}
-          _hover={{
-            shadow: dragSnapshot.isDragging ? "lg" : "sm",
-          }}
           p={4}
           alignItems="center"
           shadow={dragSnapshot.isDragging ? "lg" : "sm"}

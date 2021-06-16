@@ -11,7 +11,6 @@ import config from "../utils/config";
 export const NavBar: React.FC = () => {
   const router = useRouter();
   const AuthUser = useAuthUser();
-  console.log(AuthUser.email);
 
   return (
     <Flex

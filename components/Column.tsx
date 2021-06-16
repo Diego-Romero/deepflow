@@ -124,7 +124,15 @@ export const Column: React.FC<Props> = ({
                 flexDir="column"
                 ref={itemsProvided.innerRef}
                 {...itemsProvided.droppableProps}
-                bgColor={itemsSnapshot.isDraggingOver ? "gray.500" : "inherit"}
+                // bgColor={itemsSnapshot.isDraggingOver ? "gray.500" : "inherit"}
+
+                      bg={
+                        itemsSnapshot.isDraggingOver
+                          ? colorMode === "light"
+                            ? "gray.200"
+                            : "gray.700"
+                          : "inherit"
+                      }
                 height="100%"
               >
                 {column.items

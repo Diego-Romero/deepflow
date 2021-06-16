@@ -38,7 +38,6 @@ export const move = (
   sourceColIndex: number,
   destColIndex: number
 ): { [key: number]: ColumnItemType[] } => {
-  console.log(sourceCol, destCol)
   const sourceClone = Array.from(sourceCol);
   const destClone = Array.from(destCol);
   const [removed] = sourceClone.splice(sourceIndex, 1);
