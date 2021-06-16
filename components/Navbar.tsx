@@ -71,7 +71,9 @@ export const NavBar: React.FC = () => {
                 variant="ghost"
                 color="current"
                 fontSize="2xl"
-                onClick={() => AuthUser.signOut()}
+                onClick={() => {
+AuthUser.signOut()
+                }}
                 icon={<IoMdLogOut />}
                 aria-label={`Logout`}
               />

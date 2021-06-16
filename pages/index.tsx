@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   useAuthUser,
   withAuthUser,
-  withAuthUserTokenSSR,
 } from "next-firebase-auth";
 import { PageLayout } from "../components/PageLayout";
 import { Button, Flex, Heading, Stack } from "@chakra-ui/react";
@@ -11,10 +10,6 @@ import { useRouter } from "next/router";
 const LandingPage = () => {
   const AuthUser = useAuthUser();
   const router = useRouter();
-
-  useEffect(() => { // todo: move redirect to SSR
-    if (AuthUser.email) router.push("/boards");
-  }, [AuthUser]);
 
   return (
     <PageLayout>
@@ -36,7 +31,9 @@ const LandingPage = () => {
               _hover={{
                 bgGradient: "linear(to-r, cyan.600,purple.400)",
               }}
-              onClick={() => router.push("/auth")}
+              onClick={() => {
+                router.push("/auth");
+              }}
             >
               Login / Register
             </Button>
@@ -59,7 +56,5 @@ const LandingPage = () => {
     </PageLayout>
   );
 };
-
-export const getServerSideProps = withAuthUserTokenSSR()();
 
 export default withAuthUser()(LandingPage);

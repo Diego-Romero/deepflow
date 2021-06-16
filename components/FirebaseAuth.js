@@ -13,14 +13,18 @@ const firebaseAuthConfig = {
   // https://github.com/firebase/firebaseui-web#configure-oauth-providers
   signInOptions: [
     {
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      requireDisplayName: true
+    },
+    {
       provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       requireDisplayName: false,
     },
     firebase.auth.GithubAuthProvider.PROVIDER_ID,
-    // todo: add FB as a provider
+    // todo: add FB, Twitter as well
   ],
   signInSuccessUrl: "/boards",
-  credentialHelper: "none",
+  // credentialHelper: "none",
   callbacks: {
     // https://github.com/firebase/firebaseui-web#signinsuccesswithauthresultauthresult-redirecturl
     signInSuccessWithAuthResult: () =>

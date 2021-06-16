@@ -27,7 +27,7 @@ const Auth = () => (
       </p>
     </div>
     <div>
-      <FirebaseAuth />
+      {/* <FirebaseAuth /> */}
     </div>
   </div>
 )

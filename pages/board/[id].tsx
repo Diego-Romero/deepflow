@@ -34,7 +34,6 @@ const BoardPage = () => {
   const [board, setBoard] = useState<BoardType | null>(null);
   const dbPath = `/${authUser.id}/boards/${id}`;
   const boardDbRef = Firebase.database().ref(dbPath);
-  console.log(id, dbPath);
 
   const getBoard = () => {
     boardDbRef.on("value", (snapshot) => {
