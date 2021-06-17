@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, IconButton, Tooltip } from "@chakra-ui/react";
+import { Box, Flex, HStack, IconButton, Tooltip, useDisclosure } from "@chakra-ui/react";
 import * as React from "react";
 import { IoMdHome, IoMdLogOut } from "react-icons/io";
 import { FaListUl } from "react-icons/fa";
@@ -7,10 +7,12 @@ import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { useAuthUser } from "next-firebase-auth";
 import { useRouter } from "next/router";
 import config from "../utils/config";
+import { KeymapModal } from "./KeymapModal";
 
 export const NavBar: React.FC = () => {
   const router = useRouter();
   const AuthUser = useAuthUser();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Flex
@@ -60,7 +62,7 @@ export const NavBar: React.FC = () => {
                 variant="ghost"
                 color="current"
                 fontSize="2xl"
-                // onClick={onOpen}
+                onClick={onOpen}
                 icon={<FaRegKeyboard />}
                 aria-label={`Keyboard shortcuts`}
               />
@@ -81,6 +83,7 @@ export const NavBar: React.FC = () => {
           </>
         ) : null}
       </HStack>
+      <KeymapModal modalOpen={isOpen} modalClose={onClose} />
     </Flex>
   );
 };
