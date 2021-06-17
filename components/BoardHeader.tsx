@@ -23,22 +23,22 @@ export const BoardHeader: React.FC<Props> = ({
     <Flex
       alignItems="center"
       mb={4}
-      flexDir={["column", null, "row"]}
+      flexDir={"row"}
     >
-      <Heading noOfLines={1} isTruncated mb={[6, null, 0]}>
+      <Heading noOfLines={1} isTruncated mb={0} casing="uppercase" >
         {name}
       </Heading>
-      <ButtonGroup spacing={[2]} variant="solid" size={"md"} ml={[0, 0, 4]}>
+      <ButtonGroup spacing={[2]} variant="solid" size={"md"} ml={4}>
         <Tooltip label="Open settings">
           <IconButton
             isRound
             aria-label="update"
             icon={<EditIcon />}
-            variant="ghost"
+            variant="outline"
             onClick={openSettings}
           />
         </Tooltip>
-        <Tooltip label="Add Row">
+        {/* <Tooltip label="Add Row">
           <IconButton
             isRound
             onClick={openNewColumnModal}
@@ -47,7 +47,7 @@ export const BoardHeader: React.FC<Props> = ({
             colorScheme="purple"
             icon={<AddIcon />}
           />
-        </Tooltip>
+        </Tooltip> */}
       </ButtonGroup>
     </Flex>
   );

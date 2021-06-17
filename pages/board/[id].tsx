@@ -4,6 +4,8 @@ import {
   Box,
   Divider,
   Flex,
+  IconButton,
+  Tooltip,
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -20,6 +22,7 @@ import { CreateColumnModal } from "../../components/CreateColumnModal";
 import { BoardSettingsModal } from "../../components/BoardSettingsModal";
 import { useRouter } from "next/router";
 import config from "../../utils/config";
+import { AddIcon } from "@chakra-ui/icons";
 
 const BoardPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -52,6 +55,7 @@ const BoardPage = () => {
   }, []);
 
   const createNewItem = (listIndex: number, name: string) => {
+    console.log(listIndex, name, board!.columns[listIndex]);
     const columns = produce(board!.columns, (draft) => {
       draft[listIndex].items = [{ name }, ...board!.columns[listIndex].items];
     });
@@ -168,6 +172,7 @@ const BoardPage = () => {
             flexDir="column"
             alignItems="flex-start"
             justifyContent="flex-start"
+            overflow="auto"
           >
             <BoardHeader
               openNewColumnModal={onOpen}
@@ -211,6 +216,17 @@ const BoardPage = () => {
                         />
                       ))}
                       {provided.placeholder}
+                      <Tooltip label="Add Row">
+                        <IconButton
+                          isRound
+                          onClick={onOpen}
+                          variant="outline"
+                          size="lg"
+                          aria-label="Add row"
+                          colorScheme="purple"
+                          icon={<AddIcon />}
+                        />
+                      </Tooltip>
                     </Flex>
                   )}
                 </Droppable>

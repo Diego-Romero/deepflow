@@ -16,6 +16,7 @@ export const PageLayout: React.FC = (props) => {
         display={["none", null, "grid"]}
         gridTemplateRows="auto 1fr auto"
         gridTemplateAreas="'header' 'main' 'footer'"
+        minW="900px"
       >
         <NavBar />
         <Box>{children}</Box>

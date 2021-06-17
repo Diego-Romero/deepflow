@@ -50,10 +50,10 @@ export const CreateItemModal: React.FC<Props> = ({
             validateOnChange={false}
             validateOnBlur={false}
             onSubmit={(values, actions) => {
+              createNewItem(columnIndex, values.name);
               actions.resetForm();
               actions.setSubmitting(false);
               modalClose();
-              createNewItem(columnIndex, values.name);
             }}
             validationSchema={validationSchema}
           >

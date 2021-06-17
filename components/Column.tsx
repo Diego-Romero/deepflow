@@ -27,7 +27,11 @@ interface Props {
   column: Col;
   columnIndex: number;
   createNewItem: (listIndex: number, name: string) => void;
-  updateItem: (columnIndex: number, itemIndex: number, item: ColumnItemType) => void;
+  updateItem: (
+    columnIndex: number,
+    itemIndex: number,
+    item: ColumnItemType
+  ) => void;
   deleteItem: (columnIndex: number, itemIndex: number) => void;
   deleteColumn: (index: number) => void;
   updateColumn: (name: string, index: number) => void;
@@ -39,8 +43,8 @@ export const Column: React.FC<Props> = ({
   createNewItem,
   deleteColumn,
   updateColumn,
-  updateItem, 
-  deleteItem
+  updateItem,
+  deleteItem,
 }) => {
   const {
     isOpen: isCreateItemModalOpen,
@@ -64,7 +68,7 @@ export const Column: React.FC<Props> = ({
           gridTemplateRows="auto 1fr"
           minH="70vh"
           borderRadius="md"
-          width={["90vw", "45vw", "250px", "350px"]}
+          width={["250px", "350px"]}
           bgColor={
             colorMode === "light"
               ? snapshot.isDragging
@@ -99,7 +103,6 @@ export const Column: React.FC<Props> = ({
                 <IconButton
                   size="sm"
                   variant="ghost"
-                  // colorScheme="yellow"
                   isRound
                   onClick={onSettingsOpen}
                   icon={<EditIcon />}
@@ -134,7 +137,7 @@ export const Column: React.FC<Props> = ({
                   itemsSnapshot.isDraggingOver
                     ? colorMode === "light"
                       ? "gray.100"
-                      : "gray.800"
+                      : "gray.700"
                     : "inherit"
                 }
                 height="100%"
