@@ -57,11 +57,11 @@ export const ColumnItem: React.FC<Props> = ({
           bgColor={
             colorMode === "light"
               ? dragSnapshot.isDragging
-                ? "cyan.100"
+                ? "gray.100"
                 : "white"
               : "gray.900"
           }
-          shadow={dragSnapshot.isDragging ? "lg" : "sm"}
+          shadow="md"
           cursor="pointer"
           mb={2}
           onClick={(e) => {

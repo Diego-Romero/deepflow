@@ -5,39 +5,47 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
+  Box,
   Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
+  FormHelperText,
+  Grid,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Stack,
   useDisclosure,
-  useMediaQuery,
 } from "@chakra-ui/react";
+import { InputControl, NumberInputControl } from "formik-chakra-ui";
 import React, { RefObject } from "react";
 import * as Yup from "yup";
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { validation } from "../utils/util-functions";
+import { BoardType } from "../types";
 
-export interface ContactFormValues {
+export interface BoardSettingsValues {
   name: string;
+  workInterval: number;
+  shortRestTime: number;
+  longRestTime: number;
+  longBreakAfter: number;
+  targetPerDay: number;
+  // targetPerWeek: number;
 }
 
 const validationSchema = Yup.object().shape({
   name: validation.name,
+  workInterval: Yup.number().required(),
 });
 
 interface Props {
   modalOpen: boolean;
   modalClose: () => void;
-  updateBoard: (name: string) => void;
+  updateBoard: (boardUpdatedData: BoardSettingsValues) => void;
   deleteBoard: () => void;
-  boardName: string;
+  board: BoardType;
 }
 
 export const BoardSettingsModal: React.FC<Props> = ({
@@ -45,9 +53,8 @@ export const BoardSettingsModal: React.FC<Props> = ({
   modalClose,
   updateBoard,
   deleteBoard,
-  boardName,
+  board,
 }) => {
-  const [isLargerThan480] = useMediaQuery("(min-width: 480px)");
   const alertDialogCancelRef = React.useRef();
   const {
     isOpen: isDeleteAlertOpen,
@@ -55,54 +62,124 @@ export const BoardSettingsModal: React.FC<Props> = ({
     onClose: onDeleteAlertClose,
   } = useDisclosure();
 
-  const initialValues: ContactFormValues = {
-    name: boardName,
+  const initialValues: BoardSettingsValues = {
+    name: board.name,
+    workInterval: board.workInterval || 25,
+    shortRestTime: board.shortRestTime || 5,
+    longRestTime: board.longRestTime || 30,
+    longBreakAfter: board.longBreakAfter || 4,
+    targetPerDay: board.targetPerDay || 10,
+    // targetPerWeek: board.targetPerWeek || 50,
   };
 
   return (
-    <Modal isOpen={modalOpen} onClose={modalClose} size="sm">
+    <Modal isOpen={modalOpen} onClose={modalClose} size="lg">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Update Board</ModalHeader>
+        <ModalHeader>Board Settings</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Formik
             initialValues={initialValues}
-            validateOnChange={false}
-            validateOnBlur={false}
+            // validateOnChange={false}
+            // validateOnBlur={false}
             onSubmit={(values, actions) => {
+              console.log(values);
               actions.setSubmitting(false);
-              updateBoard(values.name);
+              updateBoard(values);
               modalClose();
             }}
             validationSchema={validationSchema}
           >
-            {(props) => (
+            {(_props) => (
               <Form>
-                <Field name="name">
-                  {({ field, form }) => (
-                    <FormControl
-                      id="name"
+                <Stack spacing={5}>
+                  <InputControl name="name" label="Name" isRequired />
+                  <Grid
+                    gridColumnGap={[null, null, 4]}
+                    gridRowGap={5}
+                    gridTemplateColumns={["1fr", "1fr", "repeat(2, 1fr)"]}
+                  >
+                    <NumberInputControl
+                      name="workInterval"
+                      helperText="How long are your pomodoros"
                       isRequired
-                      isInvalid={form.errors.name && form.touched.name}
-                    >
-                      <FormLabel htmlFor="name">Name</FormLabel>
-                      <Input
-                        {...field}
-                        type="text"
-                        autoFocus={isLargerThan480}
-                      />
-                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
+                      label="Work interval"
+                      numberInputProps={{
+                        min: 10,
+                        max: 120,
+                        step: 5,
+                        clampValueOnBlur: true,
+                        inputMode: "numeric",
+                        precision: 0,
+                      }}
+                    />
+
+                    <NumberInputControl
+                      name="shortRestTime"
+                      isRequired
+                      helperText="Resting time between pomodoros"
+                      label="Short rest time"
+                      numberInputProps={{
+                        min: 1,
+                        max: 60,
+                        step: 5,
+                        clampValueOnBlur: true,
+                        inputMode: "numeric",
+                        precision: 0,
+                      }}
+                    />
+                    <NumberInputControl
+                      name="longBreakAfter"
+                      isRequired
+                      label="Long break after"
+                      helperText="Take a long break after this amount of pomodoros"
+                      numberInputProps={{
+                        min: 2,
+                        max: 10,
+                        step: 1,
+                        clampValueOnBlur: true,
+                        inputMode: "numeric",
+                        precision: 0,
+                      }}
+                    />
+                    <NumberInputControl
+                      name="longRestTime"
+                      isRequired
+                      label="Long rest time"
+                      helperText="Amount of rest time after a block of pomodoros"
+                      numberInputProps={{
+                        min: 10,
+                        max: 120,
+                        step: 5,
+                        clampValueOnBlur: true,
+                        inputMode: "numeric",
+                        precision: 0,
+                      }}
+                    />
+                    <NumberInputControl
+                      name="targetPerDay"
+                      isRequired
+                      label="Target per day"
+                      helperText="How many pomodoros do you aim to do in a day"
+                      numberInputProps={{
+                        min: 6,
+                        max: 20,
+                        step: 1,
+                        clampValueOnBlur: true,
+                        inputMode: "numeric",
+                        precision: 0,
+                      }}
+                    />
+                  </Grid>
+                </Stack>
                 <Button
                   mt={8}
                   isFullWidth
                   type="submit"
                   variant="solid"
-                  colorScheme="purple"
-                  isLoading={props.isSubmitting}
+                  colorScheme="blue"
+                  // isLoading={props.isSubmitting}
                 >
                   Update
                 </Button>

@@ -41,7 +41,7 @@ export const CreateItemModal: React.FC<Props> = ({
   columnIndex,
 }) => {
   return (
-    <Modal isOpen={modalOpen} onClose={modalClose} size="xl">
+    <Modal isOpen={modalOpen} onClose={modalClose} size="md">
       <ModalOverlay />
       <ModalContent>
         <ModalBody>
@@ -80,13 +80,22 @@ export const CreateItemModal: React.FC<Props> = ({
                           size="lg"
                           focusBorderColor="none"
                         />
-                        <AddIcon w={4} h={4} ml={4} />
+                        <IconButton
+                          variant="solid"
+                          colorScheme="blue"
+                          size="md"
+                          isRound
+                          mb={2}
+                          type="submit"
+                          aria-label="Create item"
+                          icon={<AddIcon />}
+                        />
                       </Flex>
                       <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
-                <IconButton
+                {/* <IconButton
                   variant="solid"
                   colorScheme="teal"
                   size="sm"
@@ -96,7 +105,7 @@ export const CreateItemModal: React.FC<Props> = ({
                   type="submit"
                   aria-label="Create item"
                   icon={<AddIcon />}
-                />
+                /> */}
               </Form>
             )}
           </Formik>

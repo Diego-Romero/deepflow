@@ -3,7 +3,6 @@ import * as React from "react";
 import { IoMdHome, IoMdLogOut } from "react-icons/io";
 import { FaListUl } from "react-icons/fa";
 import { FaRegKeyboard } from "react-icons/fa";
-import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { useAuthUser } from "next-firebase-auth";
 import { useRouter } from "next/router";
 import config from "../utils/config";
@@ -51,13 +50,13 @@ export const NavBar: React.FC = () => {
         )}
       </Box>
       <HStack>
-        <ColorModeSwitcher justifySelf="flex-end" />
+        {/* <ColorModeSwitcher justifySelf="flex-end" /> */}
         {AuthUser.email ? (
           <>
             <Tooltip label="Keyboard shortcuts" aria-label="Keyboard shortcuts">
               <IconButton
                 ml={4}
-                display={["none", "none", "none", "inline-flex"]}
+                display={["none", "none", "inline-flex"]}
                 size="md"
                 variant="ghost"
                 color="current"

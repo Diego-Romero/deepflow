@@ -105,7 +105,7 @@ export const ColumnSettingsModal: React.FC<Props> = ({
                   isFullWidth
                   type="submit"
                   variant="solid"
-                  colorScheme="purple"
+                  colorScheme="blue"
                   isLoading={props.isSubmitting}
                 >
                   Update

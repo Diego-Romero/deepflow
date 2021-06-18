@@ -39,7 +39,7 @@ export const CreateColumnModal: React.FC<Props> = ({
   createColumn,
 }) => {
   return (
-    <Modal isOpen={modalOpen} onClose={modalClose} size="xl">
+    <Modal isOpen={modalOpen} onClose={modalClose} size="sm">
       <ModalOverlay />
       <ModalContent>
         <ModalBody>
@@ -78,23 +78,21 @@ export const CreateColumnModal: React.FC<Props> = ({
                           size="lg"
                           focusBorderColor="none"
                         />
-                        <AddIcon w={4} h={4} ml={4} />
+                        <IconButton
+                          variant="solid"
+                          colorScheme="blue"
+                          size="md"
+                          isRound
+                          mb={2}
+                          type="submit"
+                          aria-label="Create column"
+                          icon={<AddIcon />}
+                        />
                       </Flex>
                       <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
-                <IconButton
-                  variant="solid"
-                  colorScheme="teal"
-                  size="sm"
-                  display="none"
-                  isRound
-                  mb={2}
-                  type="submit"
-                  aria-label="Create item"
-                  icon={<AddIcon />}
-                />
               </Form>
             )}
           </Formik>

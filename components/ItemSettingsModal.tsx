@@ -1,10 +1,4 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Button,
   FormControl,
   FormErrorMessage,
@@ -17,10 +11,9 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
   useMediaQuery,
 } from "@chakra-ui/react";
-import React, { RefObject } from "react";
+import React from "react";
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
 import { validation } from "../utils/util-functions";
@@ -106,7 +99,7 @@ export const ItemSettingsModal: React.FC<Props> = ({
                   isFullWidth
                   type="submit"
                   variant="solid"
-                  colorScheme="purple"
+                  colorScheme="blue"
                   isLoading={props.isSubmitting}
                 >
                   Update

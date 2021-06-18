@@ -10,7 +10,7 @@ const FullPageLoader = () => (
     width="100vw"
     height="100vh"
   >
-    <CircularProgress isIndeterminate color="purple.500" />
+    <CircularProgress isIndeterminate color="blue.500" />
     <Heading mt={4} size="md">
       Loading
     </Heading>

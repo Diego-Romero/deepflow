@@ -72,11 +72,11 @@ export const Column: React.FC<Props> = ({
           bgColor={
             colorMode === "light"
               ? snapshot.isDragging
-                ? "gray.100"
-                : "white"
+                ? "white"
+                : "gray.100"
               : "gray.800"
           }
-          shadow="sm"
+          shadow="md"
           borderWidth="1px"
         >
           <Flex
@@ -109,11 +109,11 @@ export const Column: React.FC<Props> = ({
                   aria-label={"Column settings"}
                 />
               </Tooltip>
-              <Tooltip label="Create new item" aria-label="Create new item">
+              {/* <Tooltip label="Create new item" aria-label="Create new item">
                 <IconButton
                   size="sm"
-                  variant="solid"
-                  colorScheme="purple"
+                  variant="outline"
+                  colorScheme="blue"
                   isRound
                   onClick={(e) => {
                     e.stopPropagation();
@@ -122,7 +122,7 @@ export const Column: React.FC<Props> = ({
                   icon={<AddIcon />}
                   aria-label={"Create new item"}
                 />
-              </Tooltip>
+              </Tooltip> */}
             </HStack>
           </Flex>
 
@@ -136,7 +136,7 @@ export const Column: React.FC<Props> = ({
                 bg={
                   itemsSnapshot.isDraggingOver
                     ? colorMode === "light"
-                      ? "gray.100"
+                      ? "gray.200"
                       : "gray.700"
                     : "inherit"
                 }
@@ -155,6 +155,22 @@ export const Column: React.FC<Props> = ({
                     ))
                   : null}
                 {itemsProvided.placeholder}
+
+                <Tooltip label="Create new item" aria-label="Create new item">
+                  <IconButton
+                    variant="solid"
+                    colorScheme="blue"
+                    shadow="lg"
+                    width="auto"
+                    mt={1}
+                    mb={2}
+                    color="white"
+                    size="sm"
+                    onClick={onCreateModalOpen}
+                    icon={<AddIcon />}
+                    aria-label={"create new item"}
+                  />
+                </Tooltip>
               </Flex>
             )}
           </Droppable>

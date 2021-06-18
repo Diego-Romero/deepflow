@@ -23,9 +23,14 @@ import { IoMdArrowForward } from "react-icons/io";
 import { CreateBoardModal } from "../components/CreateBoardModal";
 import { Fragment } from "react";
 
+interface Board {
+name: string; columns: ColumnType[], workInterval: number;
+}
+
 type FirebaseBoards = {
-  [id: string]: { name: string; columns: ColumnType[] };
+  [id: string]: Board;
 };
+
 
 const mapBoardsFromFirebase = (values: FirebaseBoards): BoardType[] => {
   const nextBoards: BoardType[] = [];
@@ -50,10 +55,10 @@ const DashboardPage = () => {
   const boardsRef = Firebase.database().ref(dbPath);
 
   const createBoard = (name: string) => {
-    const newBoard = { name, columns: [
-      { name: 'to do', items: [ {name: 'to do item'}] },
-      { name: 'doing', items: [ {name: 'doing item'}] },
-      { name: 'done', items: [ {name: 'done item'}] },
+    const newBoard: Board = { name, workInterval: 25, columns: [
+      { name: 'to do', items: [ {name: 'to do item', createdAt: Date.now()}] },
+      { name: 'doing', items: [ {name: 'doing item', createdAt: Date.now()}] },
+      { name: 'done', items: [ {name: 'done item', createdAt: Date.now()}] },
     ] };
     boardsRef.push(newBoard);
   };

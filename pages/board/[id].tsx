@@ -19,7 +19,10 @@ import { move, reorder, reorderList } from "../../utils/util-functions";
 import { BoardHeader } from "../../components/BoardHeader";
 import { Column } from "../../components/Column";
 import { CreateColumnModal } from "../../components/CreateColumnModal";
-import { BoardSettingsModal } from "../../components/BoardSettingsModal";
+import {
+  BoardSettingsModal,
+  BoardSettingsValues,
+} from "../../components/BoardSettingsModal";
 import { useRouter } from "next/router";
 import config from "../../utils/config";
 import { AddIcon } from "@chakra-ui/icons";
@@ -55,9 +58,10 @@ const BoardPage = () => {
   }, []);
 
   const createNewItem = (listIndex: number, name: string) => {
-    console.log(listIndex, name, board!.columns[listIndex]);
+    const newItem: ColumnItemType = { name, createdAt: Date.now() };
     const columns = produce(board!.columns, (draft) => {
-      draft[listIndex].items = [{ name }, ...board!.columns[listIndex].items];
+      const columnItems = board!.columns[listIndex].items || [];
+      draft[listIndex].items = [...columnItems, newItem];
     });
     firebaseUpdateBoard({ ...board!, columns });
   };
@@ -81,8 +85,8 @@ const BoardPage = () => {
     setBoard({ ...board!, columns });
   };
 
-  const updateBoardMetadata = (name: string) => {
-    const updatedBoard = { ...board!, name };
+  const updateBoardMetadata = (boardUpdatedData: BoardSettingsValues) => {
+    const updatedBoard = { ...board!, ...boardUpdatedData };
     firebaseUpdateBoard(updatedBoard);
   };
 
@@ -94,7 +98,7 @@ const BoardPage = () => {
   const deleteItem = (columnIndex: number, itemIndex: number) => {
     const updatedBoard = produce(board!, (draft) => {
       const items = draft!.columns[columnIndex].items;
-      items.splice(itemIndex, 1);
+      items!.splice(itemIndex, 1);
     });
     firebaseUpdateBoard(updatedBoard);
   };
@@ -105,7 +109,7 @@ const BoardPage = () => {
     item: ColumnItemType
   ) => {
     const updatedBoard = produce(board!, (draft) => {
-      board!.columns[columnIndex].items[itemIndex] = item;
+      draft!.columns[columnIndex].items![itemIndex] = item;
     });
     firebaseUpdateBoard(updatedBoard);
   };
@@ -133,7 +137,7 @@ const BoardPage = () => {
     if (source.droppableId === destination.droppableId) {
       // if moving around the same list
       const items = reorder(
-        board!.columns[sourceColumnIndex].items,
+        board!.columns[sourceColumnIndex].items!,
         source.index,
         destination.index
       ) as ColumnItemType[];
@@ -174,11 +178,7 @@ const BoardPage = () => {
             justifyContent="flex-start"
             overflow="auto"
           >
-            <BoardHeader
-              openNewColumnModal={onOpen}
-              openSettings={onSettingsOpen}
-              name={board.name}
-            />
+            <BoardHeader openSettings={onSettingsOpen} board={board} />
             <Divider mb={4} />
             <Box>
               <DragDropContext onDragEnd={onDragEnd}>
@@ -198,7 +198,7 @@ const BoardPage = () => {
                       bg={
                         snapshot.isDraggingOver
                           ? colorMode === "light"
-                            ? "gray.200"
+                            ? "gray.300"
                             : "gray.700"
                           : "inherit"
                       }
@@ -220,10 +220,11 @@ const BoardPage = () => {
                         <IconButton
                           isRound
                           onClick={onOpen}
-                          variant="outline"
+                          shadow="lg"
+                          variant="solid"
                           size="lg"
                           aria-label="Add row"
-                          colorScheme="purple"
+                          colorScheme="blue"
                           icon={<AddIcon />}
                         />
                       </Tooltip>
@@ -241,7 +242,7 @@ const BoardPage = () => {
           <BoardSettingsModal
             modalOpen={isSettingsOpen}
             modalClose={onSettingsClose}
-            boardName={board!.name}
+            board={board!}
             updateBoard={updateBoardMetadata}
             deleteBoard={deleteBoard}
           />
