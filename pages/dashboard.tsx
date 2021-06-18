@@ -20,17 +20,26 @@ import {
 import { BoardType, ColumnType } from "../types";
 import { useRouter } from "next/router";
 import { IoMdArrowForward } from "react-icons/io";
-import { CreateBoardModal } from "../components/CreateBoardModal";
+import {
+  CreateBoardModal,
+  TemplateTypes,
+} from "../components/CreateBoardModal";
 import { Fragment } from "react";
+import { createTemplateColumns } from "../utils/util-functions";
 
 interface Board {
-name: string; columns: ColumnType[], workInterval: number;
+  name: string;
+  columns: ColumnType[];
+  workInterval: number;
+  shortRestTime: number;
+  longRestTime: number;
+  longBreakAfter: number;
+  targetPerDay: number;
 }
 
 type FirebaseBoards = {
   [id: string]: Board;
 };
-
 
 const mapBoardsFromFirebase = (values: FirebaseBoards): BoardType[] => {
   const nextBoards: BoardType[] = [];
@@ -54,12 +63,16 @@ const DashboardPage = () => {
   const dbPath = `/${authUser.id}/boards`;
   const boardsRef = Firebase.database().ref(dbPath);
 
-  const createBoard = (name: string) => {
-    const newBoard: Board = { name, workInterval: 25, columns: [
-      { name: 'to do', items: [ {name: 'to do item', createdAt: Date.now()}] },
-      { name: 'doing', items: [ {name: 'doing item', createdAt: Date.now()}] },
-      { name: 'done', items: [ {name: 'done item', createdAt: Date.now()}] },
-    ] };
+  const createBoard = (name: string, template: TemplateTypes) => {
+    const newBoard: Board = {
+      name,
+      columns: createTemplateColumns(template),
+      workInterval: 25,
+      shortRestTime: 5,
+      longRestTime: 30,
+      longBreakAfter: 4,
+      targetPerDay: 10,
+    };
     boardsRef.push(newBoard);
   };
 

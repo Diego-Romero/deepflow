@@ -1,6 +1,7 @@
 import { UseToastOptions } from "@chakra-ui/react";
 import { NextApiRequest } from "next";
 import * as Yup from "yup";
+import { TemplateTypes } from "../components/CreateBoardModal";
 import { ColumnType, ColumnItemType } from "../types";
 
 export const reorder = (
@@ -25,6 +26,75 @@ export function reorderList(
   result.splice(endIndex, 0, removed);
 
   return result;
+}
+
+export function createTemplateColumns(template: TemplateTypes): ColumnType[] {
+  let columns: ColumnType[] = [];
+  switch (template) {
+    case TemplateTypes.todoDoingDone:
+      columns = [
+        {
+          name: "to do",
+          items: [{ name: "to do item", createdAt: Date.now() }],
+        },
+        {
+          name: "doing",
+          items: [
+            { name: "doing item", createdAt: Date.now() },
+            { name: "doing item 2", createdAt: Date.now() },
+          ],
+        },
+        {
+          name: "done",
+          items: [
+            { name: "done item", createdAt: Date.now() },
+            { name: "done item 2", createdAt: Date.now() },
+          ],
+        },
+      ];
+      break;
+    case TemplateTypes.weekdays:
+      columns = [
+        {
+          name: "Monday",
+          items: [
+            { name: "Monday item 1", createdAt: Date.now() },
+            { name: "Monday item 2", createdAt: Date.now() },
+            { name: "Monday item 3", createdAt: Date.now() },
+          ],
+        },
+        {
+          name: "Tuesday",
+          items: [{ name: "Tuesday item 1", createdAt: Date.now() }],
+        },
+        {
+          name: "Wednesday",
+          items: [{ name: "Wednesday item 1", createdAt: Date.now() }],
+        },
+        {
+          name: "Thursday",
+          items: [{ name: "Thursday item 1", createdAt: Date.now() }],
+        },
+        {
+          name: "Friday",
+          items: [{ name: "Friday item 1", createdAt: Date.now() }],
+        },
+        {
+          name: "Saturday",
+          items: [{ name: "Saturday item 1", createdAt: Date.now() }],
+        },
+        {
+          name: "Sunday",
+          items: [{ name: "Sunday item 1", createdAt: Date.now() }],
+        },
+      ];
+      break;
+    case TemplateTypes.blank:
+      columns = [];
+      break;
+  }
+
+  return columns;
 }
 
 /**

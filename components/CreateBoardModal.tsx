@@ -1,100 +1,101 @@
 import {
-  Flex,
-  FormControl,
-  FormErrorMessage,
+  Button,
   IconButton,
-  Input,
   Modal,
   ModalBody,
+  ModalCloseButton,
   ModalContent,
+  ModalHeader,
   ModalOverlay,
+  Radio,
+  Stack,
 } from "@chakra-ui/react";
+import { InputControl, RadioGroupControl } from "formik-chakra-ui";
 import React from "react";
 import * as Yup from "yup";
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { validation } from "../utils/util-functions";
-import { AddIcon } from "@chakra-ui/icons";
 
-export interface ContactFormValues {
+export interface BoardSettingsValues {
   name: string;
+  template: TemplateTypes;
 }
-
-const initialValues: ContactFormValues = {
-  name: "",
-};
-
-const validationSchema = Yup.object().shape({
-  name: validation.name,
-});
 
 interface Props {
   modalOpen: boolean;
   modalClose: () => void;
-  createBoard: (name: string) => void;
+  createBoard: (name: string, template: TemplateTypes) => void;
+}
+
+export enum TemplateTypes {
+  todoDoingDone = "todoDoingDone",
+  weekdays = "weekdays",
+  blank = "blank",
 }
 
 export const CreateBoardModal: React.FC<Props> = ({
   modalOpen,
   modalClose,
-  createBoard: createColumn,
+  createBoard,
 }) => {
+  const initialValues: BoardSettingsValues = {
+    name: "",
+    template: TemplateTypes.todoDoingDone,
+  };
+  const validationSchema = Yup.object().shape({
+    name: validation.name,
+  });
   return (
-    <Modal isOpen={modalOpen} onClose={modalClose} size="xl">
+    <Modal isOpen={modalOpen} onClose={modalClose} size="md">
       <ModalOverlay />
       <ModalContent>
+        <ModalHeader>Create board</ModalHeader>
+        <ModalCloseButton />
         <ModalBody>
           <Formik
             initialValues={initialValues}
-            validateOnChange={false}
-            validateOnBlur={false}
             onSubmit={(values, actions) => {
               actions.resetForm();
               actions.setSubmitting(false);
               modalClose();
-              createColumn(values.name);
+              createBoard(values.name, values.template);
             }}
             validationSchema={validationSchema}
           >
             {(_props) => (
               <Form>
-                <Field name="name">
-                  {({ field, form }) => (
-                    <FormControl
-                      id="name"
-                      isRequired
-                      isInvalid={form.errors.name && form.touched.name}
-                    >
-                      <Flex
-                        flexDir="row"
-                        alignItems="center"
-                        justifyContent="space-between"
-                      >
-                        <Input
-                          {...field}
-                          type="text"
-                          variant="flushed"
-                          autoFocus
-                          placeholder="New Board Name"
-                          size="lg"
-                          focusBorderColor="none"
-                        />
-                        <AddIcon w={4} h={4} ml={4} />
-                      </Flex>
-                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
-                <IconButton
-                  variant="solid"
-                  colorScheme="teal"
-                  size="sm"
-                  display="none"
-                  isRound
-                  mb={2}
+                <Stack spacing={4}>
+                  <InputControl name="name" label="Name" isRequired />
+                  <RadioGroupControl
+                    name="template"
+                    label="Template"
+                    helperText="We recommend starting with a template to help you get going"
+                  >
+                    <Radio size="lg" value={TemplateTypes.todoDoingDone}>
+                      Default
+                    </Radio>
+                    <Radio size="lg" value={TemplateTypes.weekdays}>
+                      Weekdays
+                    </Radio>
+                    <Radio size="lg" value={TemplateTypes.blank}>
+                      Blank
+                    </Radio>
+                  </RadioGroupControl>
+                </Stack>
+                <Button
+                  mt={6}
+                  mb={4}
+                  isFullWidth
                   type="submit"
-                  aria-label="Create Board"
-                  icon={<AddIcon />}
-                />
+                  variant="solid"
+                  bgGradient="linear(to-r, cyan.700,purple.500)"
+                  _hover={{
+                    bgGradient: "linear(to-r, cyan.600,purple.400)",
+                  }}
+                  color="white"
+                >
+                  Create
+                </Button>
               </Form>
             )}
           </Formik>

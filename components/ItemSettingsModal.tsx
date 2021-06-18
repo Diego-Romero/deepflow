@@ -70,7 +70,7 @@ export const ItemSettingsModal: React.FC<Props> = ({
             validateOnBlur={false}
             onSubmit={(values, actions) => {
               actions.setSubmitting(false);
-              updateItem(colIndex, itemIndex, values);
+              updateItem(colIndex, itemIndex, {...item, ...values});
               modalClose();
             }}
             validationSchema={validationSchema}

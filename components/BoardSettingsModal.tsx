@@ -81,10 +81,7 @@ export const BoardSettingsModal: React.FC<Props> = ({
         <ModalBody>
           <Formik
             initialValues={initialValues}
-            // validateOnChange={false}
-            // validateOnBlur={false}
             onSubmit={(values, actions) => {
-              console.log(values);
               actions.setSubmitting(false);
               updateBoard(values);
               modalClose();
@@ -179,7 +176,6 @@ export const BoardSettingsModal: React.FC<Props> = ({
                   type="submit"
                   variant="solid"
                   colorScheme="blue"
-                  // isLoading={props.isSubmitting}
                 >
                   Update
                 </Button>

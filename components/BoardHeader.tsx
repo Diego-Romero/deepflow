@@ -49,18 +49,18 @@ export const BoardHeader: React.FC<Props> = ({ openSettings, board }) => {
                 isRound
                 aria-label="play"
                 icon={<IoMdPlay />}
-                size="lg"
+                size="md"
                 colorScheme="blue"
                 // onClick={openSettings}
                 shadow="md"
               />
             </Tooltip>
-            <Tooltip label="Stop timer">
+            {/* <Tooltip label="Stop timer">
               <IconButton
                 isRound
                 aria-label="stop"
                 icon={<BsStopFill />}
-                size="lg"
+                size="md"
                 colorScheme="orange"
                 // onClick={openSettings}
                 shadow="lg"
@@ -72,13 +72,16 @@ export const BoardHeader: React.FC<Props> = ({ openSettings, board }) => {
                 color="white"
                 aria-label="pause"
                 icon={<BsPauseFill />}
-                size="lg"
+                size="md"
                 colorScheme="yellow"
                 // onClick={openSettings}
                 shadow="lg"
               />
-            </Tooltip>
+            </Tooltip> */}
           </HStack>
+          <Text fontSize="xl" fontWeight="bold" ml={4}>
+            0 / {board.targetPerDay}
+          </Text>
         </Flex>
         <ButtonGroup spacing={[2]} variant="outline" size={"lg"} ml={4}>
           <Tooltip label="Open settings">
