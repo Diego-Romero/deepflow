@@ -121,6 +121,11 @@ export const move = (
   return result;
 };
 
+export const formatWatchTime = (n: number) => {
+  const s = n.toString();
+  return s.length === 1 ? `0${s}` : s;
+};
+
 export const REQUIRED_FIELD_ERROR = "Required";
 export const REQUIRED_FIELD_TOO_SHORT_TEXT = "Too Short!";
 export const REQUIRED_FIELD_TOO_LONG_TEXT = "Too Long!";
