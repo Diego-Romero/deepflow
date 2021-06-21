@@ -4,6 +4,7 @@ import {
   Box,
   Divider,
   Flex,
+  Heading,
   IconButton,
   Tooltip,
   useColorMode,
@@ -40,9 +41,12 @@ const BoardPage = () => {
   const { id } = router.query;
   const [boardData, setBoardData] = useState<BoardData | null>(null);
   const [board, setBoard] = useState<Board | null>(null);
-  const boardDbRef = Firebase.database().ref(config.collections.boardMetadata(authUser.id as string, id as string));
-  const boardDataDbRef = Firebase.database().ref(config.collections.boardData(id as string));
-
+  const boardDbRef = Firebase.database().ref(
+    config.collections.boardMetadata(authUser.id as string, id as string)
+  );
+  const boardDataDbRef = Firebase.database().ref(
+    config.collections.boardData(id as string)
+  );
 
   const getBoard = () => {
     boardDbRef.on("value", (snapshot) => {
@@ -177,88 +181,94 @@ const BoardPage = () => {
         <FullPageLoader />
       ) : (
         <Box>
-          {/* <pre>{JSON.stringify(board, null, 2)}</pre> */}
-          <Flex
-            px={8}
-            py={8}
-            flexDir="column"
-            alignItems="flex-start"
-            justifyContent="flex-start"
-            overflow="auto"
-          >
-            <BoardHeader
-              openSettings={onSettingsOpen}
-              board={board!}
-              boardData={boardData}
-              firebaseUpdateBoard={firebaseUpdateBoard}
+          <Box display={[null, "none"]}>
+            <Heading mt={8} size="lg" textAlign="center" >Boards view not available on mobile yet</Heading> 
+          </Box>
+
+          <Box display={["none", "block"]}>
+            {/* <pre>{JSON.stringify(board, null, 2)}</pre> */}
+            <Flex
+              px={8}
+              py={8}
+              flexDir="column"
+              alignItems="flex-start"
+              justifyContent="flex-start"
+              overflow="auto"
+            >
+              <BoardHeader
+                openSettings={onSettingsOpen}
+                board={board!}
+                boardData={boardData}
+                firebaseUpdateBoard={firebaseUpdateBoard}
+              />
+              <Divider mb={4} />
+              <Box>
+                <DragDropContext onDragEnd={onDragEnd}>
+                  <Droppable
+                    droppableId="board"
+                    direction="horizontal"
+                    type="column"
+                  >
+                    {(provided, snapshot) => (
+                      <Flex
+                        flexDir="row"
+                        ref={provided.innerRef}
+                        justifyContent="center"
+                        p="2"
+                        {...provided.droppableProps}
+                        alignItems="flex-start"
+                        bg={
+                          snapshot.isDraggingOver
+                            ? colorMode === "light"
+                              ? "gray.300"
+                              : "gray.700"
+                            : "inherit"
+                        }
+                      >
+                        {boardData.columns.map((column, index) => (
+                          <Column
+                            column={column}
+                            columnIndex={index}
+                            key={index}
+                            createNewItem={createNewItem}
+                            deleteColumn={deleteColumn}
+                            updateColumn={updateColumn}
+                            updateItem={updateItem}
+                            deleteItem={deleteItem}
+                          />
+                        ))}
+                        {provided.placeholder}
+                        <Tooltip label="Add Row">
+                          <IconButton
+                            isRound
+                            onClick={onOpen}
+                            shadow="lg"
+                            variant="solid"
+                            size="lg"
+                            aria-label="Add row"
+                            colorScheme="blue"
+                            icon={<AddIcon />}
+                          />
+                        </Tooltip>
+                      </Flex>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              </Box>
+            </Flex>
+            <CreateColumnModal
+              modalOpen={isOpen}
+              modalClose={onClose}
+              createColumn={createNewColumn}
             />
-            <Divider mb={4} />
-            <Box>
-              <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable
-                  droppableId="board"
-                  direction="horizontal"
-                  type="column"
-                >
-                  {(provided, snapshot) => (
-                    <Flex
-                      flexDir="row"
-                      ref={provided.innerRef}
-                      justifyContent="center"
-                      p="2"
-                      {...provided.droppableProps}
-                      alignItems="flex-start"
-                      bg={
-                        snapshot.isDraggingOver
-                          ? colorMode === "light"
-                            ? "gray.300"
-                            : "gray.700"
-                          : "inherit"
-                      }
-                    >
-                      {boardData.columns.map((column, index) => (
-                        <Column
-                          column={column}
-                          columnIndex={index}
-                          key={index}
-                          createNewItem={createNewItem}
-                          deleteColumn={deleteColumn}
-                          updateColumn={updateColumn}
-                          updateItem={updateItem}
-                          deleteItem={deleteItem}
-                        />
-                      ))}
-                      {provided.placeholder}
-                      <Tooltip label="Add Row">
-                        <IconButton
-                          isRound
-                          onClick={onOpen}
-                          shadow="lg"
-                          variant="solid"
-                          size="lg"
-                          aria-label="Add row"
-                          colorScheme="blue"
-                          icon={<AddIcon />}
-                        />
-                      </Tooltip>
-                    </Flex>
-                  )}
-                </Droppable>
-              </DragDropContext>
-            </Box>
-          </Flex>
-          <CreateColumnModal
-            modalOpen={isOpen}
-            modalClose={onClose}
-            createColumn={createNewColumn}
-          />
-          <BoardSettingsModal
-            modalOpen={isSettingsOpen}
-            modalClose={onSettingsClose}
-            boardData={boardData!}
-            updateBoard={updateBoardMetadata}
-            deleteBoard={deleteBoard}
-          />
+            <BoardSettingsModal
+              modalOpen={isSettingsOpen}
+              modalClose={onSettingsClose}
+              boardData={boardData!}
+              updateBoard={updateBoardMetadata}
+              deleteBoard={deleteBoard}
+            />
+          </Box>
         </Box>
       )}
     </PageLayout>
