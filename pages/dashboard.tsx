@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuthUser, withAuthUser, AuthAction } from "next-firebase-auth";
 import Firebase from "firebase";
-import { v4 as uuidv4 } from "uuid";
 import FullPageLoader from "../components/FullPageLoader";
 import { PageLayout } from "../components/PageLayout";
 import { Card } from "../components/Card";
@@ -35,6 +34,11 @@ interface Board {
   longRestTime: number;
   longBreakAfter: number;
   targetPerDay: number;
+  timerEndTime: number;
+  pomodoroCount: number;
+  onShortBreak: boolean;
+  onLongBreak: boolean;
+  isTimerPlaying: boolean;
 }
 
 type FirebaseBoards = {
@@ -60,7 +64,7 @@ const DashboardPage = () => {
   const [loading, setLoading] = useState(true);
   const { colorMode } = useColorMode();
   const authUser = useAuthUser();
-  const dbPath = `/${authUser.id}/boards`;
+  const dbPath = `/users/${authUser.id}/boards`;
   const boardsRef = Firebase.database().ref(dbPath);
 
   const createBoard = (name: string, template: TemplateTypes) => {
@@ -72,6 +76,11 @@ const DashboardPage = () => {
       longRestTime: 30,
       longBreakAfter: 4,
       targetPerDay: 10,
+      timerEndTime: 0,
+      pomodoroCount: 0,
+      onShortBreak: false,
+      onLongBreak: false,
+      isTimerPlaying: false,
     };
     boardsRef.push(newBoard);
   };

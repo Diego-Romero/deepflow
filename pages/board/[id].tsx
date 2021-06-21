@@ -12,7 +12,7 @@ import {
 import Firebase from "firebase";
 import { PageLayout } from "../../components/PageLayout";
 import FullPageLoader from "../../components/FullPageLoader";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import produce from "immer";
 import { ColumnItemType, BoardType } from "../../types";
 import { move, reorder, reorderList } from "../../utils/util-functions";
@@ -38,9 +38,10 @@ const BoardPage = () => {
   const authUser = useAuthUser();
   const router = useRouter();
   const { id } = router.query;
+  const dbPath = `/users/${authUser.id}/boards/${id}`;
   const [board, setBoard] = useState<BoardType | null>(null);
-  const dbPath = `/${authUser.id}/boards/${id}`;
   const boardDbRef = Firebase.database().ref(dbPath);
+
 
   const getBoard = () => {
     boardDbRef.on("value", (snapshot) => {
@@ -178,7 +179,11 @@ const BoardPage = () => {
             justifyContent="flex-start"
             overflow="auto"
           >
-            <BoardHeader openSettings={onSettingsOpen} board={board} />
+            <BoardHeader
+              openSettings={onSettingsOpen}
+              board={board}
+              firebaseUpdateBoard={firebaseUpdateBoard}
+            />
             <Divider mb={4} />
             <Box>
               <DragDropContext onDragEnd={onDragEnd}>

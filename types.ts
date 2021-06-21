@@ -18,5 +18,9 @@ export type BoardType = {
   longRestTime: number;
   longBreakAfter: number;
   targetPerDay: number;
-  // targetPerWeek: number;
+  timerEndTime: number;
+  pomodoroCount: number;
+  onShortBreak: boolean;
+  onLongBreak: boolean;
+  isTimerPlaying: boolean;
 }

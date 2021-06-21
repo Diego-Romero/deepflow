@@ -1,4 +1,4 @@
-import { SettingsIcon } from "@chakra-ui/icons";
+import { RepeatIcon, SettingsIcon } from "@chakra-ui/icons";
 import {
   ButtonGroup,
   Flex,
@@ -8,7 +8,7 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { BsStopFill } from "react-icons/bs";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { IoMdPlay } from "react-icons/io";
 import { BoardType } from "../types";
 import { formatWatchTime } from "../utils/util-functions";
@@ -16,72 +16,132 @@ import { formatWatchTime } from "../utils/util-functions";
 interface Props {
   openSettings: () => void;
   board: BoardType;
+  firebaseUpdateBoard: (nextBoard: BoardType) => void;
 }
 
-export const BoardHeader: React.FC<Props> = ({ openSettings, board }) => {
-  const [timerEndTime, setTimerEndTime] = useState<null | Date>(null);
-  const [pomodoroCount, setPomodoroCount] = useState(0);
-  const [shortBreak, setShortBreak] = useState(false);
-  const [longBreak, setLongBreak] = useState(false);
+const TIMER_DEFAULT_TIME = 0;
+
+export const BoardHeader: React.FC<Props> = ({
+  openSettings,
+  board,
+  firebaseUpdateBoard,
+}) => {
+  const [remainingTime, setRemainingTime] = React.useState<string>(``);
 
   useEffect(() => {
-    if (pomodoroCount !== 0) {
-      if (pomodoroCount % board.longBreakAfter === 0) setLongBreak(true);
-      else setShortBreak(true);
+    if (!board.isTimerPlaying && board.timerEndTime !== TIMER_DEFAULT_TIME) {
+      if (board.onShortBreak || board.onLongBreak) {
+        // if is on break just set the breaks to false
+        firebaseUpdateBoard({
+          ...board,
+          onShortBreak: false,
+          onLongBreak: false,
+          timerEndTime: TIMER_DEFAULT_TIME,
+        });
+      } else {
+        // increase the counter and set the appropriate break
+        const nextPomodoroCounter = board.pomodoroCount + 1;
+        if (nextPomodoroCounter % board.longBreakAfter === 0) {
+          firebaseUpdateBoard({
+            ...board,
+            pomodoroCount: nextPomodoroCounter,
+            onLongBreak: true,
+            isTimerPlaying: false,
+            timerEndTime: TIMER_DEFAULT_TIME,
+          });
+        } else {
+          firebaseUpdateBoard({
+            ...board,
+            pomodoroCount: nextPomodoroCounter,
+            onShortBreak: true,
+            isTimerPlaying: false,
+            timerEndTime: TIMER_DEFAULT_TIME,
+          });
+        }
+      }
     }
-  }, [pomodoroCount]);
+  }, [board]);
 
-  const startTimer = () => {
+  const setIsTimerPlaying = (isTimerPlaying: boolean) => {
+    firebaseUpdateBoard({ ...board, isTimerPlaying });
+  };
+
+  const resetTimer = () =>
+    firebaseUpdateBoard({
+      ...board,
+      pomodoroCount: 0,
+      timerEndTime: TIMER_DEFAULT_TIME,
+      onShortBreak: false,
+      onLongBreak: false,
+      isTimerPlaying: false,
+    });
+
+  const startNextTimer = () => {
     const now = new Date();
     let countdownDate = new Date();
-    if (longBreak) {
+    if (board.onLongBreak) {
       // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
       countdownDate.setTime(now.getTime() + board.longRestTime * 60 * 1000);
-    } else if (shortBreak)
-      // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
+    } else if (board.onShortBreak)
+      // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000);
+      // to be used when testing
       countdownDate.setTime(now.getTime() + board.shortRestTime * 60 * 1000);
     else {
       // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
       countdownDate.setTime(now.getTime() + board.workInterval * 60 * 1000);
     }
-    setTimerEndTime(countdownDate);
+    // calculates the next valid timer and starts the board
+    firebaseUpdateBoard({
+      ...board,
+      timerEndTime: countdownDate.getTime(),
+      isTimerPlaying: true,
+    });
+  };
+
+  const stopTimer = () => {
+    firebaseUpdateBoard({
+      ...board,
+      isTimerPlaying: false,
+      timerEndTime: TIMER_DEFAULT_TIME,
+      onShortBreak: false,
+      onLongBreak: false,
+    });
+  };
+
+  const calculateTimeLeft = () => {
+    const now = new Date();
+    const difference = board.timerEndTime - now.getTime();
+    const minutes = Math.floor((difference / 1000 / 60) % 60);
+    const seconds = Math.floor((difference / 1000) % 60);
+
+    if (minutes === 0 && seconds === 0) setIsTimerPlaying(false);
+
+    const formattedTime = `${formatWatchTime(minutes)}:${formatWatchTime(
+      seconds
+    )}`;
+
+    setRemainingTime(formattedTime);
+  };
+
+  const displayNextTimer = () => {
+    if (board.onLongBreak) return `${board.longRestTime}:00`;
+    else if (board.onShortBreak) return `${board.shortRestTime}:00`;
+    else return `${board.workInterval}:00`;
   };
 
   /**
    * Component that renders the countdown when it renders, it should just receive the end time
    */
-  const TimerRunning: React.FC<{ endTime: Date }> = ({ endTime }) => {
-    const [remainingTime, setRemainingTime] = React.useState<string>(``);
+  const TimerRunning: React.FC = () => {
     useEffect(() => {
       calculateTimeLeft();
+
       const timer = setTimeout(() => {
         calculateTimeLeft();
       }, 1000);
       return () => clearTimeout(timer);
     });
 
-    /**
-     * calculates the time remaining from now until the end time of the next timer.
-     * When the current timer reaches 0, it increases the pomodoro count by one if is not a rest,
-     * it also resets the breaks to false.
-     */
-    const calculateTimeLeft = () => {
-      const now = new Date();
-      const difference = endTime.getTime() - now.getTime();
-      const minutes = Math.floor((difference / 1000 / 60) % 60);
-      const seconds = Math.floor((difference / 1000) % 60);
-      if (minutes === 0 && seconds === 0) {
-        setTimerEndTime(null);
-        if (!shortBreak && !longBreak) setPomodoroCount(pomodoroCount + 1);
-        setShortBreak(false);
-        // setLongBreak(false);
-        return;
-      }
-      const formattedTime = `${formatWatchTime(minutes)}:${formatWatchTime(
-        seconds
-      )}`;
-      setRemainingTime(formattedTime);
-    };
     return <span>{remainingTime}</span>;
   };
 
@@ -111,69 +171,67 @@ export const BoardHeader: React.FC<Props> = ({ openSettings, board }) => {
             fontWeight="bold"
             mr={4}
             color={
-              shortBreak || longBreak
+              board.onShortBreak || board.onLongBreak
                 ? "green"
-                : timerEndTime !== null
+                : board.isTimerPlaying
                 ? "orange.500"
                 : "inherit"
             }
           >
-            {timerEndTime === null ? (
-              `00:00`
+            {board.isTimerPlaying ? (
+              <TimerRunning />
             ) : (
-              <TimerRunning endTime={timerEndTime} />
+              <span>{displayNextTimer()}</span>
             )}
           </Text>
           <HStack>
-            {timerEndTime === null ? (
-              <Tooltip label="Start timer">
-                <IconButton
-                  isRound
-                  aria-label="play"
-                  icon={<IoMdPlay />}
-                  size="md"
-                  onClick={() => {
-                    // setShortBreak(false);
-                    // setsho
-                    startTimer();
-                  }}
-                  colorScheme={shortBreak || longBreak ? "green" : "blue"}
-                  shadow="md"
-                />
-              </Tooltip>
-            ) : (
+            {board.isTimerPlaying ? (
               <Tooltip label="Stop timer">
                 <IconButton
                   isRound
                   aria-label="stop"
                   icon={<BsStopFill />}
                   size="md"
-                  colorScheme={shortBreak || longBreak ? "green" : "orange"}
-                  onClick={() => {
-                    setShortBreak(false);
-                    setLongBreak(false);
-                    setTimerEndTime(null);
-                  }}
+                  colorScheme={
+                    board.onShortBreak || board.onLongBreak ? "green" : "orange"
+                  }
+                  onClick={stopTimer}
                   shadow="lg"
                 />
               </Tooltip>
+            ) : (
+              <Tooltip label="Start timer">
+                <IconButton
+                  isRound
+                  aria-label="play"
+                  icon={<IoMdPlay />}
+                  size="md"
+                  onClick={startNextTimer}
+                  colorScheme={
+                    board.onShortBreak || board.onLongBreak ? "green" : "blue"
+                  }
+                  shadow="md"
+                />
+              </Tooltip>
             )}
-            {/* <Tooltip label="Pause timer">
-              <IconButton
-                isRound
-                color="white"
-                aria-label="pause"
-                icon={<BsPauseFill />}
-                size="md"
-                colorScheme="yellow"
-                // onClick={openSettings}
-                shadow="lg"
-              />
-            </Tooltip> */}
           </HStack>
           <Text fontSize="xl" fontWeight="bold" ml={4}>
-            {pomodoroCount} / {board.targetPerDay}
+            {board.pomodoroCount} / {board.targetPerDay}
           </Text>
+
+          <Tooltip label="Reset timer">
+            <IconButton
+              isRound
+              aria-label="reset"
+              icon={<RepeatIcon />}
+              size="md"
+              variant="outline"
+              ml={2}
+              colorScheme="blue"
+              onClick={resetTimer}
+              shadow="lg"
+            />
+          </Tooltip>
         </Flex>
         <ButtonGroup spacing={[2]} variant="outline" size={"lg"} ml={4}>
           <Tooltip label="Open settings">
