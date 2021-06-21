@@ -10,18 +10,14 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { ColumnItemType as ColItem, ColumnItemType } from "../types";
+import { ColumnItem as ColItem } from "../types";
 import { ItemSettingsModal } from "./ItemSettingsModal";
 
 interface Props {
   item: ColItem;
   itemIndex: number;
   columnIndex: number;
-  updateItem: (
-    columnIndex: number,
-    itemIndex: number,
-    item: ColumnItemType
-  ) => void;
+  updateItem: (columnIndex: number, itemIndex: number, item: ColItem) => void;
   deleteItem: (columnIndex: number, itemIndex: number) => void;
 }
 

@@ -5,9 +5,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-  Box,
+  Text,
   Button,
-  FormHelperText,
+  Divider,
   Grid,
   Modal,
   ModalBody,
@@ -17,16 +17,16 @@ import {
   ModalOverlay,
   Stack,
   useDisclosure,
+  Heading,
 } from "@chakra-ui/react";
 import { InputControl, NumberInputControl } from "formik-chakra-ui";
 import React, { RefObject } from "react";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import { validation } from "../utils/util-functions";
-import { BoardType } from "../types";
+import { Board, BoardData } from "../types";
 
 export interface BoardSettingsValues {
-  name: string;
   workInterval: number;
   shortRestTime: number;
   longRestTime: number;
@@ -36,7 +36,6 @@ export interface BoardSettingsValues {
 }
 
 const validationSchema = Yup.object().shape({
-  name: validation.name,
   workInterval: Yup.number().required(),
 });
 
@@ -45,7 +44,7 @@ interface Props {
   modalClose: () => void;
   updateBoard: (boardUpdatedData: BoardSettingsValues) => void;
   deleteBoard: () => void;
-  board: BoardType;
+  boardData: BoardData;
 }
 
 export const BoardSettingsModal: React.FC<Props> = ({
@@ -53,7 +52,7 @@ export const BoardSettingsModal: React.FC<Props> = ({
   modalClose,
   updateBoard,
   deleteBoard,
-  board,
+  boardData,
 }) => {
   const alertDialogCancelRef = React.useRef();
   const {
@@ -63,12 +62,11 @@ export const BoardSettingsModal: React.FC<Props> = ({
   } = useDisclosure();
 
   const initialValues: BoardSettingsValues = {
-    name: board.name,
-    workInterval: board.workInterval || 25,
-    shortRestTime: board.shortRestTime || 5,
-    longRestTime: board.longRestTime || 30,
-    longBreakAfter: board.longBreakAfter || 4,
-    targetPerDay: board.targetPerDay || 10,
+    workInterval: boardData.workInterval || 25,
+    shortRestTime: boardData.shortRestTime || 5,
+    longRestTime: boardData.longRestTime || 30,
+    longBreakAfter: boardData.longBreakAfter || 4,
+    targetPerDay: boardData.targetPerDay || 10,
     // targetPerWeek: board.targetPerWeek || 50,
   };
 
@@ -91,7 +89,12 @@ export const BoardSettingsModal: React.FC<Props> = ({
             {(_props) => (
               <Form>
                 <Stack spacing={5}>
-                  <InputControl name="name" label="Name" isRequired />
+                  {/* <InputControl name="name" label="Name" isRequired /> */}
+                  {boardData.isTimerPlaying ? (
+                    <Text color="gray.600">
+                      Only allowed to update when timer is not playing.
+                    </Text>
+                  ) : null}
                   <Grid
                     gridColumnGap={[null, null, 4]}
                     gridRowGap={5}
@@ -102,6 +105,7 @@ export const BoardSettingsModal: React.FC<Props> = ({
                       helperText="How long are your pomodoros"
                       isRequired
                       label="Work interval"
+                      isDisabled={boardData.isTimerPlaying}
                       numberInputProps={{
                         min: 10,
                         max: 120,
@@ -117,6 +121,7 @@ export const BoardSettingsModal: React.FC<Props> = ({
                       isRequired
                       helperText="Resting time between pomodoros"
                       label="Short rest time"
+                      isDisabled={boardData.isTimerPlaying}
                       numberInputProps={{
                         min: 1,
                         max: 60,
@@ -130,6 +135,7 @@ export const BoardSettingsModal: React.FC<Props> = ({
                       name="longBreakAfter"
                       isRequired
                       label="Long break after"
+                      isDisabled={boardData.isTimerPlaying}
                       helperText="Take a long break after this amount of pomodoros"
                       numberInputProps={{
                         min: 2,
@@ -144,6 +150,7 @@ export const BoardSettingsModal: React.FC<Props> = ({
                       name="longRestTime"
                       isRequired
                       label="Long rest time"
+                      isDisabled={boardData.isTimerPlaying}
                       helperText="Amount of rest time after a block of pomodoros"
                       numberInputProps={{
                         min: 10,
@@ -158,6 +165,7 @@ export const BoardSettingsModal: React.FC<Props> = ({
                       name="targetPerDay"
                       isRequired
                       label="Target per day"
+                      isDisabled={boardData.isTimerPlaying}
                       helperText="How many pomodoros do you aim to do in a day"
                       numberInputProps={{
                         min: 6,
@@ -179,6 +187,10 @@ export const BoardSettingsModal: React.FC<Props> = ({
                 >
                   Update
                 </Button>
+                <Divider mt={4} />
+                <Heading mt={4} size="md">
+                  Danger Zone
+                </Heading>
                 <Button
                   mt={4}
                   mb={4}

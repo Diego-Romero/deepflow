@@ -2,7 +2,7 @@ import { Box, Flex, HStack, IconButton, Tooltip, useDisclosure } from "@chakra-u
 import * as React from "react";
 import { IoMdHome, IoMdLogOut } from "react-icons/io";
 import { FaListUl } from "react-icons/fa";
-import { FaRegKeyboard } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
 import { useAuthUser } from "next-firebase-auth";
 import { useRouter } from "next/router";
 import config from "../utils/config";
@@ -25,14 +25,14 @@ export const NavBar: React.FC = () => {
       <Box>
         {AuthUser.email ? (
           <>
-            <Tooltip label="Go to boards" aria-label="Go to boards">
+            <Tooltip label="Go to dashboard" aria-label="Go to dashboard">
               <IconButton
                 size="md"
                 variant="ghost"
                 color="current"
                 fontSize="2xl"
-                icon={<FaListUl />}
-                aria-label={`Go to lists`}
+                icon={<MdDashboard />}
+                aria-label={`Go to dashboard`}
                 onClick={() => router.push(config.routes.dashboard)}
               />
             </Tooltip>
@@ -53,7 +53,7 @@ export const NavBar: React.FC = () => {
         {/* <ColorModeSwitcher justifySelf="flex-end" /> */}
         {AuthUser.email ? (
           <>
-            <Tooltip label="Keyboard shortcuts" aria-label="Keyboard shortcuts">
+            {/* <Tooltip label="Keyboard shortcuts" aria-label="Keyboard shortcuts">
               <IconButton
                 ml={4}
                 display={["none", "none", "inline-flex"]}
@@ -65,7 +65,7 @@ export const NavBar: React.FC = () => {
                 icon={<FaRegKeyboard />}
                 aria-label={`Keyboard shortcuts`}
               />
-            </Tooltip>
+            </Tooltip> */}
             <Tooltip label="Logout" aria-label="Logout">
               <IconButton
                 size="md"

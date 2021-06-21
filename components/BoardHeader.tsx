@@ -13,7 +13,7 @@ import React, { useEffect } from "react";
 import useSound from "use-sound";
 import { IoMdPlay } from "react-icons/io";
 import { BsArrowsAngleExpand } from "react-icons/bs";
-import { BoardType } from "../types";
+import { Board, BoardData } from "../types";
 import { formatWatchTime } from "../utils/util-functions";
 import { TimerModal } from "./TimerModal";
 import workTimerDoneSound from "../public/sounds/work-timer-done.mp3";
@@ -21,14 +21,16 @@ import restTimerDoneSound from "../public/sounds/rest-timer-done.mp3";
 
 interface Props {
   openSettings: () => void;
-  board: BoardType;
-  firebaseUpdateBoard: (nextBoard: BoardType) => void;
+  board: Board;
+  boardData: BoardData;
+  firebaseUpdateBoard: (nextBoard: BoardData) => void;
 }
 
 const TIMER_DEFAULT_TIME = 0;
 
 export const BoardHeader: React.FC<Props> = ({
   openSettings,
+  boardData,
   board,
   firebaseUpdateBoard,
 }) => {
@@ -38,25 +40,25 @@ export const BoardHeader: React.FC<Props> = ({
   const [playRestTimerDone] = useSound(restTimerDoneSound);
 
   useEffect(() => {
-    if (board.isTimerPlaying) onOpen();
+    if (boardData.isTimerPlaying) onOpen();
   }, []);
 
   useEffect(() => {
-    if (!board.isTimerPlaying && board.timerEndTime !== TIMER_DEFAULT_TIME) {
-      if (board.onShortBreak || board.onLongBreak) {
+    if (!boardData.isTimerPlaying && boardData.timerEndTime !== TIMER_DEFAULT_TIME) {
+      if (boardData.onShortBreak || boardData.onLongBreak) {
         // if is on break just set the breaks to false
         firebaseUpdateBoard({
-          ...board,
+          ...boardData,
           onShortBreak: false,
           onLongBreak: false,
           timerEndTime: TIMER_DEFAULT_TIME,
         });
       } else {
         // increase the counter and set the appropriate break
-        const nextPomodoroCounter = board.pomodoroCount + 1;
-        if (nextPomodoroCounter % board.longBreakAfter === 0) {
+        const nextPomodoroCounter = boardData.pomodoroCount + 1;
+        if (nextPomodoroCounter % boardData.longBreakAfter === 0) {
           firebaseUpdateBoard({
-            ...board,
+            ...boardData,
             pomodoroCount: nextPomodoroCounter,
             onLongBreak: true,
             isTimerPlaying: false,
@@ -64,7 +66,7 @@ export const BoardHeader: React.FC<Props> = ({
           });
         } else {
           firebaseUpdateBoard({
-            ...board,
+            ...boardData,
             pomodoroCount: nextPomodoroCounter,
             onShortBreak: true,
             isTimerPlaying: false,
@@ -73,15 +75,15 @@ export const BoardHeader: React.FC<Props> = ({
         }
       }
     }
-  }, [board]);
+  }, [boardData]);
 
   const setIsTimerPlaying = (isTimerPlaying: boolean) => {
-    firebaseUpdateBoard({ ...board, isTimerPlaying });
+    firebaseUpdateBoard({ ...boardData, isTimerPlaying });
   };
 
   const resetTimer = () =>
     firebaseUpdateBoard({
-      ...board,
+      ...boardData,
       pomodoroCount: 0,
       timerEndTime: TIMER_DEFAULT_TIME,
       onShortBreak: false,
@@ -92,19 +94,19 @@ export const BoardHeader: React.FC<Props> = ({
   const startNextTimer = () => {
     const now = new Date();
     let countdownDate = new Date();
-    if (board.onLongBreak) {
+    if (boardData.onLongBreak) {
       // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
-      countdownDate.setTime(now.getTime() + board.longRestTime * 60 * 1000);
-    } else if (board.onShortBreak)
+      countdownDate.setTime(now.getTime() + boardData.longRestTime * 60 * 1000);
+    } else if (boardData.onShortBreak)
       // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
-      countdownDate.setTime(now.getTime() + board.shortRestTime * 60 * 1000);
+      countdownDate.setTime(now.getTime() + boardData.shortRestTime * 60 * 1000);
     else {
       // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
-      countdownDate.setTime(now.getTime() + board.workInterval * 60 * 1000);
+      countdownDate.setTime(now.getTime() + boardData.workInterval * 60 * 1000);
     }
     // calculates the next valid timer and starts the board
     firebaseUpdateBoard({
-      ...board,
+      ...boardData,
       timerEndTime: countdownDate.getTime(),
       isTimerPlaying: true,
     });
@@ -113,7 +115,7 @@ export const BoardHeader: React.FC<Props> = ({
 
   const stopTimer = () => {
     firebaseUpdateBoard({
-      ...board,
+      ...boardData,
       isTimerPlaying: false,
       timerEndTime: TIMER_DEFAULT_TIME,
       onShortBreak: false,
@@ -123,12 +125,12 @@ export const BoardHeader: React.FC<Props> = ({
 
   const calculateTimeLeft = () => {
     const now = new Date();
-    const difference = board.timerEndTime - now.getTime();
+    const difference = boardData.timerEndTime - now.getTime();
     const minutes = Math.floor((difference / 1000 / 60) % 60);
     const seconds = Math.floor((difference / 1000) % 60);
 
     if (minutes === 0 && seconds === 0) {
-      if (board.onShortBreak || board.onLongBreak) playRestTimerDone();
+      if (boardData.onShortBreak || boardData.onLongBreak) playRestTimerDone();
       else playWorkTimerDone();
       setIsTimerPlaying(false);
     }
@@ -141,9 +143,9 @@ export const BoardHeader: React.FC<Props> = ({
   };
 
   const displayNextTimer = () => {
-    if (board.onLongBreak) return `${board.longRestTime}:00`;
-    else if (board.onShortBreak) return `${board.shortRestTime}:00`;
-    else return `${board.workInterval}:00`;
+    if (boardData.onLongBreak) return `${boardData.longRestTime}:00`;
+    else if (boardData.onShortBreak) return `${boardData.shortRestTime}:00`;
+    else return `${boardData.workInterval}:00`;
   };
 
   /**
@@ -170,7 +172,7 @@ export const BoardHeader: React.FC<Props> = ({
       justifyContent="space-between"
       width="100%"
     >
-      <Text fontSize="3xl" fontWeight="bold" noOfLines={1} isTruncated mb={0}>
+      <Text fontSize="4xl" fontWeight="bold" noOfLines={1} isTruncated mb={0}>
         {board.name}
       </Text>
       <Flex flexDir="row" alignItems="center">
@@ -186,18 +188,18 @@ export const BoardHeader: React.FC<Props> = ({
           justifyContent="center"
         >
           <Text
-            fontSize="xl"
+            fontSize="2xl"
             fontWeight="bold"
             mr={4}
             color={
-              board.onShortBreak || board.onLongBreak
+              boardData.onShortBreak || boardData.onLongBreak
                 ? "green"
-                : board.isTimerPlaying
+                : boardData.isTimerPlaying
                 ? "orange.500"
                 : "inherit"
             }
           >
-            {board.isTimerPlaying ? (
+            {boardData.isTimerPlaying ? (
               <Flex flexDir="row" alignItems="center" justifyContent="center">
                 <TimerRunning />
               </Flex>
@@ -206,7 +208,7 @@ export const BoardHeader: React.FC<Props> = ({
             )}
           </Text>
           <HStack>
-            {board.isTimerPlaying ? (
+            {boardData.isTimerPlaying ? (
               <Tooltip label="Stop timer">
                 <IconButton
                   isRound
@@ -214,7 +216,7 @@ export const BoardHeader: React.FC<Props> = ({
                   icon={<BsStopFill />}
                   size="md"
                   colorScheme={
-                    board.onShortBreak || board.onLongBreak ? "green" : "orange"
+                    boardData.onShortBreak || boardData.onLongBreak ? "green" : "orange"
                   }
                   onClick={stopTimer}
                   shadow="lg"
@@ -229,15 +231,15 @@ export const BoardHeader: React.FC<Props> = ({
                   size="md"
                   onClick={startNextTimer}
                   colorScheme={
-                    board.onShortBreak || board.onLongBreak ? "green" : "blue"
+                    boardData.onShortBreak || boardData.onLongBreak ? "green" : "blue"
                   }
                   shadow="md"
                 />
               </Tooltip>
             )}
           </HStack>
-          <Text fontSize="xl" fontWeight="bold" ml={4}>
-            {board.pomodoroCount} / {board.targetPerDay}
+          <Text fontSize="2xl" fontWeight="bold" ml={4}>
+            {boardData.pomodoroCount} / {boardData.targetPerDay}
           </Text>
 
           <Tooltip label="Full screen timer">
@@ -250,7 +252,7 @@ export const BoardHeader: React.FC<Props> = ({
               variant="outline"
               size="md"
               onClick={onOpen}
-              ml={2}
+              ml={4}
               shadow="lg"
             />
           </Tooltip>
@@ -267,26 +269,27 @@ export const BoardHeader: React.FC<Props> = ({
               shadow="lg"
             />
           </Tooltip>
-        </Flex>
-        <ButtonGroup spacing={[2]} variant="outline" size={"lg"} ml={4}>
           <Tooltip label="Open settings">
             <IconButton
               isRound
+              size="md"
+              variant="outline"
+              ml={2}
               aria-label="update"
               icon={<SettingsIcon />}
-              colorScheme="purple"
+              colorScheme="blue"
               onClick={openSettings}
-              shadow="md"
+              shadow="lg"
             />
           </Tooltip>
-        </ButtonGroup>
+        </Flex>
       </Flex>
       <TimerModal
         modalOpen={isOpen}
         modalClose={onClose}
-        board={board}
+        boardData={boardData}
         remainingTime={
-          board.isTimerPlaying ? remainingTime : displayNextTimer()
+          boardData.isTimerPlaying ? remainingTime : displayNextTimer()
         }
         stopTimer={stopTimer}
         startTimer={startNextTimer}

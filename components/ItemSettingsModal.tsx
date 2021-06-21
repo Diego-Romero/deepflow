@@ -17,7 +17,7 @@ import React from "react";
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
 import { validation } from "../utils/util-functions";
-import { ColumnItemType } from "../types";
+import { ColumnItem } from "../types";
 import { DeleteIcon } from "@chakra-ui/icons";
 
 export interface ContactFormValues {
@@ -36,10 +36,10 @@ interface Props {
   updateItem: (
     columnIndex: number,
     itemIndex: number,
-    item: ColumnItemType
+    item: ColumnItem
   ) => void;
   deleteItem: (columnIndex: number, itemIndex: number) => void;
-  item: ColumnItemType;
+  item: ColumnItem;
 }
 
 export const ItemSettingsModal: React.FC<Props> = ({

@@ -2,10 +2,10 @@ import { UseToastOptions } from "@chakra-ui/react";
 import { NextApiRequest } from "next";
 import * as Yup from "yup";
 import { TemplateTypes } from "../components/CreateBoardModal";
-import { ColumnType, ColumnItemType } from "../types";
+import { Column, ColumnItem } from "../types";
 
 export const reorder = (
-  list: ColumnItemType[],
+  list: ColumnItem[],
   startIndex: number,
   endIndex: number
 ) => {
@@ -17,10 +17,10 @@ export const reorder = (
 };
 
 export function reorderList(
-  columns: ColumnType[],
+  columns: Column[],
   startIndex: number,
   endIndex: number
-): ColumnType[] {
+): Column[] {
   const result = Array.from(columns);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
@@ -28,8 +28,8 @@ export function reorderList(
   return result;
 }
 
-export function createTemplateColumns(template: TemplateTypes): ColumnType[] {
-  let columns: ColumnType[] = [];
+export function createTemplateColumns(template: TemplateTypes): Column[] {
+  let columns: Column[] = [];
   switch (template) {
     case TemplateTypes.todoDoingDone:
       columns = [
@@ -101,13 +101,13 @@ export function createTemplateColumns(template: TemplateTypes): ColumnType[] {
  * Moves an item from one list to another list.
  */
 export const move = (
-  sourceCol: ColumnItemType[] = [],
-  destCol: ColumnItemType[] = [],
+  sourceCol: ColumnItem[] = [],
+  destCol: ColumnItem[] = [],
   sourceIndex: number,
   destinationIndex: number,
   sourceColIndex: number,
   destColIndex: number
-): { [key: number]: ColumnItemType[] } => {
+): { [key: number]: ColumnItem[] } => {
   const sourceClone = Array.from(sourceCol);
   const destClone = Array.from(destCol);
   const [removed] = sourceClone.splice(sourceIndex, 1);

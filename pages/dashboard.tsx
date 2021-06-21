@@ -16,7 +16,7 @@ import {
   useDisclosure,
   CircularProgress,
 } from "@chakra-ui/react";
-import { BoardType, ColumnType } from "../types";
+import { Board } from "../types";
 import { useRouter } from "next/router";
 import { IoMdArrowForward } from "react-icons/io";
 import {
@@ -25,28 +25,48 @@ import {
 } from "../components/CreateBoardModal";
 import { Fragment } from "react";
 import { createTemplateColumns } from "../utils/util-functions";
+import config from "../utils/config";
 
-interface Board {
-  name: string;
-  columns: ColumnType[];
-  workInterval: number;
-  shortRestTime: number;
-  longRestTime: number;
-  longBreakAfter: number;
-  targetPerDay: number;
-  timerEndTime: number;
-  pomodoroCount: number;
-  onShortBreak: boolean;
-  onLongBreak: boolean;
-  isTimerPlaying: boolean;
+// interface Board {
+//   name: string;
+//   // columns: ColumnType[];
+//   // workInterval: number;
+//   // shortRestTime: number;
+//   // longRestTime: number;
+//   // longBreakAfter: number;
+//   // targetPerDay: number;
+//   // timerEndTime: number;
+//   // pomodoroCount: number;
+//   // onShortBreak: boolean;
+//   // onLongBreak: boolean;
+//   // isTimerPlaying: boolean;
+// }
+
+// interface Board {
+//   name: string;
+//   // columns: ColumnType[];
+//   // workInterval: number;
+//   // shortRestTime: number;
+//   // longRestTime: number;
+//   // longBreakAfter: number;
+//   // targetPerDay: number;
+//   // timerEndTime: number;
+//   // pomodoroCount: number;
+//   // onShortBreak: boolean;
+//   // onLongBreak: boolean;
+//   // isTimerPlaying: boolean;
+// }
+
+interface BoardWithId extends Board {
+  id: string;
 }
 
 type FirebaseBoards = {
   [id: string]: Board;
 };
 
-const mapBoardsFromFirebase = (values: FirebaseBoards): BoardType[] => {
-  const nextBoards: BoardType[] = [];
+const mapBoardsFromFirebase = (values: FirebaseBoards): BoardWithId[] => {
+  const nextBoards: BoardWithId[] = [];
   for (let [id, value] of Object.entries(values)) {
     nextBoards.push({ id, ...value });
   }
@@ -60,16 +80,21 @@ const DashboardPage = () => {
     onClose: onCreateModalClose,
   } = useDisclosure();
   const router = useRouter();
-  const [boards, setBoards] = useState<BoardType[]>([]);
+  const [boards, setBoards] = useState<BoardWithId[]>([]);
   const [loading, setLoading] = useState(true);
   const { colorMode } = useColorMode();
   const authUser = useAuthUser();
-  const dbPath = `/users/${authUser.id}/boards`;
-  const boardsRef = Firebase.database().ref(dbPath);
+  const UserBoardsRef = Firebase.database().ref(
+    config.collections.userBoards(authUser.id as string)
+  );
 
   const createBoard = (name: string, template: TemplateTypes) => {
     const newBoard: Board = {
       name,
+      createdAt: Date.now(),
+      updatedAt: Date.now()
+    };
+    const boardData = {
       columns: createTemplateColumns(template),
       workInterval: 25,
       shortRestTime: 5,
@@ -82,11 +107,15 @@ const DashboardPage = () => {
       onLongBreak: false,
       isTimerPlaying: false,
     };
-    boardsRef.push(newBoard);
+    const key = UserBoardsRef.push(newBoard).key;
+    const BoardDataRef = Firebase.database().ref(
+      config.collections.boardData(key as string)
+    );
+    BoardDataRef.set(boardData);
   };
 
   const getBoards = () => {
-    boardsRef.on("value", (snapshot) => {
+    UserBoardsRef.on("value", (snapshot) => {
       if (snapshot.val()) {
         const nextBoards = mapBoardsFromFirebase(
           snapshot.val() as FirebaseBoards
@@ -127,7 +156,7 @@ const DashboardPage = () => {
                     <Text>You do not have any boards</Text>
                   ) : (
                     <Fragment>
-                      {boards.map((board) => (
+                      {boards.map((board, index) => (
                         <Box key={board.id}>
                           <Flex
                             p={2}

@@ -14,7 +14,7 @@ import { PageLayout } from "../../components/PageLayout";
 import FullPageLoader from "../../components/FullPageLoader";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import produce from "immer";
-import { ColumnItemType, BoardType } from "../../types";
+import { ColumnItem, Board, BoardData } from "../../types";
 import { move, reorder, reorderList } from "../../utils/util-functions";
 import { BoardHeader } from "../../components/BoardHeader";
 import { Column } from "../../components/Column";
@@ -38,66 +38,73 @@ const BoardPage = () => {
   const authUser = useAuthUser();
   const router = useRouter();
   const { id } = router.query;
-  const dbPath = `/users/${authUser.id}/boards/${id}`;
-  const [board, setBoard] = useState<BoardType | null>(null);
-  const boardDbRef = Firebase.database().ref(dbPath);
+  const [boardData, setBoardData] = useState<BoardData | null>(null);
+  const [board, setBoard] = useState<Board | null>(null);
+  const boardDbRef = Firebase.database().ref(config.collections.boardMetadata(authUser.id as string, id as string));
+  const boardDataDbRef = Firebase.database().ref(config.collections.boardData(id as string));
 
 
   const getBoard = () => {
     boardDbRef.on("value", (snapshot) => {
-      const board = snapshot.val() as BoardType;
-      setBoard(board);
+      setBoard(snapshot.val() as Board);
     });
   };
 
-  const firebaseUpdateBoard = (nextBoard: BoardType) => {
-    boardDbRef.set(nextBoard);
+  const getBoardData = () => {
+    boardDataDbRef.on("value", (snapshot) => {
+      setBoardData(snapshot.val() as BoardData);
+    });
+  };
+
+  const firebaseUpdateBoard = (nextBoard: BoardData) => {
+    boardDataDbRef.set(nextBoard);
   };
 
   useEffect(() => {
     getBoard();
+    getBoardData();
   }, []);
 
   const createNewItem = (listIndex: number, name: string) => {
-    const newItem: ColumnItemType = { name, createdAt: Date.now() };
-    const columns = produce(board!.columns, (draft) => {
-      const columnItems = board!.columns[listIndex].items || [];
+    const newItem: ColumnItem = { name, createdAt: Date.now() };
+    const columns = produce(boardData!.columns, (draft) => {
+      const columnItems = boardData!.columns[listIndex].items || [];
       draft[listIndex].items = [...columnItems, newItem];
     });
-    firebaseUpdateBoard({ ...board!, columns });
+    firebaseUpdateBoard({ ...boardData!, columns });
   };
 
   const createNewColumn = (name: string) => {
-    const columns = [...board!.columns, { name, items: [] }];
-    const nextBoard = { ...board!, columns };
+    const columns = [...boardData!.columns, { name, items: [] }];
+    const nextBoard = { ...boardData!, columns };
     firebaseUpdateBoard(nextBoard);
   };
 
   const deleteColumn = (index: number) => {
-    const columns = [...board!.columns];
+    const columns = [...boardData!.columns];
     columns.splice(index, 1);
-    firebaseUpdateBoard({ ...board!, columns });
+    firebaseUpdateBoard({ ...boardData!, columns });
   };
 
   const updateColumn = (name: string, index: number) => {
-    const columns = produce(board!.columns, (draft) => {
+    const columns = produce(boardData!.columns, (draft) => {
       draft[index].name = name;
     });
-    setBoard({ ...board!, columns });
+    setBoardData({ ...boardData!, columns });
   };
 
   const updateBoardMetadata = (boardUpdatedData: BoardSettingsValues) => {
-    const updatedBoard = { ...board!, ...boardUpdatedData };
+    const updatedBoard = { ...boardData!, ...boardUpdatedData };
     firebaseUpdateBoard(updatedBoard);
   };
 
   const deleteBoard = () => {
-    boardDbRef.remove();
+    boardDataDbRef.remove();
     router.push(config.routes.dashboard);
   };
 
   const deleteItem = (columnIndex: number, itemIndex: number) => {
-    const updatedBoard = produce(board!, (draft) => {
+    const updatedBoard = produce(boardData!, (draft) => {
       const items = draft!.columns[columnIndex].items;
       items!.splice(itemIndex, 1);
     });
@@ -107,9 +114,9 @@ const BoardPage = () => {
   const updateItem = (
     columnIndex: number,
     itemIndex: number,
-    item: ColumnItemType
+    item: ColumnItem
   ) => {
-    const updatedBoard = produce(board!, (draft) => {
+    const updatedBoard = produce(boardData!, (draft) => {
       draft!.columns[columnIndex].items![itemIndex] = item;
     });
     firebaseUpdateBoard(updatedBoard);
@@ -122,11 +129,11 @@ const BoardPage = () => {
     }
     if (result.type === "column") {
       const columns = reorderList(
-        board!.columns,
+        boardData!.columns,
         source.index,
         destination.index
       );
-      firebaseUpdateBoard({ ...board!, columns });
+      firebaseUpdateBoard({ ...boardData!, columns });
       return;
     }
 
@@ -138,35 +145,35 @@ const BoardPage = () => {
     if (source.droppableId === destination.droppableId) {
       // if moving around the same list
       const items = reorder(
-        board!.columns[sourceColumnIndex].items!,
+        boardData!.columns[sourceColumnIndex].items!,
         source.index,
         destination.index
-      ) as ColumnItemType[];
-      const columns = produce(board!.columns, (draft) => {
+      ) as ColumnItem[];
+      const columns = produce(boardData!.columns, (draft) => {
         draft[sourceColumnIndex].items = items;
       });
-      firebaseUpdateBoard({ ...board!, columns });
+      firebaseUpdateBoard({ ...boardData!, columns });
     } else {
       // moving around 2 diff columns
       const result = move(
-        board!.columns[sourceColumnIndex].items,
-        board!.columns[destinationColumnIndex].items,
+        boardData!.columns[sourceColumnIndex].items,
+        boardData!.columns[destinationColumnIndex].items,
         source.index,
         destination.index,
         sourceColumnIndex,
         destinationColumnIndex
       );
-      const columns = produce(board!.columns, (draft) => {
+      const columns = produce(boardData!.columns, (draft) => {
         draft[sourceColumnIndex].items = result[sourceColumnIndex];
         draft[destinationColumnIndex].items = result[destinationColumnIndex];
       });
-      firebaseUpdateBoard({ ...board!, columns });
+      firebaseUpdateBoard({ ...boardData!, columns });
     }
   }
 
   return (
     <PageLayout>
-      {board === null ? (
+      {boardData === null ? (
         <FullPageLoader />
       ) : (
         <Box>
@@ -181,7 +188,8 @@ const BoardPage = () => {
           >
             <BoardHeader
               openSettings={onSettingsOpen}
-              board={board}
+              board={board!}
+              boardData={boardData}
               firebaseUpdateBoard={firebaseUpdateBoard}
             />
             <Divider mb={4} />
@@ -208,7 +216,7 @@ const BoardPage = () => {
                           : "inherit"
                       }
                     >
-                      {board.columns.map((column, index) => (
+                      {boardData.columns.map((column, index) => (
                         <Column
                           column={column}
                           columnIndex={index}
@@ -247,7 +255,7 @@ const BoardPage = () => {
           <BoardSettingsModal
             modalOpen={isSettingsOpen}
             modalClose={onSettingsClose}
-            board={board!}
+            boardData={boardData!}
             updateBoard={updateBoardMetadata}
             deleteBoard={deleteBoard}
           />

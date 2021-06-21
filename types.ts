@@ -1,18 +1,22 @@
 
-export type ColumnItemType = {
+export type ColumnItem = {
   name: string;
   createdAt: number;
 };
 
-export type ColumnType = {
+export type Column = {
   name: string;
-  items?: ColumnItemType[];
+  items?: ColumnItem[];
 };
 
-export type BoardType = {
-  id: string;
+export type Board = {
   name: string;
-  columns: ColumnType[]
+  createdAt: number;
+  updatedAt: number;
+}
+
+export type BoardData = {
+  columns: Column[]
   workInterval: number;
   shortRestTime: number;
   longRestTime: number;

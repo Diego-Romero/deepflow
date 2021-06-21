@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { ColumnItemType, ColumnType as Col } from "../types";
+import { ColumnItem as ColItem, Column as Col } from "../types";
 import { ColumnItem } from "./ColumnItem";
 import { ColumnSettingsModal } from "./ColumnSettingsModal";
 import { CreateItemModal } from "./CreateItemModal";
@@ -30,7 +30,7 @@ interface Props {
   updateItem: (
     columnIndex: number,
     itemIndex: number,
-    item: ColumnItemType
+    item: ColItem
   ) => void;
   deleteItem: (columnIndex: number, itemIndex: number) => void;
   deleteColumn: (index: number) => void;
