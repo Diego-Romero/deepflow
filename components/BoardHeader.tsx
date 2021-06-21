@@ -6,12 +6,15 @@ import {
   IconButton,
   Tooltip,
   HStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { BsStopFill } from "react-icons/bs";
 import React, { useEffect } from "react";
 import { IoMdPlay } from "react-icons/io";
+import { BsArrowsAngleExpand } from "react-icons/bs";
 import { BoardType } from "../types";
 import { formatWatchTime } from "../utils/util-functions";
+import { TimerModal } from "./TimerModal";
 
 interface Props {
   openSettings: () => void;
@@ -27,6 +30,11 @@ export const BoardHeader: React.FC<Props> = ({
   firebaseUpdateBoard,
 }) => {
   const [remainingTime, setRemainingTime] = React.useState<string>(``);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    if (board.isTimerPlaying) onOpen();
+  }, []);
 
   useEffect(() => {
     if (!board.isTimerPlaying && board.timerEndTime !== TIMER_DEFAULT_TIME) {
@@ -80,15 +88,15 @@ export const BoardHeader: React.FC<Props> = ({
     const now = new Date();
     let countdownDate = new Date();
     if (board.onLongBreak) {
-      // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
-      countdownDate.setTime(now.getTime() + board.longRestTime * 60 * 1000);
+      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
+      // countdownDate.setTime(now.getTime() + board.longRestTime * 60 * 1000);
     } else if (board.onShortBreak)
-      // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000);
-      // to be used when testing
-      countdownDate.setTime(now.getTime() + board.shortRestTime * 60 * 1000);
+      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000);
+    // to be used when testing
+    // countdownDate.setTime(now.getTime() + board.shortRestTime * 60 * 1000);
     else {
-      // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
-      countdownDate.setTime(now.getTime() + board.workInterval * 60 * 1000);
+      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
+      // countdownDate.setTime(now.getTime() + board.workInterval * 60 * 1000);
     }
     // calculates the next valid timer and starts the board
     firebaseUpdateBoard({
@@ -96,6 +104,7 @@ export const BoardHeader: React.FC<Props> = ({
       timerEndTime: countdownDate.getTime(),
       isTimerPlaying: true,
     });
+    onOpen();
   };
 
   const stopTimer = () => {
@@ -179,7 +188,9 @@ export const BoardHeader: React.FC<Props> = ({
             }
           >
             {board.isTimerPlaying ? (
-              <TimerRunning />
+              <Flex flexDir="row" alignItems="center" justifyContent="center">
+                <TimerRunning />
+              </Flex>
             ) : (
               <span>{displayNextTimer()}</span>
             )}
@@ -219,6 +230,20 @@ export const BoardHeader: React.FC<Props> = ({
             {board.pomodoroCount} / {board.targetPerDay}
           </Text>
 
+          <Tooltip label="Full screen timer">
+            <IconButton
+              isRound
+              aria-label="full screen timer"
+              icon={<BsArrowsAngleExpand />}
+              // color="black"
+              colorScheme="blue"
+              variant="outline"
+              size="md"
+              onClick={onOpen}
+              ml={2}
+              shadow="lg"
+            />
+          </Tooltip>
           <Tooltip label="Reset timer">
             <IconButton
               isRound
@@ -244,18 +269,16 @@ export const BoardHeader: React.FC<Props> = ({
               shadow="md"
             />
           </Tooltip>
-          {/* <Tooltip label="Add Row">
-          <IconButton
-            isRound
-            onClick={openNewColumnModal}
-            variant="outline"
-            aria-label="Add row"
-            colorScheme="purple"
-            icon={<AddIcon />}
-          />
-        </Tooltip> */}
         </ButtonGroup>
       </Flex>
+      <TimerModal
+        modalOpen={isOpen}
+        modalClose={onClose}
+        board={board}
+        remainingTime={board.isTimerPlaying ? remainingTime : displayNextTimer()}
+        stopTimer={stopTimer}
+        startTimer={startNextTimer}
+      />
     </Flex>
   );
 };
