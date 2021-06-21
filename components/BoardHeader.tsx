@@ -10,11 +10,14 @@ import {
 } from "@chakra-ui/react";
 import { BsStopFill } from "react-icons/bs";
 import React, { useEffect } from "react";
+import useSound from "use-sound";
 import { IoMdPlay } from "react-icons/io";
 import { BsArrowsAngleExpand } from "react-icons/bs";
 import { BoardType } from "../types";
 import { formatWatchTime } from "../utils/util-functions";
 import { TimerModal } from "./TimerModal";
+import workTimerDoneSound from "../public/sounds/work-timer-done.mp3";
+import restTimerDoneSound from "../public/sounds/rest-timer-done.mp3";
 
 interface Props {
   openSettings: () => void;
@@ -31,6 +34,8 @@ export const BoardHeader: React.FC<Props> = ({
 }) => {
   const [remainingTime, setRemainingTime] = React.useState<string>(``);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [playWorkTimerDone] = useSound(workTimerDoneSound);
+  const [playRestTimerDone] = useSound(restTimerDoneSound);
 
   useEffect(() => {
     if (board.isTimerPlaying) onOpen();
@@ -88,15 +93,14 @@ export const BoardHeader: React.FC<Props> = ({
     const now = new Date();
     let countdownDate = new Date();
     if (board.onLongBreak) {
-      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
+      // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
       // countdownDate.setTime(now.getTime() + board.longRestTime * 60 * 1000);
     } else if (board.onShortBreak)
-      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000);
-    // to be used when testing
-    // countdownDate.setTime(now.getTime() + board.shortRestTime * 60 * 1000);
+      // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
+      countdownDate.setTime(now.getTime() + board.shortRestTime * 60 * 1000);
     else {
-      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
-      // countdownDate.setTime(now.getTime() + board.workInterval * 60 * 1000);
+      // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
+      countdownDate.setTime(now.getTime() + board.workInterval * 60 * 1000);
     }
     // calculates the next valid timer and starts the board
     firebaseUpdateBoard({
@@ -123,7 +127,11 @@ export const BoardHeader: React.FC<Props> = ({
     const minutes = Math.floor((difference / 1000 / 60) % 60);
     const seconds = Math.floor((difference / 1000) % 60);
 
-    if (minutes === 0 && seconds === 0) setIsTimerPlaying(false);
+    if (minutes === 0 && seconds === 0) {
+      if (board.onShortBreak || board.onLongBreak) playRestTimerDone();
+      else playWorkTimerDone();
+      setIsTimerPlaying(false);
+    }
 
     const formattedTime = `${formatWatchTime(minutes)}:${formatWatchTime(
       seconds
@@ -166,6 +174,8 @@ export const BoardHeader: React.FC<Props> = ({
         {board.name}
       </Text>
       <Flex flexDir="row" alignItems="center">
+        {/* <audio src={workTimerDoneSound} controls></audio>
+        <button onClick={playWorkTimerDone}>play sound</button> */}
         <Flex
           borderWidth="1px"
           bgColor="gray.100"
@@ -275,7 +285,9 @@ export const BoardHeader: React.FC<Props> = ({
         modalOpen={isOpen}
         modalClose={onClose}
         board={board}
-        remainingTime={board.isTimerPlaying ? remainingTime : displayNextTimer()}
+        remainingTime={
+          board.isTimerPlaying ? remainingTime : displayNextTimer()
+        }
         stopTimer={stopTimer}
         startTimer={startNextTimer}
       />
