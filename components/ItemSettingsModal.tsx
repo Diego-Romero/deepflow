@@ -1,27 +1,28 @@
 import {
   Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
+  Text,
   IconButton,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Stack,
   useMediaQuery,
 } from "@chakra-ui/react";
 import React from "react";
 import * as Yup from "yup";
-import { Field, Form, Formik } from "formik";
-import { validation } from "../utils/util-functions";
+import { Form, Formik } from "formik";
+import { longDateFormat, shortDateFormat, validation } from "../utils/util-functions";
 import { ColumnItem } from "../types";
 import { DeleteIcon } from "@chakra-ui/icons";
+import { InputControl, SwitchControl, TextareaControl } from "formik-chakra-ui";
 
-export interface ContactFormValues {
+export interface ItemSettingsValues {
   name: string;
+  description: string;
+  done: boolean;
 }
 
 const validationSchema = Yup.object().shape({
@@ -53,8 +54,10 @@ export const ItemSettingsModal: React.FC<Props> = ({
 }) => {
   const [isLargerThan480] = useMediaQuery("(min-width: 480px)");
 
-  const initialValues: ContactFormValues = {
+  const initialValues: ItemSettingsValues = {
     name: item.name,
+    description: item.description || "",
+    done: item.done || false,
   };
 
   return (
@@ -70,30 +73,25 @@ export const ItemSettingsModal: React.FC<Props> = ({
             validateOnBlur={false}
             onSubmit={(values, actions) => {
               actions.setSubmitting(false);
-              updateItem(colIndex, itemIndex, {...item, ...values});
+              updateItem(colIndex, itemIndex, { ...item, ...values });
               modalClose();
             }}
             validationSchema={validationSchema}
           >
             {(props) => (
               <Form>
-                <Field name="name">
-                  {({ field, form }) => (
-                    <FormControl
-                      id="name"
-                      isRequired
-                      isInvalid={form.errors.name && form.touched.name}
-                    >
-                      <FormLabel htmlFor="name">Name</FormLabel>
-                      <Input
-                        {...field}
-                        type="text"
-                        autoFocus={isLargerThan480}
-                      />
-                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
+                <Stack spacing={4}>
+                  <InputControl name="name" label="Name" isRequired />
+                  <TextareaControl
+                    name="description"
+                    label="Description"
+                    textareaProps={{ rows: 6 }}
+                  />
+                  <SwitchControl name="done" label="Done" />
+                  <Text color="gray.500">
+                    Created: {shortDateFormat(item.createdAt)}
+                  </Text>
+                </Stack>
                 <Button
                   mt={8}
                   isFullWidth

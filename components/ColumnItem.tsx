@@ -58,6 +58,8 @@ export const ColumnItem: React.FC<Props> = ({
               : "gray.900"
           }
           shadow="md"
+          textDecoration={item.done ? "line-through" : "inherit"}
+          color={item.done ? "gray.600" : "inherit"}
           cursor="pointer"
           mb={2}
           onClick={(e) => {

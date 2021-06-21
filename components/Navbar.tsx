@@ -1,7 +1,14 @@
-import { Box, Flex, HStack, IconButton, Tooltip, useDisclosure } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Flex,
+  HStack,
+  IconButton,
+  Tooltip,
+  useDisclosure,
+} from "@chakra-ui/react";
 import * as React from "react";
-import { IoMdHome, IoMdLogOut } from "react-icons/io";
-import { FaListUl } from "react-icons/fa";
+import { IoMdHome } from "react-icons/io";
 import { MdDashboard } from "react-icons/md";
 import { useAuthUser } from "next-firebase-auth";
 import { useRouter } from "next/router";
@@ -27,10 +34,10 @@ export const NavBar: React.FC = () => {
           <>
             <Tooltip label="Go to dashboard" aria-label="Go to dashboard">
               <IconButton
-                size="md"
                 variant="ghost"
+                size="lg"
                 color="current"
-                fontSize="2xl"
+                fontSize="3xl"
                 icon={<MdDashboard />}
                 aria-label={`Go to dashboard`}
                 onClick={() => router.push(config.routes.dashboard)}
@@ -66,7 +73,16 @@ export const NavBar: React.FC = () => {
                 aria-label={`Keyboard shortcuts`}
               />
             </Tooltip> */}
-            <Tooltip label="Logout" aria-label="Logout">
+            <Tooltip label="Profile" aria-label="Logout">
+              <Avatar
+                name="user"
+                src={AuthUser.photoURL as string}
+                size="md"
+                cursor="pointer"
+                onClick={() => router.push(config.routes.user)}
+              />
+            </Tooltip>
+            {/* <Tooltip label="Logout" aria-label="Logout">
               <IconButton
                 size="md"
                 variant="ghost"
@@ -78,7 +94,7 @@ export const NavBar: React.FC = () => {
                 icon={<IoMdLogOut />}
                 aria-label={`Logout`}
               />
-            </Tooltip>
+            </Tooltip> */}
           </>
         ) : null}
       </HStack>

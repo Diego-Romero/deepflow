@@ -70,7 +70,12 @@ const BoardPage = () => {
   }, []);
 
   const createNewItem = (listIndex: number, name: string) => {
-    const newItem: ColumnItem = { name, createdAt: Date.now() };
+    const newItem: ColumnItem = {
+      name,
+      createdAt: Date.now(),
+      done: false,
+      description: "",
+    };
     const columns = produce(boardData!.columns, (draft) => {
       const columnItems = boardData!.columns[listIndex].items || [];
       draft[listIndex].items = [...columnItems, newItem];
@@ -182,7 +187,9 @@ const BoardPage = () => {
       ) : (
         <Box>
           <Box display={[null, "none"]}>
-            <Heading mt={8} size="lg" textAlign="center" >Boards view not available on mobile yet</Heading> 
+            <Heading mt={8} size="lg" textAlign="center">
+              Boards view not available on mobile yet
+            </Heading>
           </Box>
 
           <Box display={["none", "block"]}>

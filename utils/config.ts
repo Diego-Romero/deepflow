@@ -1,6 +1,7 @@
 const config = {
   routes: {
     home: "/",
+    user: '/user',
     auth: "/auth",
     dashboard: "/dashboard",
   },

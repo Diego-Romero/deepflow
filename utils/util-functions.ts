@@ -1,4 +1,5 @@
 import { UseToastOptions } from "@chakra-ui/react";
+import moment from "moment";
 import { NextApiRequest } from "next";
 import * as Yup from "yup";
 import { TemplateTypes } from "../components/CreateBoardModal";
@@ -175,4 +176,12 @@ export function toastConfig(
     duration: 2000,
     isClosable: true,
   };
+}
+
+export function shortDateFormat(date: number) {
+  return moment.unix(date).format("Do-MMM");
+}
+
+export function longDateFormat(date: number) {
+  return moment.unix(date).format("Do-MMM-YYYY h:mm a");
 }

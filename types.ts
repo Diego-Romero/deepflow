@@ -2,6 +2,8 @@
 export type ColumnItem = {
   name: string;
   createdAt: number;
+  description?: string;
+  done?: boolean;
 };
 
 export type Column = {
