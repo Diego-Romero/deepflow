@@ -94,7 +94,7 @@ export const BoardHeader: React.FC<Props> = ({
     let countdownDate = new Date();
     if (board.onLongBreak) {
       // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
-      // countdownDate.setTime(now.getTime() + board.longRestTime * 60 * 1000);
+      countdownDate.setTime(now.getTime() + board.longRestTime * 60 * 1000);
     } else if (board.onShortBreak)
       // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
       countdownDate.setTime(now.getTime() + board.shortRestTime * 60 * 1000);
