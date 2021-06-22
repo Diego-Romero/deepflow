@@ -131,7 +131,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
     const minutes = Math.floor((difference / 1000 / 60) % 60);
     const seconds = Math.floor((difference / 1000) % 60);
 
-    if (minutes === 0 && seconds === 0) {
+    if (minutes <= 0 && seconds <= 0) {
       if (user.onShortBreak || user.onLongBreak) playRestTimerDone();
       else playWorkTimerDone();
       setIsTimerPlaying(false);
@@ -255,6 +255,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
             size="md"
             variant="outline"
             ml={2}
+            disabled={user.isTimerPlaying}
             colorScheme="blue"
             onClick={resetTimer}
             shadow="lg"
@@ -266,6 +267,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
             size="md"
             variant="outline"
             ml={2}
+            disabled={user.isTimerPlaying}
             aria-label="update"
             icon={<SettingsIcon />}
             colorScheme="blue"

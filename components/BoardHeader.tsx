@@ -26,7 +26,6 @@ export const BoardHeader: React.FC<Props> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box>
-
     <Flex
       alignItems="center"
       mb={4}
@@ -34,13 +33,13 @@ export const BoardHeader: React.FC<Props> = ({
       justifyContent="flex-start"
       width="100%"
     >
-          <HStack spacing={1}>
+          <HStack spacing={4}>
       <Text fontSize="4xl" fontWeight="bold" noOfLines={1} isTruncated mb={0}>
         {board.name}
       </Text>
             <Tooltip label="Edit" aria-label="edit">
               <IconButton
-                size="sm"
+                size="lg"
                 variant="outline"
                 isRound
                 onClick={onOpen}

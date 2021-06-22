@@ -8,7 +8,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import * as React from "react";
-import { IoMdHome } from "react-icons/io";
+import { IoMdHome, IoMdLogOut } from "react-icons/io";
 import { MdDashboard } from "react-icons/md";
 import { useAuthUser } from "next-firebase-auth";
 import { useRouter } from "next/router";
@@ -68,7 +68,7 @@ export const NavBar: React.FC<Props> = (props) => {
         {/* <ColorModeSwitcher justifySelf="flex-end" /> */}
         {AuthUser.email ? (
           <>
-            <Tooltip label="Profile" aria-label="user profile">
+            {/* <Tooltip label="Profile" aria-label="user profile">
               <Avatar
                 name="user"
                 src={AuthUser.photoURL as string}
@@ -76,7 +76,7 @@ export const NavBar: React.FC<Props> = (props) => {
                 cursor="pointer"
                 onClick={() => router.push(config.routes.user)}
               />
-            </Tooltip>
+            </Tooltip> */}
             {/* <Tooltip label="Keyboard shortcuts" aria-label="Keyboard shortcuts">
               <IconButton
                 ml={4}
@@ -90,7 +90,7 @@ export const NavBar: React.FC<Props> = (props) => {
                 aria-label={`Keyboard shortcuts`}
               />
             </Tooltip> */}
-            {/* <Tooltip label="Logout" aria-label="Logout">
+            <Tooltip label="Logout" aria-label="Logout">
               <IconButton
                 size="md"
                 variant="ghost"
@@ -102,7 +102,7 @@ export const NavBar: React.FC<Props> = (props) => {
                 icon={<IoMdLogOut />}
                 aria-label={`Logout`}
               />
-            </Tooltip> */}
+            </Tooltip>
           </>
         ) : null}
       </HStack>

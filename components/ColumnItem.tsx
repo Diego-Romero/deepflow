@@ -1,4 +1,4 @@
-import { DragHandleIcon, EditIcon } from "@chakra-ui/icons";
+import { CheckIcon, DeleteIcon, DragHandleIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Flex,
   HStack,
@@ -72,6 +72,36 @@ export const ColumnItem: React.FC<Props> = ({
             <Text noOfLines={1}>{item.name}</Text>
           </Flex>
           <HStack spacing={1}>
+            {!item.done? 
+            
+            <Tooltip label="Mark as done" aria-label="mark as done">
+              <IconButton
+                size="sm"
+                variant="outline"
+                isRound
+                onClick={(e) => {
+                  e.stopPropagation()
+updateItem(columnIndex, itemIndex, {...item, done: true})
+                }}
+                icon={<CheckIcon />}
+                aria-label={"Mark as done"}
+              />
+            </Tooltip>
+          :
+            <Tooltip label="Delete item" aria-label="Delete item">
+              <IconButton
+                size="sm"
+                variant="outline"
+                isRound
+                onClick={(e) => {
+                  e.stopPropagation()
+                  deleteItem(columnIndex, itemIndex)
+                }}
+                icon={<DeleteIcon />}
+                aria-label={"Delete item"}
+              />
+            </Tooltip>
+          }
             <Tooltip label="Edit" aria-label="edit">
               <IconButton
                 size="sm"
