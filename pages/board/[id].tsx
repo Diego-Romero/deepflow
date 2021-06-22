@@ -73,8 +73,13 @@ const BoardPage = () => {
     });
   };
 
-  const firebaseUpdateBoard = (nextBoard: BoardData) => {
+  const updateBoardData = (nextBoard: BoardData) => {
     boardDataDbRef.set(nextBoard);
+  };
+
+  const updateBoard = (nextBoard: Board) => {
+    console.log('updating board', nextBoard)
+    boardDbRef.set(nextBoard);
   };
 
   useEffect(() => {
@@ -94,19 +99,19 @@ const BoardPage = () => {
       const columnItems = boardData!.columns[listIndex].items || [];
       draft[listIndex].items = [...columnItems, newItem];
     });
-    firebaseUpdateBoard({ ...boardData!, columns });
+    updateBoardData({ ...boardData!, columns });
   };
 
   const createNewColumn = (name: string) => {
     const columns = [...boardData!.columns, { name, items: [] }];
     const nextBoard = { ...boardData!, columns };
-    firebaseUpdateBoard(nextBoard);
+    updateBoardData(nextBoard);
   };
 
   const deleteColumn = (index: number) => {
     const columns = [...boardData!.columns];
     columns.splice(index, 1);
-    firebaseUpdateBoard({ ...boardData!, columns });
+    updateBoardData({ ...boardData!, columns });
   };
 
   const updateColumn = (name: string, index: number) => {
@@ -116,13 +121,9 @@ const BoardPage = () => {
     setBoardData({ ...boardData!, columns });
   };
 
-  const updateBoardMetadata = (boardUpdatedData: BoardSettingsValues) => {
-    const updatedBoard = { ...boardData!, ...boardUpdatedData };
-    firebaseUpdateBoard(updatedBoard);
-  };
-
   const deleteBoard = () => {
     boardDataDbRef.remove();
+    boardDbRef.remove();
     router.push(config.routes.dashboard);
   };
 
@@ -131,7 +132,7 @@ const BoardPage = () => {
       const items = draft!.columns[columnIndex].items;
       items!.splice(itemIndex, 1);
     });
-    firebaseUpdateBoard(updatedBoard);
+    updateBoardData(updatedBoard);
   };
 
   const updateItem = (
@@ -142,7 +143,7 @@ const BoardPage = () => {
     const updatedBoard = produce(boardData!, (draft) => {
       draft!.columns[columnIndex].items![itemIndex] = item;
     });
-    firebaseUpdateBoard(updatedBoard);
+    updateBoardData(updatedBoard);
   };
 
   function onDragEnd(result) {
@@ -156,7 +157,7 @@ const BoardPage = () => {
         source.index,
         destination.index
       );
-      firebaseUpdateBoard({ ...boardData!, columns });
+      updateBoardData({ ...boardData!, columns });
       return;
     }
 
@@ -175,7 +176,7 @@ const BoardPage = () => {
       const columns = produce(boardData!.columns, (draft) => {
         draft[sourceColumnIndex].items = items;
       });
-      firebaseUpdateBoard({ ...boardData!, columns });
+      updateBoardData({ ...boardData!, columns });
     } else {
       // moving around 2 diff columns
       const result = move(
@@ -190,7 +191,7 @@ const BoardPage = () => {
         draft[sourceColumnIndex].items = result[sourceColumnIndex];
         draft[destinationColumnIndex].items = result[destinationColumnIndex];
       });
-      firebaseUpdateBoard({ ...boardData!, columns });
+      updateBoardData({ ...boardData!, columns });
     }
   }
 
@@ -217,9 +218,9 @@ const BoardPage = () => {
               overflow="auto"
             >
               <BoardHeader
-                openSettings={onSettingsOpen}
                 board={board!}
-                firebaseUpdateBoard={firebaseUpdateBoard}
+                updateBoard={updateBoard}
+                deleteBoard={deleteBoard}
               />
               <Divider mb={4} />
               <Box>
@@ -281,21 +282,12 @@ const BoardPage = () => {
               modalClose={onClose}
               createColumn={createNewColumn}
             />
-            <BoardSettingsModal
-              modalOpen={isSettingsOpen}
-              modalClose={onSettingsClose}
-              boardData={boardData!}
-              updateBoard={updateBoardMetadata}
-              deleteBoard={deleteBoard}
-            />
           </Box>
         </Box>
       )}
     </PageLayout>
   );
 };
-
-// todo: insert values at the start
 
 export default withAuthUser({
   whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,

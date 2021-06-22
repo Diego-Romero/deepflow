@@ -55,7 +55,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
     <Modal isOpen={modalOpen} onClose={modalClose} size="lg">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Board Settings</ModalHeader>
+        <ModalHeader>Pomodoro settings</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Formik

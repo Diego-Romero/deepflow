@@ -20,7 +20,7 @@ const styles = {
 const DemoLandingPage = () => {
   const AuthUser = useAuthUser();
   return (
-    <PageLayout>
+    <PageLayout user={null}>
       {/* <Header email={AuthUser.email} signOut={AuthUser.signOut} /> */}
       <div style={styles.content}>
         <div style={styles.infoTextContainer}>

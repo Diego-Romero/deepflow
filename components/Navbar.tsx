@@ -39,15 +39,6 @@ export const NavBar: React.FC<Props> = (props) => {
       <HStack spacing={2}>
         {AuthUser.email ? (
           <>
-            <Tooltip label="Profile" aria-label="user profile">
-              <Avatar
-                name="user"
-                src={AuthUser.photoURL as string}
-                size="md"
-                cursor="pointer"
-                onClick={() => router.push(config.routes.user)}
-              />
-            </Tooltip>
             <Tooltip label="Go to dashboard" aria-label="Go to dashboard">
               <IconButton
                 variant="ghost"
@@ -72,11 +63,20 @@ export const NavBar: React.FC<Props> = (props) => {
           />
         )}
       </HStack>
-      <HStack>
+      <HStack spacing={4}>
         {user !== null ? <Timer user={user} /> : null}
         {/* <ColorModeSwitcher justifySelf="flex-end" /> */}
         {AuthUser.email ? (
           <>
+            <Tooltip label="Profile" aria-label="user profile">
+              <Avatar
+                name="user"
+                src={AuthUser.photoURL as string}
+                size="md"
+                cursor="pointer"
+                onClick={() => router.push(config.routes.user)}
+              />
+            </Tooltip>
             {/* <Tooltip label="Keyboard shortcuts" aria-label="Keyboard shortcuts">
               <IconButton
                 ml={4}
