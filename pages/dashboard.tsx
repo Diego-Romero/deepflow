@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useAuthUser, withAuthUser, AuthAction } from "next-firebase-auth";
-import Firebase from "firebase";
-import FullPageLoader from "../components/FullPageLoader";
-import { PageLayout } from "../components/PageLayout";
-import { Card } from "../components/Card";
+import React, { useEffect, useState } from 'react';
+import { useAuthUser, withAuthUser, AuthAction } from 'next-firebase-auth';
+import Firebase from 'firebase';
+import FullPageLoader from '../components/FullPageLoader';
+import { PageLayout } from '../components/PageLayout';
+import { Card } from '../components/Card';
 import {
   Box,
   Flex,
@@ -15,17 +15,17 @@ import {
   Button,
   useDisclosure,
   CircularProgress,
-} from "@chakra-ui/react";
-import { Board, User } from "../types";
-import { useRouter } from "next/router";
-import { IoMdArrowForward } from "react-icons/io";
+} from '@chakra-ui/react';
+import { Board, User } from '../types';
+import { useRouter } from 'next/router';
+import { IoMdArrowForward } from 'react-icons/io';
 import {
   CreateBoardModal,
   TemplateTypes,
-} from "../components/CreateBoardModal";
-import { Fragment } from "react";
-import { createTemplateColumns } from "../utils/util-functions";
-import config from "../utils/config";
+} from '../components/CreateBoardModal';
+import { Fragment } from 'react';
+import { createTemplateColumns } from '../utils/util-functions';
+import config from '../utils/config';
 
 interface BoardWithId extends Board {
   id: string;
@@ -67,7 +67,7 @@ const DashboardPage = () => {
   function firebaseUpdateUser(userUpdated: User) {
     UserRef.set(userUpdated);
     // boardDataDbRef.set(nextBoard);
-    console.log("need to update user"); // todo: finish updating user
+    console.log('need to update user'); // todo: finish updating user
   }
 
   useEffect(() => {
@@ -75,12 +75,12 @@ const DashboardPage = () => {
   }, []);
 
   const getUser = () => {
-    UserRef.on("value", (snapshot) => {
+    UserRef.on('value', (snapshot) => {
       if (snapshot.val()) {
         const user = snapshot.val() as User;
         setUser(user);
         if (user.boards) setBoards(mapBoardsFromFirebase(user.boards));
-      setLoading(false);
+        setLoading(false);
       }
     });
   };
@@ -104,7 +104,7 @@ const DashboardPage = () => {
     <PageLayout user={user}>
       <Flex justifyContent="center">
         <Box
-          width={["100%", "100%", "container.sm"]}
+          width={['100%', '100%', 'container.sm']}
           px={[4, null, 8]}
           py={[8, 8, 12]}
         >
@@ -135,7 +135,7 @@ const DashboardPage = () => {
                             alignItems="center"
                             _hover={{
                               backgroundColor:
-                                colorMode === "light" ? "gray.100" : "gray.900",
+                                colorMode === 'light' ? 'gray.100' : 'gray.900',
                             }}
                             justifyContent="space-between"
                             onClick={() => router.push(`/board/${board.id}`)}
@@ -162,7 +162,7 @@ const DashboardPage = () => {
                   isFullWidth
                   bgGradient="linear(to-r, cyan.700,purple.500)"
                   _hover={{
-                    bgGradient: "linear(to-r, cyan.600,purple.400)",
+                    bgGradient: 'linear(to-r, cyan.600,purple.400)',
                   }}
                   onClick={onCreateModalOpen}
                   color="white"

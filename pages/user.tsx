@@ -1,8 +1,8 @@
-import React from "react";
-import { useAuthUser, withAuthUser, AuthAction } from "next-firebase-auth";
-import FullPageLoader from "../components/FullPageLoader";
-import { PageLayout } from "../components/PageLayout";
-import { Card } from "../components/Card";
+import React from 'react';
+import { useAuthUser, withAuthUser, AuthAction } from 'next-firebase-auth';
+import FullPageLoader from '../components/FullPageLoader';
+import { PageLayout } from '../components/PageLayout';
+import { Card } from '../components/Card';
 import {
   Avatar,
   Box,
@@ -11,9 +11,9 @@ import {
   Heading,
   Stack,
   Text,
-} from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import config from "../utils/config";
+} from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import config from '../utils/config';
 
 const DashboardPage = () => {
   const authUser = useAuthUser();

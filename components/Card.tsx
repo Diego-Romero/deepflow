@@ -1,11 +1,11 @@
-import { Box } from "@chakra-ui/react";
-import React from "react";
+import { Box } from '@chakra-ui/react';
+import React from 'react';
 
 interface Props {
   maxHeight?: string;
 }
 
-export const Card: React.FC<Props> = ({ children, maxHeight = "auto" }) => (
+export const Card: React.FC<Props> = ({ children, maxHeight = 'auto' }) => (
   <Box
     borderStyle="solid"
     borderRadius="12px"

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { withAuthUser, AuthAction, useAuthUser } from "next-firebase-auth";
+import React, { useEffect, useState } from 'react';
+import { withAuthUser, AuthAction, useAuthUser } from 'next-firebase-auth';
 import {
   Box,
   Divider,
@@ -9,24 +9,24 @@ import {
   Tooltip,
   useColorMode,
   useDisclosure,
-} from "@chakra-ui/react";
-import Firebase from "firebase";
-import { PageLayout } from "../../components/PageLayout";
-import FullPageLoader from "../../components/FullPageLoader";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import produce from "immer";
-import { ColumnItem, Board, BoardData, User } from "../../types";
-import { move, reorder, reorderList } from "../../utils/util-functions";
-import { BoardHeader } from "../../components/BoardHeader";
-import { Column } from "../../components/Column";
-import { CreateColumnModal } from "../../components/CreateColumnModal";
+} from '@chakra-ui/react';
+import Firebase from 'firebase';
+import { PageLayout } from '../../components/PageLayout';
+import FullPageLoader from '../../components/FullPageLoader';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import produce from 'immer';
+import { ColumnItem, Board, BoardData, User } from '../../types';
+import { move, reorder, reorderList } from '../../utils/util-functions';
+import { BoardHeader } from '../../components/BoardHeader';
+import { Column } from '../../components/Column';
+import { CreateColumnModal } from '../../components/CreateColumnModal';
 import {
   BoardSettingsModal,
   BoardSettingsValues,
-} from "../../components/BoardSettingsModal";
-import { useRouter } from "next/router";
-import config from "../../utils/config";
-import { AddIcon } from "@chakra-ui/icons";
+} from '../../components/BoardSettingsModal';
+import { useRouter } from 'next/router';
+import config from '../../utils/config';
+import { AddIcon } from '@chakra-ui/icons';
 
 const BoardPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -55,20 +55,20 @@ const BoardPage = () => {
   );
 
   const getBoard = () => {
-    boardDbRef.on("value", (snapshot) => {
-      console.log(snapshot.val())
+    boardDbRef.on('value', (snapshot) => {
+      console.log(snapshot.val());
       setBoard(snapshot.val() as Board);
     });
   };
 
   const getBoardData = () => {
-    boardDataDbRef.on("value", (snapshot) => {
+    boardDataDbRef.on('value', (snapshot) => {
       setBoardData(snapshot.val() as BoardData);
     });
   };
 
   const getUser = () => {
-    UserRef.on("value", (snapshot) => {
+    UserRef.on('value', (snapshot) => {
       setUser(snapshot.val() as User);
     });
   };
@@ -78,7 +78,7 @@ const BoardPage = () => {
   };
 
   const updateBoard = (nextBoard: Board) => {
-    console.log('updating board', nextBoard)
+    console.log('updating board', nextBoard);
     boardDbRef.set(nextBoard);
   };
 
@@ -93,7 +93,7 @@ const BoardPage = () => {
       name,
       createdAt: Date.now(),
       done: false,
-      description: "",
+      description: '',
     };
     const columns = produce(boardData!.columns, (draft) => {
       const columnItems = boardData!.columns[listIndex].items || [];
@@ -151,7 +151,7 @@ const BoardPage = () => {
     if (!destination) {
       return;
     }
-    if (result.type === "column") {
+    if (result.type === 'column') {
       const columns = reorderList(
         boardData!.columns,
         source.index,
@@ -161,9 +161,9 @@ const BoardPage = () => {
       return;
     }
 
-    const sourceColumnIndex = parseInt(source.droppableId.split("-")[1]); // getting column index with the id
+    const sourceColumnIndex = parseInt(source.droppableId.split('-')[1]); // getting column index with the id
     const destinationColumnIndex = parseInt(
-      destination.droppableId.split("-")[1]
+      destination.droppableId.split('-')[1]
     ); // getting column index with the id
 
     if (source.droppableId === destination.droppableId) {
@@ -201,13 +201,13 @@ const BoardPage = () => {
         <FullPageLoader />
       ) : (
         <Box>
-          <Box display={[null, "none"]}>
+          <Box display={[null, 'none']}>
             <Heading mt={8} size="lg" textAlign="center">
               Boards view not available on mobile yet
             </Heading>
           </Box>
 
-          <Box display={["none", "block"]}>
+          <Box display={['none', 'block']}>
             {/* <pre>{JSON.stringify(board, null, 2)}</pre> */}
             <Flex
               px={8}
@@ -240,10 +240,10 @@ const BoardPage = () => {
                         alignItems="flex-start"
                         bg={
                           snapshot.isDraggingOver
-                            ? colorMode === "light"
-                              ? "gray.300"
-                              : "gray.700"
-                            : "inherit"
+                            ? colorMode === 'light'
+                              ? 'gray.300'
+                              : 'gray.700'
+                            : 'inherit'
                         }
                       >
                         {boardData.columns.map((column, index) => (

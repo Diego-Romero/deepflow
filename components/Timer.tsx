@@ -1,4 +1,4 @@
-import { RepeatIcon, SettingsIcon } from "@chakra-ui/icons";
+import { RepeatIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
   Flex,
   Text,
@@ -6,21 +6,21 @@ import {
   Tooltip,
   HStack,
   useDisclosure,
-} from "@chakra-ui/react";
-import { BsStopFill } from "react-icons/bs";
-import React, { useEffect } from "react";
-import useSound from "use-sound";
-import { IoMdPlay } from "react-icons/io";
-import { BsArrowsAngleExpand } from "react-icons/bs";
-import {  User } from "../types";
-import { formatWatchTime } from "../utils/util-functions";
-import { TimerModal } from "./TimerModal";
-import workTimerDoneSound from "../public/sounds/work-timer-done.mp3";
-import restTimerDoneSound from "../public/sounds/rest-timer-done.mp3";
-import Firebase from "firebase";
-import config from "../utils/config";
-import { useAuthUser } from "next-firebase-auth";
-import { TimerSettingsModal } from "./TimerSettingsModal";
+} from '@chakra-ui/react';
+import { BsStopFill } from 'react-icons/bs';
+import React, { useEffect } from 'react';
+import useSound from 'use-sound';
+import { IoMdPlay } from 'react-icons/io';
+import { BsArrowsAngleExpand } from 'react-icons/bs';
+import { User } from '../types';
+import { formatWatchTime } from '../utils/util-functions';
+import { TimerModal } from './TimerModal';
+import workTimerDoneSound from '../public/sounds/work-timer-done.mp3';
+import restTimerDoneSound from '../public/sounds/rest-timer-done.mp3';
+import Firebase from 'firebase';
+import config from '../utils/config';
+import { useAuthUser } from 'next-firebase-auth';
+import { TimerSettingsModal } from './TimerSettingsModal';
 
 interface Props {
   user: User;
@@ -30,8 +30,16 @@ const TIMER_DEFAULT_TIME = 0;
 
 export const Timer: React.FC<Props> = ({ user }) => {
   const [remainingTime, setRemainingTime] = React.useState<string>(``);
-  const { isOpen: isFullScreenTimerOpen, onOpen: onFullScreenTimerOpen, onClose: onFullScreenTimerClose } = useDisclosure();
-  const { isOpen: isTimerSettingsOpen, onOpen: onTimerSettingsOpen, onClose: onTimerSettingsClose } = useDisclosure();
+  const {
+    isOpen: isFullScreenTimerOpen,
+    onOpen: onFullScreenTimerOpen,
+    onClose: onFullScreenTimerClose,
+  } = useDisclosure();
+  const {
+    isOpen: isTimerSettingsOpen,
+    onOpen: onTimerSettingsOpen,
+    onClose: onTimerSettingsClose,
+  } = useDisclosure();
   const [playWorkTimerDone] = useSound(workTimerDoneSound);
   const [playRestTimerDone] = useSound(restTimerDoneSound);
   const authUser = useAuthUser();
@@ -40,9 +48,8 @@ export const Timer: React.FC<Props> = ({ user }) => {
     config.collections.user(authUser.id as string)
   );
 
-
   function firebaseUpdateBoard(userUpdated: User) {
-    UserRef.set(userUpdated)
+    UserRef.set(userUpdated);
   }
 
   useEffect(() => {
@@ -184,10 +191,10 @@ export const Timer: React.FC<Props> = ({ user }) => {
           mr={4}
           color={
             user.onShortBreak || user.onLongBreak
-              ? "green"
+              ? 'green'
               : user.isTimerPlaying
-              ? "orange.500"
-              : "inherit"
+              ? 'orange.500'
+              : 'inherit'
           }
         >
           {user.isTimerPlaying ? (
@@ -207,7 +214,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
                 icon={<BsStopFill />}
                 size="md"
                 colorScheme={
-                  user.onShortBreak || user.onLongBreak ? "green" : "orange"
+                  user.onShortBreak || user.onLongBreak ? 'green' : 'orange'
                 }
                 onClick={stopTimer}
                 shadow="lg"
@@ -222,7 +229,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
                 size="md"
                 onClick={startNextTimer}
                 colorScheme={
-                  user.onShortBreak || user.onLongBreak ? "green" : "blue"
+                  user.onShortBreak || user.onLongBreak ? 'green' : 'blue'
                 }
                 shadow="md"
               />
@@ -271,27 +278,25 @@ export const Timer: React.FC<Props> = ({ user }) => {
             aria-label="update"
             icon={<SettingsIcon />}
             colorScheme="blue"
-                  onClick={onTimerSettingsOpen}
+            onClick={onTimerSettingsOpen}
             shadow="lg"
           />
         </Tooltip>
       </Flex>
-      <TimerSettingsModal 
-        user={user} 
-                modalClose={onTimerSettingsClose}
-                updateUser={firebaseUpdateBoard}
-                modalOpen={isTimerSettingsOpen}
+      <TimerSettingsModal
+        user={user}
+        modalClose={onTimerSettingsClose}
+        updateUser={firebaseUpdateBoard}
+        modalOpen={isTimerSettingsOpen}
       />
       <TimerModal
-	  modalOpen={isFullScreenTimerOpen}
-	  modalClose={onFullScreenTimerClose}
-                user={user}
-	  remainingTime={
-	    user.isTimerPlaying ? remainingTime : displayNextTimer()
-	  }
-	  stopTimer={stopTimer}
-	  startTimer={startNextTimer}
-	/>
+        modalOpen={isFullScreenTimerOpen}
+        modalClose={onFullScreenTimerClose}
+        user={user}
+        remainingTime={user.isTimerPlaying ? remainingTime : displayNextTimer()}
+        stopTimer={stopTimer}
+        startTimer={startNextTimer}
+      />
     </Flex>
   );
 };

@@ -1,9 +1,14 @@
-import React, { useEffect } from "react";
-import { AuthAction, useAuthUser, withAuthUser, withAuthUserTokenSSR } from "next-firebase-auth";
-import { PageLayout } from "../components/PageLayout";
-import { Button, Flex, Heading, Stack } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import config from "../utils/config";
+import React, { useEffect } from 'react';
+import {
+  AuthAction,
+  useAuthUser,
+  withAuthUser,
+  withAuthUserTokenSSR,
+} from 'next-firebase-auth';
+import { PageLayout } from '../components/PageLayout';
+import { Button, Flex, Heading, Stack } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import config from '../utils/config';
 
 const LandingPage = () => {
   const AuthUser = useAuthUser();
@@ -27,7 +32,7 @@ const LandingPage = () => {
               color="white"
               bgGradient="linear(to-r, cyan.700,purple.500)"
               _hover={{
-                bgGradient: "linear(to-r, cyan.600,purple.400)",
+                bgGradient: 'linear(to-r, cyan.600,purple.400)',
               }}
               onClick={() => {
                 router.push(config.routes.auth);
@@ -42,7 +47,7 @@ const LandingPage = () => {
             color="white"
             bgGradient="linear(to-r, cyan.700,purple.500)"
             _hover={{
-              bgGradient: "linear(to-r, cyan.600,purple.400)",
+              bgGradient: 'linear(to-r, cyan.600,purple.400)',
             }}
             onClick={() => router.push(config.routes.dashboard)}
             mb={4}

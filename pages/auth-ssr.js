@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 import {
   withAuthUser,
   withAuthUserTokenSSR,
   AuthAction,
-} from 'next-firebase-auth'
-import FirebaseAuth from '../components/FirebaseAuth'
+} from 'next-firebase-auth';
+import FirebaseAuth from '../components/FirebaseAuth';
 
 const styles = {
   content: {
@@ -15,7 +15,7 @@ const styles = {
     justifyContent: 'center',
     margin: 16,
   },
-}
+};
 
 const Auth = () => (
   <div style={styles.content}>
@@ -26,14 +26,12 @@ const Auth = () => (
         app if the user is already authenticated.
       </p>
     </div>
-    <div>
-      {/* <FirebaseAuth /> */}
-    </div>
+    <div>{/* <FirebaseAuth /> */}</div>
   </div>
-)
+);
 
 export const getServerSideProps = withAuthUserTokenSSR({
   whenAuthed: AuthAction.REDIRECT_TO_APP,
-})()
+})();
 
-export default withAuthUser({ whenAuthed: AuthAction.REDIRECT_TO_APP })(Auth)
+export default withAuthUser({ whenAuthed: AuthAction.REDIRECT_TO_APP })(Auth);

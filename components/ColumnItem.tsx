@@ -1,4 +1,9 @@
-import { CheckIcon, DeleteIcon, DragHandleIcon, EditIcon } from "@chakra-ui/icons";
+import {
+  CheckIcon,
+  DeleteIcon,
+  DragHandleIcon,
+  EditIcon,
+} from '@chakra-ui/icons';
 import {
   Flex,
   HStack,
@@ -7,11 +12,11 @@ import {
   Tooltip,
   useColorMode,
   useDisclosure,
-} from "@chakra-ui/react";
-import React from "react";
-import { Draggable } from "react-beautiful-dnd";
-import { ColumnItem as ColItem } from "../types";
-import { ItemSettingsModal } from "./ItemSettingsModal";
+} from '@chakra-ui/react';
+import React from 'react';
+import { Draggable } from 'react-beautiful-dnd';
+import { ColumnItem as ColItem } from '../types';
+import { ItemSettingsModal } from './ItemSettingsModal';
 
 interface Props {
   item: ColItem;
@@ -51,15 +56,15 @@ export const ColumnItem: React.FC<Props> = ({
           borderWidth="1px"
           borderRadius="md"
           bgColor={
-            colorMode === "light"
+            colorMode === 'light'
               ? dragSnapshot.isDragging
-                ? "gray.100"
-                : "white"
-              : "gray.900"
+                ? 'gray.100'
+                : 'white'
+              : 'gray.900'
           }
           shadow="md"
-          textDecoration={item.done ? "line-through" : "inherit"}
-          color={item.done ? "gray.600" : "inherit"}
+          textDecoration={item.done ? 'line-through' : 'inherit'}
+          color={item.done ? 'gray.600' : 'inherit'}
           cursor="pointer"
           mb={2}
           onClick={(e) => {
@@ -72,36 +77,35 @@ export const ColumnItem: React.FC<Props> = ({
             <Text noOfLines={1}>{item.name}</Text>
           </Flex>
           <HStack spacing={1}>
-            {!item.done? 
-            
-            <Tooltip label="Mark as done" aria-label="mark as done">
-              <IconButton
-                size="sm"
-                variant="outline"
-                isRound
-                onClick={(e) => {
-                  e.stopPropagation()
-updateItem(columnIndex, itemIndex, {...item, done: true})
-                }}
-                icon={<CheckIcon />}
-                aria-label={"Mark as done"}
-              />
-            </Tooltip>
-          :
-            <Tooltip label="Delete item" aria-label="Delete item">
-              <IconButton
-                size="sm"
-                variant="outline"
-                isRound
-                onClick={(e) => {
-                  e.stopPropagation()
-                  deleteItem(columnIndex, itemIndex)
-                }}
-                icon={<DeleteIcon />}
-                aria-label={"Delete item"}
-              />
-            </Tooltip>
-          }
+            {!item.done ? (
+              <Tooltip label="Mark as done" aria-label="mark as done">
+                <IconButton
+                  size="sm"
+                  variant="outline"
+                  isRound
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    updateItem(columnIndex, itemIndex, { ...item, done: true });
+                  }}
+                  icon={<CheckIcon />}
+                  aria-label={'Mark as done'}
+                />
+              </Tooltip>
+            ) : (
+              <Tooltip label="Delete item" aria-label="Delete item">
+                <IconButton
+                  size="sm"
+                  variant="outline"
+                  isRound
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteItem(columnIndex, itemIndex);
+                  }}
+                  icon={<DeleteIcon />}
+                  aria-label={'Delete item'}
+                />
+              </Tooltip>
+            )}
             <Tooltip label="Edit" aria-label="edit">
               <IconButton
                 size="sm"
@@ -109,7 +113,7 @@ updateItem(columnIndex, itemIndex, {...item, done: true})
                 isRound
                 onClick={onSettingsOpen}
                 icon={<EditIcon />}
-                aria-label={"Edit"}
+                aria-label={'Edit'}
               />
             </Tooltip>
           </HStack>

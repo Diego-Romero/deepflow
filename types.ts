@@ -9,8 +9,15 @@ export type User = {
   onShortBreak: boolean;
   onLongBreak: boolean;
   isTimerPlaying: boolean;
-  boards?: Board[]
-}
+  boards?: Board[];
+  todos: TodoItem[];
+};
+
+export type TodoItem = {
+  name: string;
+  createdAt: number;
+  done: boolean;
+};
 
 export type ColumnItem = {
   name: string;
@@ -28,8 +35,8 @@ export type Board = {
   name: string;
   createdAt: number;
   updatedAt: number;
-}
+};
 
 export type BoardData = {
-  columns: Column[]
-}
+  columns: Column[];
+};

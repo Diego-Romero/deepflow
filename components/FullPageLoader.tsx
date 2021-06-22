@@ -1,5 +1,5 @@
-import { CircularProgress, Flex, Heading } from "@chakra-ui/react";
-import React from "react";
+import { CircularProgress, Flex, Heading } from '@chakra-ui/react';
+import React from 'react';
 
 const FullPageLoader = () => (
   <Flex

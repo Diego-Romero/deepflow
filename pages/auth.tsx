@@ -1,10 +1,10 @@
-import React from "react";
-import { withAuthUser, AuthAction } from "next-firebase-auth";
-import FirebaseAuth from "../components/FirebaseAuth";
-import { PageLayout } from "../components/PageLayout";
-import { Card } from "../components/Card";
-import { Button, Flex, Heading, Stack } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+import React from 'react';
+import { withAuthUser, AuthAction } from 'next-firebase-auth';
+import FirebaseAuth from '../components/FirebaseAuth';
+import { PageLayout } from '../components/PageLayout';
+import { Card } from '../components/Card';
+import { Button, Flex, Heading, Stack } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 
 const Auth = () => {
   const router = useRouter();
@@ -18,7 +18,7 @@ const Auth = () => {
             <Button
               colorScheme="gray"
               size="sm"
-              onClick={() => router.push("/")}
+              onClick={() => router.push('/')}
             >
               Back to home
             </Button>

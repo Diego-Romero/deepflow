@@ -9,12 +9,12 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-} from "@chakra-ui/react";
-import { NumberInputControl } from "formik-chakra-ui";
-import React from "react";
-import * as Yup from "yup";
-import { Form, Formik } from "formik";
-import {  User } from "../types";
+} from '@chakra-ui/react';
+import { NumberInputControl } from 'formik-chakra-ui';
+import React from 'react';
+import * as Yup from 'yup';
+import { Form, Formik } from 'formik';
+import { User } from '../types';
 
 export interface UserTimerSettingsValues {
   workInterval: number;
@@ -41,7 +41,6 @@ export const TimerSettingsModal: React.FC<Props> = ({
   updateUser,
   user,
 }) => {
-
   const initialValues: UserTimerSettingsValues = {
     workInterval: user.workInterval || 25,
     shortRestTime: user.shortRestTime || 5,
@@ -62,7 +61,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
             initialValues={initialValues}
             onSubmit={(values, actions) => {
               actions.setSubmitting(false);
-              updateUser({...user, ...values}); 
+              updateUser({ ...user, ...values });
               modalClose();
             }}
             validationSchema={validationSchema}
@@ -78,7 +77,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                   <Grid
                     gridColumnGap={[null, null, 4]}
                     gridRowGap={5}
-                    gridTemplateColumns={["1fr", "1fr", "repeat(2, 1fr)"]}
+                    gridTemplateColumns={['1fr', '1fr', 'repeat(2, 1fr)']}
                   >
                     <NumberInputControl
                       name="workInterval"
@@ -91,7 +90,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                         max: 120,
                         step: 5,
                         clampValueOnBlur: true,
-                        inputMode: "numeric",
+                        inputMode: 'numeric',
                         precision: 0,
                       }}
                     />
@@ -107,7 +106,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                         max: 60,
                         step: 5,
                         clampValueOnBlur: true,
-                        inputMode: "numeric",
+                        inputMode: 'numeric',
                         precision: 0,
                       }}
                     />
@@ -122,7 +121,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                         max: 10,
                         step: 1,
                         clampValueOnBlur: true,
-                        inputMode: "numeric",
+                        inputMode: 'numeric',
                         precision: 0,
                       }}
                     />
@@ -137,7 +136,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                         max: 120,
                         step: 5,
                         clampValueOnBlur: true,
-                        inputMode: "numeric",
+                        inputMode: 'numeric',
                         precision: 0,
                       }}
                     />
@@ -152,7 +151,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                         max: 20,
                         step: 1,
                         clampValueOnBlur: true,
-                        inputMode: "numeric",
+                        inputMode: 'numeric',
                         precision: 0,
                       }}
                     />

@@ -1,21 +1,20 @@
 import {
-  Avatar,
-  Box,
   Flex,
   HStack,
   IconButton,
   Tooltip,
   useDisclosure,
-} from "@chakra-ui/react";
-import * as React from "react";
-import { IoMdHome, IoMdLogOut } from "react-icons/io";
-import { MdDashboard } from "react-icons/md";
-import { useAuthUser } from "next-firebase-auth";
-import { useRouter } from "next/router";
-import config from "../utils/config";
-import { KeymapModal } from "./KeymapModal";
-import { User } from "../types";
-import { Timer } from "./Timer";
+} from '@chakra-ui/react';
+import * as React from 'react';
+import { IoMdHome, IoMdLogOut } from 'react-icons/io';
+import { MdDashboard } from 'react-icons/md';
+import { useAuthUser } from 'next-firebase-auth';
+import { useRouter } from 'next/router';
+import config from '../utils/config';
+import { User } from '../types';
+import { Timer } from './Timer';
+import { BsListCheck } from 'react-icons/bs';
+import { TodosSideNav } from './TodosSideNav';
 
 interface Props {
   user: User | null;
@@ -25,7 +24,9 @@ export const NavBar: React.FC<Props> = (props) => {
   const { user } = props;
   const router = useRouter();
   const AuthUser = useAuthUser();
+  // const { isOpen: isKeyMapOpen, onOpen: onKeymapOpen, onClose: onKeymapClose } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  // const btnRef = React.useRef()
 
   return (
     <Flex
@@ -50,6 +51,17 @@ export const NavBar: React.FC<Props> = (props) => {
                 onClick={() => router.push(config.routes.dashboard)}
               />
             </Tooltip>
+            <Tooltip label="Your todos" aria-label="todos">
+              <IconButton
+                variant="ghost"
+                size="lg"
+                color="current"
+                fontSize="3xl"
+                icon={<BsListCheck />}
+                aria-label={'todos'}
+                onClick={onOpen}
+              />
+            </Tooltip>
           </>
         ) : (
           <IconButton
@@ -58,7 +70,7 @@ export const NavBar: React.FC<Props> = (props) => {
             color="current"
             fontSize="2xl"
             icon={<IoMdHome />}
-            onClick={() => router.push("/")}
+            onClick={() => router.push('/')}
             aria-label={`Home`}
           />
         )}
@@ -106,7 +118,8 @@ export const NavBar: React.FC<Props> = (props) => {
           </>
         ) : null}
       </HStack>
-      <KeymapModal modalOpen={isOpen} modalClose={onClose} />
+      {/* <KeymapModal modalOpen={isKeyMapOpen} modalClose={onKeymapClose} /> */}
+      <TodosSideNav isOpen={isOpen} onClose={onClose} />
     </Flex>
   );
 };

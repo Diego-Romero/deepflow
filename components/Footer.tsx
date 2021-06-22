@@ -1,8 +1,8 @@
-import { EmailIcon } from "@chakra-ui/icons";
-import { Flex, Heading } from "@chakra-ui/layout";
-import { Box, IconButton, Link, Stack, useDisclosure } from "@chakra-ui/react";
-import React from "react";
-import { ContactFormModal } from "./ContactFormModal";
+import { EmailIcon } from '@chakra-ui/icons';
+import { Flex, Heading } from '@chakra-ui/layout';
+import { Box, IconButton, Link, Stack, useDisclosure } from '@chakra-ui/react';
+import React from 'react';
+import { ContactFormModal } from './ContactFormModal';
 
 export const Footer: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -19,12 +19,12 @@ export const Footer: React.FC = () => {
         color="white"
       >
         <Stack
-          direction={["column", "column", "row"]}
+          direction={['column', 'column', 'row']}
           alignItems="center"
           spacing={4}
         >
           <Heading size="sm">
-            Made with 🍹 {" "}
+            Made with 🍹{' '}
             <Link
               href="https://www.linkedin.com/in/dev-diego-romero/"
               isExternal

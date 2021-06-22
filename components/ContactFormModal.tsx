@@ -13,13 +13,13 @@ import {
   Textarea,
   useMediaQuery,
   useToast,
-} from "@chakra-ui/react";
-import React from "react";
-import * as Yup from "yup";
-import { Field, Form, Formik } from "formik";
-import axios from "axios";
-import { toastConfig } from "../utils/toastConfig";
-import { validation } from "../utils/util-functions";
+} from '@chakra-ui/react';
+import React from 'react';
+import * as Yup from 'yup';
+import { Field, Form, Formik } from 'formik';
+import axios from 'axios';
+import { toastConfig } from '../utils/toastConfig';
+import { validation } from '../utils/util-functions';
 
 export interface ContactFormValues {
   message: string;
@@ -27,8 +27,8 @@ export interface ContactFormValues {
 }
 
 const initialValues: ContactFormValues = {
-  message: "",
-  email: "",
+  message: '',
+  email: '',
 };
 
 const validationSchema = Yup.object().shape({
@@ -46,26 +46,26 @@ export const ContactFormModal: React.FC<Props> = ({
   modalClose,
 }) => {
   const toast = useToast();
-  const [isLargerThan480] = useMediaQuery("(min-width: 480px)");
+  const [isLargerThan480] = useMediaQuery('(min-width: 480px)');
 
   async function submitMessage(values: ContactFormValues, actions) {
     try {
-      await axios.post("/api/contact", values);
+      await axios.post('/api/contact', values);
       actions.setSubmitting(false);
       modalClose();
       toast(
         toastConfig(
-          "Thank you!",
-          "success",
-          "I will try to get back to you as soon as possible."
+          'Thank you!',
+          'success',
+          'I will try to get back to you as soon as possible.'
         )
       );
     } catch (_err) {
       toast(
         toastConfig(
-          "Yikes..",
-          "warning",
-          "There has been an error submitting your message please try again later."
+          'Yikes..',
+          'warning',
+          'There has been an error submitting your message please try again later.'
         )
       );
     }
@@ -132,7 +132,7 @@ export const ContactFormModal: React.FC<Props> = ({
                   type="submit"
                   bgGradient="linear(to-r, cyan.700,purple.500)"
                   _hover={{
-                    bgGradient: "linear(to-r, cyan.600,purple.400)",
+                    bgGradient: 'linear(to-r, cyan.600,purple.400)',
                   }}
                   color="white"
                   isLoading={props.isSubmitting}

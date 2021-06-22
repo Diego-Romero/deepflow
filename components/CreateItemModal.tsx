@@ -8,19 +8,19 @@ import {
   ModalBody,
   ModalContent,
   ModalOverlay,
-} from "@chakra-ui/react";
-import React from "react";
-import * as Yup from "yup";
-import { Field, Form, Formik } from "formik";
-import { validation } from "../utils/util-functions";
-import { AddIcon } from "@chakra-ui/icons";
+} from '@chakra-ui/react';
+import React from 'react';
+import * as Yup from 'yup';
+import { Field, Form, Formik } from 'formik';
+import { validation } from '../utils/util-functions';
+import { AddIcon } from '@chakra-ui/icons';
 
 export interface ContactFormValues {
   name: string;
 }
 
 const initialValues: ContactFormValues = {
-  name: "",
+  name: '',
 };
 
 const validationSchema = Yup.object().shape({
@@ -41,7 +41,7 @@ export const CreateItemModal: React.FC<Props> = ({
   columnIndex,
 }) => {
   return (
-    <Modal isOpen={modalOpen} onClose={modalClose} size="md">
+    <Modal isOpen={modalOpen} onClose={modalClose} size="lg">
       <ModalOverlay />
       <ModalContent>
         <ModalBody>

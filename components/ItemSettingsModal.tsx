@@ -10,14 +10,18 @@ import {
   ModalOverlay,
   Stack,
   useMediaQuery,
-} from "@chakra-ui/react";
-import React from "react";
-import * as Yup from "yup";
-import { Form, Formik } from "formik";
-import { longDateFormat, shortDateFormat, validation } from "../utils/util-functions";
-import { ColumnItem } from "../types";
-import { DeleteIcon } from "@chakra-ui/icons";
-import { InputControl, SwitchControl, TextareaControl } from "formik-chakra-ui";
+} from '@chakra-ui/react';
+import React from 'react';
+import * as Yup from 'yup';
+import { Form, Formik } from 'formik';
+import {
+  longDateFormat,
+  shortDateFormat,
+  validation,
+} from '../utils/util-functions';
+import { ColumnItem } from '../types';
+import { DeleteIcon } from '@chakra-ui/icons';
+import { InputControl, SwitchControl, TextareaControl } from 'formik-chakra-ui';
 
 export interface ItemSettingsValues {
   name: string;
@@ -52,11 +56,11 @@ export const ItemSettingsModal: React.FC<Props> = ({
   colIndex,
   item,
 }) => {
-  const [isLargerThan480] = useMediaQuery("(min-width: 480px)");
+  const [isLargerThan480] = useMediaQuery('(min-width: 480px)');
 
   const initialValues: ItemSettingsValues = {
     name: item.name,
-    description: item.description || "",
+    description: item.description || '',
     done: item.done || false,
   };
 
@@ -114,7 +118,7 @@ export const ItemSettingsModal: React.FC<Props> = ({
                     modalClose();
                   }}
                   icon={<DeleteIcon />}
-                  aria-label={"Delete"}
+                  aria-label={'Delete'}
                 />
               </Form>
             )}

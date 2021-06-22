@@ -1,9 +1,9 @@
-import { UseToastOptions } from "@chakra-ui/react";
-import moment from "moment";
-import { NextApiRequest } from "next";
-import * as Yup from "yup";
-import { TemplateTypes } from "../components/CreateBoardModal";
-import { Column, ColumnItem } from "../types";
+import { UseToastOptions } from '@chakra-ui/react';
+import moment from 'moment';
+import { NextApiRequest } from 'next';
+import * as Yup from 'yup';
+import { TemplateTypes } from '../components/CreateBoardModal';
+import { Column, ColumnItem } from '../types';
 
 export const reorder = (
   list: ColumnItem[],
@@ -35,21 +35,21 @@ export function createTemplateColumns(template: TemplateTypes): Column[] {
     case TemplateTypes.todoDoingDone:
       columns = [
         {
-          name: "to do",
-          items: [{ name: "to do item", createdAt: Date.now() }],
+          name: 'to do',
+          items: [{ name: 'to do item', createdAt: Date.now() }],
         },
         {
-          name: "doing",
+          name: 'doing',
           items: [
-            { name: "doing item", createdAt: Date.now() },
-            { name: "doing item 2", createdAt: Date.now() },
+            { name: 'doing item', createdAt: Date.now() },
+            { name: 'doing item 2', createdAt: Date.now() },
           ],
         },
         {
-          name: "done",
+          name: 'done',
           items: [
-            { name: "done item", createdAt: Date.now() },
-            { name: "done item 2", createdAt: Date.now() },
+            { name: 'done item', createdAt: Date.now() },
+            { name: 'done item 2', createdAt: Date.now() },
           ],
         },
       ];
@@ -57,36 +57,36 @@ export function createTemplateColumns(template: TemplateTypes): Column[] {
     case TemplateTypes.weekdays:
       columns = [
         {
-          name: "Monday",
+          name: 'Monday',
           items: [
-            { name: "Monday item 1", createdAt: Date.now() },
-            { name: "Monday item 2", createdAt: Date.now() },
-            { name: "Monday item 3", createdAt: Date.now() },
+            { name: 'Monday item 1', createdAt: Date.now() },
+            { name: 'Monday item 2', createdAt: Date.now() },
+            { name: 'Monday item 3', createdAt: Date.now() },
           ],
         },
         {
-          name: "Tuesday",
-          items: [{ name: "Tuesday item 1", createdAt: Date.now() }],
+          name: 'Tuesday',
+          items: [{ name: 'Tuesday item 1', createdAt: Date.now() }],
         },
         {
-          name: "Wednesday",
-          items: [{ name: "Wednesday item 1", createdAt: Date.now() }],
+          name: 'Wednesday',
+          items: [{ name: 'Wednesday item 1', createdAt: Date.now() }],
         },
         {
-          name: "Thursday",
-          items: [{ name: "Thursday item 1", createdAt: Date.now() }],
+          name: 'Thursday',
+          items: [{ name: 'Thursday item 1', createdAt: Date.now() }],
         },
         {
-          name: "Friday",
-          items: [{ name: "Friday item 1", createdAt: Date.now() }],
+          name: 'Friday',
+          items: [{ name: 'Friday item 1', createdAt: Date.now() }],
         },
         {
-          name: "Saturday",
-          items: [{ name: "Saturday item 1", createdAt: Date.now() }],
+          name: 'Saturday',
+          items: [{ name: 'Saturday item 1', createdAt: Date.now() }],
         },
         {
-          name: "Sunday",
-          items: [{ name: "Sunday item 1", createdAt: Date.now() }],
+          name: 'Sunday',
+          items: [{ name: 'Sunday item 1', createdAt: Date.now() }],
         },
       ];
       break;
@@ -127,15 +127,15 @@ export const formatWatchTime = (n: number) => {
   return s.length === 1 ? `0${s}` : s;
 };
 
-export const REQUIRED_FIELD_ERROR = "Required";
-export const REQUIRED_FIELD_TOO_SHORT_TEXT = "Too Short!";
-export const REQUIRED_FIELD_TOO_LONG_TEXT = "Too Long!";
+export const REQUIRED_FIELD_ERROR = 'Required';
+export const REQUIRED_FIELD_TOO_SHORT_TEXT = 'Too Short!';
+export const REQUIRED_FIELD_TOO_LONG_TEXT = 'Too Long!';
 
 export const NAME_MIN_LENGTH = 2;
 export const PASSWORD_MIN_LENGTH = 6;
 
 export const validation = {
-  email: Yup.string().email("Invalid Email").required(REQUIRED_FIELD_ERROR),
+  email: Yup.string().email('Invalid Email').required(REQUIRED_FIELD_ERROR),
   name: Yup.string()
     .min(1, REQUIRED_FIELD_TOO_SHORT_TEXT)
     .max(2000, REQUIRED_FIELD_TOO_LONG_TEXT),
@@ -151,26 +151,26 @@ export const getAbsoluteURL = (url: string, req: any = null) => {
   if (req !== null) {
     host = req.headers.host;
   } else {
-    if (typeof window === "undefined") {
+    if (typeof window === 'undefined') {
       throw new Error(
         'The "req" parameter must be provided if on the server side.'
       );
     }
     host = window.location.host;
   }
-  const isLocalhost = host.indexOf("localhost") === 0;
-  const protocol = isLocalhost ? "http" : "https";
+  const isLocalhost = host.indexOf('localhost') === 0;
+  const protocol = isLocalhost ? 'http' : 'https';
   return `${protocol}://${host}${url}`;
 };
 
 export function toastConfig(
   title: string,
-  status: "success" | "error" | "info" | "warning",
-  description = ""
+  status: 'success' | 'error' | 'info' | 'warning',
+  description = ''
 ): UseToastOptions {
   return {
     title,
-    position: "bottom",
+    position: 'bottom',
     description,
     status,
     duration: 2000,
@@ -179,9 +179,9 @@ export function toastConfig(
 }
 
 export function shortDateFormat(date: number) {
-  return moment.unix(date).format("Do-MMM");
+  return moment.unix(date).format('Do-MMM');
 }
 
 export function longDateFormat(date: number) {
-  return moment.unix(date).format("Do-MMM-YYYY h:mm a");
+  return moment.unix(date).format('Do-MMM-YYYY h:mm a');
 }

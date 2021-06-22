@@ -9,12 +9,12 @@ import {
   ModalOverlay,
   Radio,
   Stack,
-} from "@chakra-ui/react";
-import { InputControl, RadioGroupControl } from "formik-chakra-ui";
-import React from "react";
-import * as Yup from "yup";
-import { Form, Formik } from "formik";
-import { validation } from "../utils/util-functions";
+} from '@chakra-ui/react';
+import { InputControl, RadioGroupControl } from 'formik-chakra-ui';
+import React from 'react';
+import * as Yup from 'yup';
+import { Form, Formik } from 'formik';
+import { validation } from '../utils/util-functions';
 
 export interface BoardSettingsValues {
   name: string;
@@ -28,9 +28,9 @@ interface Props {
 }
 
 export enum TemplateTypes {
-  todoDoingDone = "todoDoingDone",
-  weekdays = "weekdays",
-  blank = "blank",
+  todoDoingDone = 'todoDoingDone',
+  weekdays = 'weekdays',
+  blank = 'blank',
 }
 
 export const CreateBoardModal: React.FC<Props> = ({
@@ -39,7 +39,7 @@ export const CreateBoardModal: React.FC<Props> = ({
   createBoard,
 }) => {
   const initialValues: BoardSettingsValues = {
-    name: "",
+    name: '',
     template: TemplateTypes.todoDoingDone,
   };
   const validationSchema = Yup.object().shape({
@@ -90,7 +90,7 @@ export const CreateBoardModal: React.FC<Props> = ({
                   variant="solid"
                   bgGradient="linear(to-r, cyan.700,purple.500)"
                   _hover={{
-                    bgGradient: "linear(to-r, cyan.600,purple.400)",
+                    bgGradient: 'linear(to-r, cyan.600,purple.400)',
                   }}
                   color="white"
                 >

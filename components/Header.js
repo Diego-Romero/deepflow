@@ -1,10 +1,9 @@
-import React from 'react'
-import Link from 'next/link'
+import React from 'react';
+import Link from 'next/link';
 
-const nfaDependencyVersion = require('../package.json').dependencies[
-  'next-firebase-auth'
-]
-const nextDependencyVersion = require('../package.json').dependencies.next
+const nfaDependencyVersion =
+  require('../package.json').dependencies['next-firebase-auth'];
+const nextDependencyVersion = require('../package.json').dependencies.next;
 
 const styles = {
   container: {
@@ -21,7 +20,7 @@ const styles = {
     marginLeft: 16,
     cursor: 'pointer',
   },
-}
+};
 
 const Header = ({ email, signOut }) => (
   <div style={styles.container}>
@@ -35,7 +34,7 @@ const Header = ({ email, signOut }) => (
         <button
           type="button"
           onClick={() => {
-            signOut()
+            signOut();
           }}
           style={styles.button}
         >
@@ -55,6 +54,6 @@ const Header = ({ email, signOut }) => (
       </>
     )}
   </div>
-)
+);
 
-export default Header
+export default Header;

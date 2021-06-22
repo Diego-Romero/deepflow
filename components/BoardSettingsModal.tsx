@@ -18,20 +18,20 @@ import {
   Stack,
   useDisclosure,
   Heading,
-} from "@chakra-ui/react";
-import { InputControl } from "formik-chakra-ui";
-import React, { RefObject } from "react";
-import * as Yup from "yup";
-import { Form, Formik } from "formik";
-import { Board } from "../types";
-import { validation } from "../utils/util-functions";
+} from '@chakra-ui/react';
+import { InputControl } from 'formik-chakra-ui';
+import React, { RefObject } from 'react';
+import * as Yup from 'yup';
+import { Form, Formik } from 'formik';
+import { Board } from '../types';
+import { validation } from '../utils/util-functions';
 
 export interface BoardSettingsValues {
   name: string;
 }
 
 const validationSchema = Yup.object().shape({
-  name: validation.name 
+  name: validation.name,
 });
 
 interface Props {
@@ -71,8 +71,8 @@ export const BoardSettingsModal: React.FC<Props> = ({
             initialValues={initialValues}
             onSubmit={(values, actions) => {
               actions.setSubmitting(false);
-              const nextBoard: Board = {...board, ...values}
-              console.log(nextBoard)
+              const nextBoard: Board = { ...board, ...values };
+              console.log(nextBoard);
               updateBoard(nextBoard);
               modalClose();
             }}

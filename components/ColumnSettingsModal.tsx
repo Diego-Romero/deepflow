@@ -19,12 +19,12 @@ import {
   ModalOverlay,
   useDisclosure,
   useMediaQuery,
-} from "@chakra-ui/react";
-import React, { RefObject } from "react";
-import * as Yup from "yup";
-import { Field, Form, Formik } from "formik";
-import { validation } from "../utils/util-functions";
-import { DeleteIcon } from "@chakra-ui/icons";
+} from '@chakra-ui/react';
+import React, { RefObject } from 'react';
+import * as Yup from 'yup';
+import { Field, Form, Formik } from 'formik';
+import { validation } from '../utils/util-functions';
+import { DeleteIcon } from '@chakra-ui/icons';
 
 export interface ContactFormValues {
   name: string;
@@ -51,7 +51,7 @@ export const ColumnSettingsModal: React.FC<Props> = ({
   index,
   name,
 }) => {
-  const [isLargerThan480] = useMediaQuery("(min-width: 480px)");
+  const [isLargerThan480] = useMediaQuery('(min-width: 480px)');
   const alertDialogCancelRef = React.useRef();
   const {
     isOpen: isDeleteAlertOpen,
@@ -119,7 +119,7 @@ export const ColumnSettingsModal: React.FC<Props> = ({
                   size="md"
                   onClick={onDeleteAlertOpen}
                   icon={<DeleteIcon />}
-                  aria-label={"Delete"}
+                  aria-label={'Delete'}
                 />
               </Form>
             )}

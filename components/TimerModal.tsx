@@ -9,16 +9,16 @@ import {
   Stack,
   Button,
   Flex,
-} from "@chakra-ui/react";
-import React from "react";
-import { User } from "../types";
+} from '@chakra-ui/react';
+import React from 'react';
+import { User } from '../types';
 
 interface Props {
   modalOpen: boolean;
   modalClose: () => void;
   stopTimer: () => void;
   startTimer: () => void;
-  user: User
+  user: User;
   remainingTime: string;
 }
 
@@ -33,19 +33,19 @@ export const TimerModal: React.FC<Props> = ({
   const isOnBreak = () => user.onLongBreak || user.onShortBreak;
   function formatText(): string {
     if (isOnBreak()) {
-      return user.isTimerPlaying ? "On break" : "Time for a break";
+      return user.isTimerPlaying ? 'On break' : 'Time for a break';
     }
-    return "Time to work";
+    return 'Time to work';
   }
   function formatTextColor(): string {
-    const green = "green.500";
-    const orange = "orange.600";
+    const green = 'green.500';
+    const orange = 'orange.600';
     if (user.isTimerPlaying) {
       if (isOnBreak()) return green;
       return orange;
     }
-    if (isOnBreak()) return "green.500";
-    return "gray.600";
+    if (isOnBreak()) return 'green.500';
+    return 'gray.600';
   }
 
   return (

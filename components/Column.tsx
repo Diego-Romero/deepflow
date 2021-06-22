@@ -3,7 +3,7 @@ import {
   DragHandleIcon,
   EditIcon,
   SettingsIcon,
-} from "@chakra-ui/icons";
+} from '@chakra-ui/icons';
 import {
   Flex,
   Box,
@@ -15,23 +15,19 @@ import {
   useColorMode,
   useDisclosure,
   Grid,
-} from "@chakra-ui/react";
-import React from "react";
-import { Draggable, Droppable } from "react-beautiful-dnd";
-import { ColumnItem as ColItem, Column as Col } from "../types";
-import { ColumnItem } from "./ColumnItem";
-import { ColumnSettingsModal } from "./ColumnSettingsModal";
-import { CreateItemModal } from "./CreateItemModal";
+} from '@chakra-ui/react';
+import React from 'react';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
+import { ColumnItem as ColItem, Column as Col } from '../types';
+import { ColumnItem } from './ColumnItem';
+import { ColumnSettingsModal } from './ColumnSettingsModal';
+import { CreateItemModal } from './CreateItemModal';
 
 interface Props {
   column: Col;
   columnIndex: number;
   createNewItem: (listIndex: number, name: string) => void;
-  updateItem: (
-    columnIndex: number,
-    itemIndex: number,
-    item: ColItem
-  ) => void;
+  updateItem: (columnIndex: number, itemIndex: number, item: ColItem) => void;
   deleteItem: (columnIndex: number, itemIndex: number) => void;
   deleteColumn: (index: number) => void;
   updateColumn: (name: string, index: number) => void;
@@ -68,13 +64,13 @@ export const Column: React.FC<Props> = ({
           gridTemplateRows="auto 1fr"
           minH="70vh"
           borderRadius="md"
-          width={["250px", "350px"]}
+          width={['250px', '350px', '450px']}
           bgColor={
-            colorMode === "light"
+            colorMode === 'light'
               ? snapshot.isDragging
-                ? "white"
-                : "gray.100"
-              : "gray.800"
+                ? 'white'
+                : 'gray.100'
+              : 'gray.800'
           }
           shadow="md"
           borderWidth="1px"
@@ -106,7 +102,7 @@ export const Column: React.FC<Props> = ({
                   isRound
                   onClick={onSettingsOpen}
                   icon={<EditIcon />}
-                  aria-label={"Column settings"}
+                  aria-label={'Column settings'}
                 />
               </Tooltip>
               {/* <Tooltip label="Create new item" aria-label="Create new item">
@@ -135,10 +131,10 @@ export const Column: React.FC<Props> = ({
                 p="2"
                 bg={
                   itemsSnapshot.isDraggingOver
-                    ? colorMode === "light"
-                      ? "gray.200"
-                      : "gray.700"
-                    : "inherit"
+                    ? colorMode === 'light'
+                      ? 'gray.200'
+                      : 'gray.700'
+                    : 'inherit'
                 }
                 height="100%"
               >
@@ -168,7 +164,7 @@ export const Column: React.FC<Props> = ({
                     size="sm"
                     onClick={onCreateModalOpen}
                     icon={<AddIcon />}
-                    aria-label={"create new item"}
+                    aria-label={'create new item'}
                   />
                 </Tooltip>
               </Flex>
