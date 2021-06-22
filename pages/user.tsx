@@ -22,7 +22,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <PageLayout>
+    <PageLayout user={null}>
       <Flex justifyContent="center">
         <Box px={[4, null, 8]} py={[8, 8, 12]}>
           <Card>

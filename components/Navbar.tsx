@@ -14,8 +14,15 @@ import { useAuthUser } from "next-firebase-auth";
 import { useRouter } from "next/router";
 import config from "../utils/config";
 import { KeymapModal } from "./KeymapModal";
+import { User } from "../types";
+import { Timer } from "./Timer";
 
-export const NavBar: React.FC = () => {
+interface Props {
+  user: User | null;
+}
+
+export const NavBar: React.FC<Props> = (props) => {
+  const { user } = props;
   const router = useRouter();
   const AuthUser = useAuthUser();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -29,9 +36,18 @@ export const NavBar: React.FC = () => {
       align="center"
       justify="space-between"
     >
-      <Box>
+      <HStack spacing={2}>
         {AuthUser.email ? (
           <>
+            <Tooltip label="Profile" aria-label="user profile">
+              <Avatar
+                name="user"
+                src={AuthUser.photoURL as string}
+                size="md"
+                cursor="pointer"
+                onClick={() => router.push(config.routes.user)}
+              />
+            </Tooltip>
             <Tooltip label="Go to dashboard" aria-label="Go to dashboard">
               <IconButton
                 variant="ghost"
@@ -55,8 +71,9 @@ export const NavBar: React.FC = () => {
             aria-label={`Home`}
           />
         )}
-      </Box>
+      </HStack>
       <HStack>
+        {user !== null ? <Timer user={user} /> : null}
         {/* <ColorModeSwitcher justifySelf="flex-end" /> */}
         {AuthUser.email ? (
           <>
@@ -73,15 +90,6 @@ export const NavBar: React.FC = () => {
                 aria-label={`Keyboard shortcuts`}
               />
             </Tooltip> */}
-            <Tooltip label="Profile" aria-label="Logout">
-              <Avatar
-                name="user"
-                src={AuthUser.photoURL as string}
-                size="md"
-                cursor="pointer"
-                onClick={() => router.push(config.routes.user)}
-              />
-            </Tooltip>
             {/* <Tooltip label="Logout" aria-label="Logout">
               <IconButton
                 size="md"

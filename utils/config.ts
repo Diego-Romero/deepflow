@@ -8,6 +8,7 @@ const config = {
   collections: {
     mail: "/mail",
     users: "/users",
+    user: (userId: string) => `/users/${userId}`,
     userBoards: (userId: string) => `/users/${userId}/boards`,
     boardMetadata: (userId: string, boardId: string) => `/users/${userId}/boards/${boardId}`,
     boardData: (boardId: string) => `/boardData/${boardId}`

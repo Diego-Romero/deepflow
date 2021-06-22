@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 const Auth = () => {
   const router = useRouter();
   return (
-    <PageLayout>
+    <PageLayout user={null}>
       <Flex alignItems="flex-start" justifyContent="center" mt={12}>
         <Card>
           <Stack spacing="4" textAlign="center">

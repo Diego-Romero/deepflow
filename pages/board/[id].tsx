@@ -15,7 +15,7 @@ import { PageLayout } from "../../components/PageLayout";
 import FullPageLoader from "../../components/FullPageLoader";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import produce from "immer";
-import { ColumnItem, Board, BoardData } from "../../types";
+import { ColumnItem, Board, BoardData, User } from "../../types";
 import { move, reorder, reorderList } from "../../utils/util-functions";
 import { BoardHeader } from "../../components/BoardHeader";
 import { Column } from "../../components/Column";
@@ -41,6 +41,12 @@ const BoardPage = () => {
   const { id } = router.query;
   const [boardData, setBoardData] = useState<BoardData | null>(null);
   const [board, setBoard] = useState<Board | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+
+  const UserRef = Firebase.database().ref(
+    config.collections.user(authUser.id as string)
+  );
+
   const boardDbRef = Firebase.database().ref(
     config.collections.boardMetadata(authUser.id as string, id as string)
   );
@@ -50,6 +56,7 @@ const BoardPage = () => {
 
   const getBoard = () => {
     boardDbRef.on("value", (snapshot) => {
+      console.log(snapshot.val())
       setBoard(snapshot.val() as Board);
     });
   };
@@ -60,6 +67,12 @@ const BoardPage = () => {
     });
   };
 
+  const getUser = () => {
+    UserRef.on("value", (snapshot) => {
+      setUser(snapshot.val() as User);
+    });
+  };
+
   const firebaseUpdateBoard = (nextBoard: BoardData) => {
     boardDataDbRef.set(nextBoard);
   };
@@ -67,6 +80,7 @@ const BoardPage = () => {
   useEffect(() => {
     getBoard();
     getBoardData();
+    getUser();
   }, []);
 
   const createNewItem = (listIndex: number, name: string) => {
@@ -181,8 +195,8 @@ const BoardPage = () => {
   }
 
   return (
-    <PageLayout>
-      {boardData === null ? (
+    <PageLayout user={user}>
+      {boardData === null || board === null ? (
         <FullPageLoader />
       ) : (
         <Box>
@@ -205,7 +219,6 @@ const BoardPage = () => {
               <BoardHeader
                 openSettings={onSettingsOpen}
                 board={board!}
-                boardData={boardData}
                 firebaseUpdateBoard={firebaseUpdateBoard}
               />
               <Divider mb={4} />
@@ -281,6 +294,8 @@ const BoardPage = () => {
     </PageLayout>
   );
 };
+
+// todo: insert values at the start
 
 export default withAuthUser({
   whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,

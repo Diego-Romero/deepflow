@@ -9,13 +9,8 @@ const LandingPage = () => {
   const AuthUser = useAuthUser();
   const router = useRouter();
 
-  // useEffect(() => {
-  //   console.log(AuthUser);
-  //   if (AuthUser.email) router.push(config.routes.dashboard);
-  // }, [AuthUser]);
-
   return (
-    <PageLayout>
+    <PageLayout user={null}>
       <Flex
         mt={12}
         alignItems="center"

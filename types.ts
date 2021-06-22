@@ -1,3 +1,16 @@
+export type User = {
+  workInterval: number;
+  shortRestTime: number;
+  longRestTime: number;
+  longBreakAfter: number;
+  targetPerDay: number;
+  timerEndTime: number;
+  pomodoroCount: number;
+  onShortBreak: boolean;
+  onLongBreak: boolean;
+  isTimerPlaying: boolean;
+  boards?: Board[]
+}
 
 export type ColumnItem = {
   name: string;
@@ -19,14 +32,4 @@ export type Board = {
 
 export type BoardData = {
   columns: Column[]
-  workInterval: number;
-  shortRestTime: number;
-  longRestTime: number;
-  longBreakAfter: number;
-  targetPerDay: number;
-  timerEndTime: number;
-  pomodoroCount: number;
-  onShortBreak: boolean;
-  onLongBreak: boolean;
-  isTimerPlaying: boolean;
 }

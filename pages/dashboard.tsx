@@ -16,7 +16,7 @@ import {
   useDisclosure,
   CircularProgress,
 } from "@chakra-ui/react";
-import { Board } from "../types";
+import { Board, User } from "../types";
 import { useRouter } from "next/router";
 import { IoMdArrowForward } from "react-icons/io";
 import {
@@ -27,36 +27,6 @@ import { Fragment } from "react";
 import { createTemplateColumns } from "../utils/util-functions";
 import config from "../utils/config";
 
-// interface Board {
-//   name: string;
-//   // columns: ColumnType[];
-//   // workInterval: number;
-//   // shortRestTime: number;
-//   // longRestTime: number;
-//   // longBreakAfter: number;
-//   // targetPerDay: number;
-//   // timerEndTime: number;
-//   // pomodoroCount: number;
-//   // onShortBreak: boolean;
-//   // onLongBreak: boolean;
-//   // isTimerPlaying: boolean;
-// }
-
-// interface Board {
-//   name: string;
-//   // columns: ColumnType[];
-//   // workInterval: number;
-//   // shortRestTime: number;
-//   // longRestTime: number;
-//   // longBreakAfter: number;
-//   // targetPerDay: number;
-//   // timerEndTime: number;
-//   // pomodoroCount: number;
-//   // onShortBreak: boolean;
-//   // onLongBreak: boolean;
-//   // isTimerPlaying: boolean;
-// }
-
 interface BoardWithId extends Board {
   id: string;
 }
@@ -65,7 +35,7 @@ type FirebaseBoards = {
   [id: string]: Board;
 };
 
-const mapBoardsFromFirebase = (values: FirebaseBoards): BoardWithId[] => {
+const mapBoardsFromFirebase = (values: Board[]): BoardWithId[] => {
   const nextBoards: BoardWithId[] = [];
   for (let [id, value] of Object.entries(values)) {
     nextBoards.push({ id, ...value });
@@ -84,54 +54,54 @@ const DashboardPage = () => {
   const [loading, setLoading] = useState(true);
   const { colorMode } = useColorMode();
   const authUser = useAuthUser();
-  const UserBoardsRef = Firebase.database().ref(
+  const [user, setUser] = useState<User | null>(null);
+
+  const UserRef = Firebase.database().ref(
+    config.collections.user(authUser.id as string)
+  );
+
+  const userBoardsRef = Firebase.database().ref(
     config.collections.userBoards(authUser.id as string)
   );
+
+  function firebaseUpdateUser(userUpdated: User) {
+    UserRef.set(userUpdated);
+    // boardDataDbRef.set(nextBoard);
+    console.log("need to update user"); // todo: finish updating user
+  }
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const getUser = () => {
+    UserRef.on("value", (snapshot) => {
+      if (snapshot.val()) {
+        const user = snapshot.val() as User;
+        setUser(user);
+        if (user.boards) setBoards(mapBoardsFromFirebase(user.boards));
+      setLoading(false);
+      }
+    });
+  };
 
   const createBoard = (name: string, template: TemplateTypes) => {
     const newBoard: Board = {
       name,
       createdAt: Date.now(),
-      updatedAt: Date.now()
+      updatedAt: Date.now(),
     };
     const boardData = {
       columns: createTemplateColumns(template),
-      workInterval: 25,
-      shortRestTime: 5,
-      longRestTime: 30,
-      longBreakAfter: 4,
-      targetPerDay: 10,
-      timerEndTime: 0,
-      pomodoroCount: 0,
-      onShortBreak: false,
-      onLongBreak: false,
-      isTimerPlaying: false,
     };
-    const key = UserBoardsRef.push(newBoard).key;
+    const key = userBoardsRef.push(newBoard).key;
     const BoardDataRef = Firebase.database().ref(
       config.collections.boardData(key as string)
     );
     BoardDataRef.set(boardData);
   };
-
-  const getBoards = () => {
-    UserBoardsRef.on("value", (snapshot) => {
-      if (snapshot.val()) {
-        const nextBoards = mapBoardsFromFirebase(
-          snapshot.val() as FirebaseBoards
-        );
-        setBoards(nextBoards);
-      } else setBoards([]);
-      setLoading(false);
-    });
-  };
-
-  useEffect(() => {
-    getBoards();
-  }, []);
-
   return (
-    <PageLayout>
+    <PageLayout user={user}>
       <Flex justifyContent="center">
         <Box
           width={["100%", "100%", "container.sm"]}

@@ -11,15 +11,14 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import React from "react";
-import { BsStopFill } from "react-icons/bs";
-import { Board, BoardData } from "../types";
+import { User } from "../types";
 
 interface Props {
   modalOpen: boolean;
   modalClose: () => void;
   stopTimer: () => void;
   startTimer: () => void;
-  boardData: BoardData;
+  user: User
   remainingTime: string;
 }
 
@@ -27,21 +26,21 @@ export const TimerModal: React.FC<Props> = ({
   modalOpen,
   modalClose,
   remainingTime,
-  boardData,
+  user,
   stopTimer,
   startTimer,
 }) => {
-  const isOnBreak = () => boardData.onLongBreak || boardData.onShortBreak;
+  const isOnBreak = () => user.onLongBreak || user.onShortBreak;
   function formatText(): string {
     if (isOnBreak()) {
-      return boardData.isTimerPlaying ? "On break" : "Time for a break";
+      return user.isTimerPlaying ? "On break" : "Time for a break";
     }
     return "Time to work";
   }
   function formatTextColor(): string {
     const green = "green.500";
     const orange = "orange.600";
-    if (boardData.isTimerPlaying) {
+    if (user.isTimerPlaying) {
       if (isOnBreak()) return green;
       return orange;
     }
@@ -61,10 +60,10 @@ export const TimerModal: React.FC<Props> = ({
               {remainingTime}
             </Heading>
             <Text color="gray.500" mt={4} fontSize="lg">
-              {boardData.pomodoroCount} / {boardData.targetPerDay}
+              {user.pomodoroCount} / {user.targetPerDay}
             </Text>
             <Stack spacing={4} align="center" mt={4}>
-              {boardData.isTimerPlaying ? (
+              {user.isTimerPlaying ? (
                 <Button isFullWidth onClick={stopTimer}>
                   Stop
                 </Button>

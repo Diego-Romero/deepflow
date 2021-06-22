@@ -1,11 +1,16 @@
 import { Grid } from "@chakra-ui/layout";
 import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
+import { User } from "../types";
 import { Footer } from "./Footer";
 import { NavBar } from "./Navbar";
 
-export const PageLayout: React.FC = (props) => {
-  const { children } = props;
+interface Props {
+  user: User | null;
+}
+
+export const PageLayout: React.FC<Props> = (props) => {
+  const { children, user } = props;
 
   return (
     <Box>
@@ -18,7 +23,7 @@ export const PageLayout: React.FC = (props) => {
         gridTemplateAreas="'header' 'main' 'footer'"
         minW="900px"
       >
-        <NavBar />
+        <NavBar user={user} />
         <Box>{children}</Box>
         <Footer />
       </Grid>
@@ -30,7 +35,7 @@ export const PageLayout: React.FC = (props) => {
         width="100vw"
       >
         <Box>
-          <NavBar />
+          <NavBar user={user} />
           <Box>{children}</Box>
         </Box>
         <Footer />
