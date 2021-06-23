@@ -22,6 +22,7 @@ import { TodosSideNav } from './TodosSideNav';
 import { BoardWithId, mapBoardsFromFirebase } from '../utils/util-functions';
 import { useEffect, useState } from 'react';
 import Router from 'next/router';
+import { BoardsSideNav } from './BoardsSideNav';
 
 interface Props {
   user: User | null;
@@ -32,7 +33,16 @@ export const NavBar: React.FC<Props> = (props) => {
   const router = useRouter();
   const AuthUser = useAuthUser();
   // const { isOpen: isKeyMapOpen, onOpen: onKeymapOpen, onClose: onKeymapClose } = useDisclosure();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isTodosOpen,
+    onOpen: onTodosOpen,
+    onClose: onTodosClose,
+  } = useDisclosure();
+  const {
+    isOpen: isBoardsOpen,
+    onOpen: onBoardsOpen,
+    onClose: onBoardsClose,
+  } = useDisclosure();
   const [boards, setBoards] = useState<BoardWithId[]>([]);
   useEffect(() => {
     if (user && user.boards) setBoards(mapBoardsFromFirebase(user.boards));
@@ -62,30 +72,18 @@ export const NavBar: React.FC<Props> = (props) => {
               />
             </Tooltip>
             {user !== null && boards.length > 0 ? (
-              <Menu>
-                <Tooltip label="Boards" aria-label="boards">
-                  <MenuButton
-                    as={IconButton}
-                    aria-label="boards"
-                    fontSize="3xl"
-                    icon={<BsKanbanFill />}
-                    variant="ghost"
-                  />
-                </Tooltip>
-                <MenuList color="black">
-                  {boards.map((board) => (
-                    <MenuItem
-                      key={board.id}
-                      onClick={() => {
-                        router.push(config.routes.goToBoard(board.id));
-                        Router.reload();
-                      }}
-                    >
-                      {board.name}
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </Menu>
+
+            <Tooltip label="Your boards" aria-label="boards">
+              <IconButton
+                variant="ghost"
+                size="lg"
+                color="current"
+                fontSize="3xl"
+                icon={<BsKanbanFill />}
+                aria-label={'boards'}
+                onClick={onBoardsOpen}
+              />
+            </Tooltip>
             ) : null}
             <Tooltip label="Your todos" aria-label="todos">
               <IconButton
@@ -95,7 +93,7 @@ export const NavBar: React.FC<Props> = (props) => {
                 fontSize="3xl"
                 icon={<BsListCheck />}
                 aria-label={'todos'}
-                onClick={onOpen}
+                onClick={onTodosOpen}
               />
             </Tooltip>
           </>
@@ -155,7 +153,12 @@ export const NavBar: React.FC<Props> = (props) => {
         ) : null}
       </HStack>
       {/* <KeymapModal modalOpen={isKeyMapOpen} modalClose={onKeymapClose} /> */}
-      <TodosSideNav isOpen={isOpen} onClose={onClose} />
+      <BoardsSideNav
+        onClose={onBoardsClose}
+        boards={boards}
+        isOpen={isBoardsOpen}
+      />
+      <TodosSideNav isOpen={isTodosOpen} onClose={onTodosClose} />
     </Flex>
   );
 };

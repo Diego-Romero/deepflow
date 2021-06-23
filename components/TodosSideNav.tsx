@@ -104,7 +104,7 @@ export const TodosSideNav: React.FC<Props> = (props) => {
       isOpen={isOpen}
       placement="left"
       onClose={onClose}
-      size="md"
+      size="sm"
       // finalFocusRef={btnRef}
     >
       <DrawerOverlay />
