@@ -166,12 +166,16 @@ export const NavBar: React.FC<Props> = (props) => {
         ) : null}
       </HStack>
       {/* <KeymapModal modalOpen={isKeyMapOpen} modalClose={onKeymapClose} /> */}
-      <BoardsSideNav
-        onClose={onBoardsClose}
-        boards={boards}
-        isOpen={isBoardsOpen}
-      />
-      <TodosSideNav isOpen={isTodosOpen} onClose={onTodosClose} />
+      {AuthUser.email ? (
+        <>
+          <BoardsSideNav
+            onClose={onBoardsClose}
+            boards={boards}
+            isOpen={isBoardsOpen}
+          />
+          <TodosSideNav isOpen={isTodosOpen} onClose={onTodosClose} />
+        </>
+      ) : null}
     </Flex>
   );
 };
