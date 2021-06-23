@@ -35,8 +35,12 @@ export function createTemplateColumns(template: TemplateTypes): Column[] {
     case TemplateTypes.todoDoingDone:
       columns = [
         {
-          name: 'to do',
-          items: [{ name: 'to do item', createdAt: Date.now() }],
+          name: 'Backlog',
+          items: [
+            { name: 'to do item', createdAt: Date.now() },
+            { name: 'to do item 2', createdAt: Date.now() },
+            { name: 'to do item 3', createdAt: Date.now() },
+          ],
         },
         {
           name: 'doing',
@@ -56,6 +60,14 @@ export function createTemplateColumns(template: TemplateTypes): Column[] {
       break;
     case TemplateTypes.weekdays:
       columns = [
+        {
+          name: 'Backlog',
+          items: [
+            { name: 'to do item', createdAt: Date.now() },
+            { name: 'to do item 2', createdAt: Date.now() },
+            { name: 'to do item 3', createdAt: Date.now() },
+          ],
+        },
         {
           name: 'Monday',
           items: [
@@ -79,14 +91,6 @@ export function createTemplateColumns(template: TemplateTypes): Column[] {
         {
           name: 'Friday',
           items: [{ name: 'Friday item 1', createdAt: Date.now() }],
-        },
-        {
-          name: 'Saturday',
-          items: [{ name: 'Saturday item 1', createdAt: Date.now() }],
-        },
-        {
-          name: 'Sunday',
-          items: [{ name: 'Sunday item 1', createdAt: Date.now() }],
         },
       ];
       break;

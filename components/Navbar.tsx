@@ -21,8 +21,8 @@ import { BsKanbanFill, BsListCheck } from 'react-icons/bs';
 import { TodosSideNav } from './TodosSideNav';
 import { BoardWithId, mapBoardsFromFirebase } from '../utils/util-functions';
 import { useEffect, useState } from 'react';
-import Router from 'next/router';
 import { BoardsSideNav } from './BoardsSideNav';
+import { HamburgerIcon } from '@chakra-ui/icons';
 
 interface Props {
   user: User | null;
@@ -60,7 +60,7 @@ export const NavBar: React.FC<Props> = (props) => {
       <HStack spacing={2}>
         {AuthUser.email ? (
           <>
-            <Tooltip label="Go to dashboard" aria-label="Go to dashboard">
+            {/* <Tooltip label="Go to dashboard" aria-label="Go to dashboard">
               <IconButton
                 variant="ghost"
                 size="lg"
@@ -70,20 +70,19 @@ export const NavBar: React.FC<Props> = (props) => {
                 aria-label={`Go to dashboard`}
                 onClick={() => router.push(config.routes.dashboard)}
               />
-            </Tooltip>
+            </Tooltip> */}
             {user !== null && boards.length > 0 ? (
-
-            <Tooltip label="Your boards" aria-label="boards">
-              <IconButton
-                variant="ghost"
-                size="lg"
-                color="current"
-                fontSize="3xl"
-                icon={<BsKanbanFill />}
-                aria-label={'boards'}
-                onClick={onBoardsOpen}
-              />
-            </Tooltip>
+              <Tooltip label="Your boards" aria-label="boards">
+                <IconButton
+                  variant="ghost"
+                  size="lg"
+                  color="current"
+                  fontSize="3xl"
+                  icon={<BsKanbanFill />}
+                  aria-label={'boards'}
+                  onClick={onBoardsOpen}
+                />
+              </Tooltip>
             ) : null}
             <Tooltip label="Your todos" aria-label="todos">
               <IconButton
@@ -111,18 +110,8 @@ export const NavBar: React.FC<Props> = (props) => {
       </HStack>
       <HStack spacing={4}>
         {user !== null ? <Timer user={user} /> : null}
-        {/* <ColorModeSwitcher justifySelf="flex-end" /> */}
         {AuthUser.email ? (
           <>
-            {/* <Tooltip label="Profile" aria-label="user profile">
-              <Avatar
-                name="user"
-                src={AuthUser.photoURL as string}
-                size="md"
-                cursor="pointer"
-                onClick={() => router.push(config.routes.user)}
-              />
-            </Tooltip> */}
             {/* <Tooltip label="Keyboard shortcuts" aria-label="Keyboard shortcuts">
               <IconButton
                 ml={4}
@@ -136,7 +125,36 @@ export const NavBar: React.FC<Props> = (props) => {
                 aria-label={`Keyboard shortcuts`}
               />
             </Tooltip> */}
-            <Tooltip label="Logout" aria-label="Logout">
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label="Options"
+                icon={<HamburgerIcon />}
+                variant="ghost"
+                fontSize="3xl"
+              />
+              <MenuList color="gray.900" fontSize="lg">
+                <MenuItem
+                  icon={<IoMdHome />}
+                  onClick={() => router.push(config.routes.dashboard)}
+                >
+                  Dashboard
+                </MenuItem>
+                <MenuItem icon={<IoMdLogOut />} onClick={AuthUser.signOut}>
+                  Logout
+                </MenuItem>
+                {/* <MenuItem icon={<ExternalLinkIcon />} command="⌘N">
+                  New Window
+                </MenuItem>
+                <MenuItem icon={<RepeatIcon />} command="⌘⇧N">
+                  Open Closed Tab
+                </MenuItem>
+                <MenuItem icon={<EditIcon />} command="⌘O">
+                  Open File...
+                </MenuItem> */}
+              </MenuList>
+            </Menu>
+            {/* <Tooltip label="Logout" aria-label="Logout">
               <IconButton
                 size="md"
                 variant="ghost"
@@ -148,7 +166,7 @@ export const NavBar: React.FC<Props> = (props) => {
                 icon={<IoMdLogOut />}
                 aria-label={`Logout`}
               />
-            </Tooltip>
+            </Tooltip> */}
           </>
         ) : null}
       </HStack>

@@ -15,6 +15,8 @@ import {
 import React from 'react';
 import { IoMdArrowForward } from 'react-icons/io';
 import { BoardWithId } from '../utils/util-functions';
+import { useRouter } from 'next/router';
+import config from '../utils/config';
 
 interface Props {
   isOpen: boolean;
@@ -24,6 +26,12 @@ interface Props {
 
 export const BoardsSideNav: React.FC<Props> = (props) => {
   const { isOpen, onClose, boards } = props;
+  const router = useRouter();
+
+  const navigateToBoard = (id: string) => {
+    router.push(config.routes.goToBoard(id));
+    onClose();
+  };
 
   return (
     <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="xs">
@@ -45,8 +53,9 @@ export const BoardsSideNav: React.FC<Props> = (props) => {
                 cursor="pointer"
                 justifyContent="space-between"
                 _hover={{
-                  bgColor: "gray.100"
+                  bgColor: 'gray.100',
                 }}
+                onClick={() => navigateToBoard(board.id)}
               >
                 <Text fontSize="large">{board.name}</Text>
                 <IconButton

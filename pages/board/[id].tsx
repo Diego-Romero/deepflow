@@ -30,12 +30,6 @@ const MIN_COL_SIZE = 1, MAX_COL_SIZE = 5;
 
 const BoardPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const {
-    isOpen: isSettingsOpen,
-    onOpen: onSettingsOpen,
-    onClose: onSettingsClose,
-  } = useDisclosure();
-  const { colorMode } = useColorMode();
   const authUser = useAuthUser();
   const router = useRouter();
   const { id } = router.query;
@@ -56,7 +50,6 @@ const BoardPage = () => {
 
   const getBoard = () => {
     boardDbRef.on('value', (snapshot) => {
-      console.log(snapshot.val());
       setBoard(snapshot.val() as Board);
     });
   };
@@ -85,7 +78,7 @@ const BoardPage = () => {
     getBoard();
     getBoardData();
     getUser();
-  }, []);
+  }, [id]);
 
   const createNewItem = (listIndex: number, name: string) => {
     const newItem: ColumnItem = {
