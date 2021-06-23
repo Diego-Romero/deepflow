@@ -2,6 +2,10 @@ import {
   Flex,
   HStack,
   IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -13,8 +17,11 @@ import { useRouter } from 'next/router';
 import config from '../utils/config';
 import { User } from '../types';
 import { Timer } from './Timer';
-import { BsListCheck } from 'react-icons/bs';
+import { BsKanbanFill, BsListCheck } from 'react-icons/bs';
 import { TodosSideNav } from './TodosSideNav';
+import { BoardWithId, mapBoardsFromFirebase } from '../utils/util-functions';
+import { useEffect, useState } from 'react';
+import Router from 'next/router';
 
 interface Props {
   user: User | null;
@@ -26,7 +33,10 @@ export const NavBar: React.FC<Props> = (props) => {
   const AuthUser = useAuthUser();
   // const { isOpen: isKeyMapOpen, onOpen: onKeymapOpen, onClose: onKeymapClose } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const btnRef = React.useRef()
+  const [boards, setBoards] = useState<BoardWithId[]>([]);
+  useEffect(() => {
+    if (user && user.boards) setBoards(mapBoardsFromFirebase(user.boards));
+  }, [user]);
 
   return (
     <Flex
@@ -51,6 +61,32 @@ export const NavBar: React.FC<Props> = (props) => {
                 onClick={() => router.push(config.routes.dashboard)}
               />
             </Tooltip>
+            {user !== null && boards.length > 0 ? (
+              <Menu>
+                <Tooltip label="Boards" aria-label="boards">
+                  <MenuButton
+                    as={IconButton}
+                    aria-label="boards"
+                    fontSize="3xl"
+                    icon={<BsKanbanFill />}
+                    variant="ghost"
+                  />
+                </Tooltip>
+                <MenuList color="black">
+                  {boards.map((board) => (
+                    <MenuItem
+                      key={board.id}
+                      onClick={() => {
+                        router.push(config.routes.goToBoard(board.id));
+                        Router.reload();
+                      }}
+                    >
+                      {board.name}
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              </Menu>
+            ) : null}
             <Tooltip label="Your todos" aria-label="todos">
               <IconButton
                 variant="ghost"

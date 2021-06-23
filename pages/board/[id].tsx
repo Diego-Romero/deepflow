@@ -6,6 +6,7 @@ import {
   Flex,
   Heading,
   IconButton,
+  Stack,
   Tooltip,
   useColorMode,
   useDisclosure,
@@ -20,13 +21,15 @@ import { move, reorder, reorderList } from '../../utils/util-functions';
 import { BoardHeader } from '../../components/BoardHeader';
 import { Column } from '../../components/Column';
 import { CreateColumnModal } from '../../components/CreateColumnModal';
-import {
-  BoardSettingsModal,
-  BoardSettingsValues,
-} from '../../components/BoardSettingsModal';
 import { useRouter } from 'next/router';
 import config from '../../utils/config';
 import { AddIcon } from '@chakra-ui/icons';
+import { AiOutlineZoomIn, AiOutlineZoomOut } from "react-icons/ai"
+
+// enum colSizes {
+//   small = "200px",
+//   medium = ""
+// }
 
 const BoardPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -78,7 +81,6 @@ const BoardPage = () => {
   };
 
   const updateBoard = (nextBoard: Board) => {
-    console.log('updating board', nextBoard);
     boardDbRef.set(nextBoard);
   };
 
@@ -87,6 +89,7 @@ const BoardPage = () => {
     getBoardData();
     getUser();
   }, []);
+
 
   const createNewItem = (listIndex: number, name: string) => {
     const newItem: ColumnItem = {
@@ -195,6 +198,14 @@ const BoardPage = () => {
     }
   }
 
+  function setColSize(n: number) {
+    const newColSize: number = n + (board!.colSize || 3); // if there is no colSize
+    if (newColSize > 0 && newColSize < 6) {
+      updateBoard({...board!, colSize: newColSize })
+    }
+  }
+
+
   return (
     <PageLayout user={user}>
       {boardData === null || board === null ? (
@@ -248,6 +259,7 @@ const BoardPage = () => {
                       >
                         {boardData.columns.map((column, index) => (
                           <Column
+                          columnSize={board.colSize || 3}
                             column={column}
                             columnIndex={index}
                             key={index}
@@ -259,6 +271,8 @@ const BoardPage = () => {
                           />
                         ))}
                         {provided.placeholder}
+                        <Stack spacing={2}>
+
                         <Tooltip label="Add Row">
                           <IconButton
                             isRound
@@ -271,6 +285,29 @@ const BoardPage = () => {
                             icon={<AddIcon />}
                           />
                         </Tooltip>
+                        <Tooltip label="decrease column size">
+                          <IconButton
+                            isRound
+                            shadow="lg"
+                            variant="outline"
+                            size="lg"
+                            aria-label="Add row"
+                            onClick={() => setColSize(-1)}
+                            icon={<AiOutlineZoomOut />}
+                          />
+                        </Tooltip>
+                        <Tooltip label="increase column size">
+                          <IconButton
+                            isRound
+                            shadow="lg"
+                            variant="outline"
+                            size="lg"
+                            aria-label="Add row"
+                            onClick={() => setColSize(1)}
+                            icon={<AiOutlineZoomIn />}
+                          />
+                        </Tooltip>
+                        </Stack>
                       </Flex>
                     )}
                   </Droppable>

@@ -4,6 +4,7 @@ const config = {
     user: '/user',
     auth: '/auth',
     dashboard: '/dashboard',
+    goToBoard: (id: string) => `/board/${id}`,
   },
   collections: {
     mail: '/mail',

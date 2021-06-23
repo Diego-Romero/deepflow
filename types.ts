@@ -35,6 +35,7 @@ export type Board = {
   name: string;
   createdAt: number;
   updatedAt: number;
+  colSize: number;
 };
 
 export type BoardData = {

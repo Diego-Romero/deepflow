@@ -24,24 +24,12 @@ import {
   TemplateTypes,
 } from '../components/CreateBoardModal';
 import { Fragment } from 'react';
-import { createTemplateColumns } from '../utils/util-functions';
+import {
+  BoardWithId,
+  createTemplateColumns,
+  mapBoardsFromFirebase,
+} from '../utils/util-functions';
 import config from '../utils/config';
-
-interface BoardWithId extends Board {
-  id: string;
-}
-
-type FirebaseBoards = {
-  [id: string]: Board;
-};
-
-const mapBoardsFromFirebase = (values: Board[]): BoardWithId[] => {
-  const nextBoards: BoardWithId[] = [];
-  for (let [id, value] of Object.entries(values)) {
-    nextBoards.push({ id, ...value });
-  }
-  return nextBoards;
-};
 
 const DashboardPage = () => {
   const {

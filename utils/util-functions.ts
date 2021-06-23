@@ -3,7 +3,7 @@ import moment from 'moment';
 import { NextApiRequest } from 'next';
 import * as Yup from 'yup';
 import { TemplateTypes } from '../components/CreateBoardModal';
-import { Column, ColumnItem } from '../types';
+import { Board, Column, ColumnItem } from '../types';
 
 export const reorder = (
   list: ColumnItem[],
@@ -185,3 +185,15 @@ export function shortDateFormat(date: number) {
 export function longDateFormat(date: number) {
   return moment.unix(date).format('Do-MMM-YYYY h:mm a');
 }
+
+export interface BoardWithId extends Board {
+  id: string;
+}
+
+export const mapBoardsFromFirebase = (values: Board[]): BoardWithId[] => {
+  const nextBoards: BoardWithId[] = [];
+  for (let [id, value] of Object.entries(values)) {
+    nextBoards.push({ id, ...value });
+  }
+  return nextBoards;
+};
