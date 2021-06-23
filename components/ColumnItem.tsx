@@ -33,7 +33,6 @@ export const ColumnItem: React.FC<Props> = ({
   updateItem,
   deleteItem,
 }) => {
-  const { colorMode } = useColorMode();
   const {
     isOpen: isSettingsOpen,
     onOpen: onSettingsOpen,
@@ -76,7 +75,7 @@ export const ColumnItem: React.FC<Props> = ({
                 size="sm"
                 variant="ghost"
                 isRound
-                colorScheme="blue"
+                // colorScheme="blue"
                 onClick={onSettingsOpen}
                 icon={<EditIcon />}
                 aria-label={'Edit'}

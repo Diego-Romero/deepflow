@@ -15,13 +15,13 @@ const Auth = () => {
           <Stack spacing="4" textAlign="center">
             <Heading size="md">Login / Register</Heading>
             <FirebaseAuth />
-            <Button
+            {/* <Button
               colorScheme="gray"
               size="sm"
               onClick={() => router.push('/')}
             >
               Back to home
-            </Button>
+            </Button> */}
           </Stack>
         </Card>
       </Flex>

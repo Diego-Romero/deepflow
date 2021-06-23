@@ -100,7 +100,7 @@ export const TodosSideNav: React.FC<Props> = (props) => {
   };
 
   return (
-    <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="md">
+    <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="sm">
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />

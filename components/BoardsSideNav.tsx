@@ -8,7 +8,6 @@ import {
   DrawerBody,
   DrawerFooter,
   Button,
-  Stack,
   Flex,
   IconButton,
   useDisclosure,
@@ -41,7 +40,7 @@ export const BoardsSideNav: React.FC<Props> = (props) => {
   };
 
   return (
-    <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="sm">
+    <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="xs">
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />

@@ -38,7 +38,7 @@ export const BoardHeader: React.FC<Props> = ({
             <IconButton
               size="lg"
               colorScheme="blackAlpha"
-              variant="outline"
+              variant="solid"
               isRound
               onClick={onOpen}
               icon={<SettingsIcon />}

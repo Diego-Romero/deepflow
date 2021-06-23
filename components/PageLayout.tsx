@@ -4,6 +4,7 @@ import React from 'react';
 import { User } from '../types';
 import { Footer } from './Footer';
 import { NavBar } from './Navbar';
+import { SideNav } from './SideNav';
 
 interface Props {
   user: User | null;
@@ -24,7 +25,13 @@ export const PageLayout: React.FC<Props> = (props) => {
         minW="900px"
       >
         <NavBar user={user} />
-        <Box bgColor="gray.200">{children}</Box>
+        <Grid
+          bgColor="gray.200"
+          gridTemplateColumns={user !== null ? 'auto 1fr' : '1fr'}
+        >
+          {user !== null ? <SideNav user={user} /> : null}
+          {children}
+        </Grid>
         <Footer />
       </Grid>
       <Flex

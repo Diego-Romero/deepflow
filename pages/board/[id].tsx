@@ -26,7 +26,8 @@ import config from '../../utils/config';
 import { AddIcon } from '@chakra-ui/icons';
 import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
 
-const MIN_COL_SIZE = 1, MAX_COL_SIZE = 5;
+const MIN_COL_SIZE = 1,
+  MAX_COL_SIZE = 5;
 
 const BoardPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -210,7 +211,7 @@ const BoardPage = () => {
             {/* <pre>{JSON.stringify(board, null, 2)}</pre> */}
             <Flex
               px={4}
-              py={8}
+              py={4}
               flexDir="column"
               alignItems="flex-start"
               justifyContent="flex-start"
@@ -231,7 +232,7 @@ const BoardPage = () => {
                   >
                     {(provided, snapshot) => (
                       <Flex
-                        py={4}
+                        pb={4}
                         borderRadius="md"
                         flexDir="row"
                         ref={provided.innerRef}
@@ -239,9 +240,11 @@ const BoardPage = () => {
                         {...provided.droppableProps}
                         alignItems="flex-start"
                         borderColor="gray.300"
-                        borderWidth={snapshot.isDraggingOver ? '1px' : 'inherit'}
+                        borderWidth={
+                          snapshot.isDraggingOver ? '1px' : 'inherit'
+                        }
                       >
-                        <Stack spacing={2} mr={8}>
+                        <Stack spacing={2} mr={6}>
                           <Tooltip label="Add Row">
                             <IconButton
                               isRound
@@ -258,8 +261,8 @@ const BoardPage = () => {
                             <IconButton
                               isRound
                               shadow="lg"
-                              variant="outline"
-                              colorScheme="blackAlpha"
+                              variant="solid"
+                              colorScheme="purple"
                               size="lg"
                               isDisabled={board.colSize === MAX_COL_SIZE}
                               aria-label="Add row"
@@ -271,8 +274,8 @@ const BoardPage = () => {
                             <IconButton
                               isRound
                               shadow="lg"
-                              variant="outline"
-                              colorScheme="blackAlpha"
+                              variant="solid"
+                              colorScheme="purple"
                               isDisabled={board.colSize === MIN_COL_SIZE}
                               size="lg"
                               aria-label="Add row"
