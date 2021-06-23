@@ -65,7 +65,7 @@ export const ItemSettingsModal: React.FC<Props> = ({
   };
 
   return (
-    <Modal isOpen={modalOpen} onClose={modalClose} size="sm">
+    <Modal isOpen={modalOpen} onClose={modalClose} size="md">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Update Item</ModalHeader>

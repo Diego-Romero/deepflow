@@ -100,13 +100,7 @@ export const TodosSideNav: React.FC<Props> = (props) => {
   };
 
   return (
-    <Drawer
-      isOpen={isOpen}
-      placement="left"
-      onClose={onClose}
-      size="md"
-      // finalFocusRef={btnRef}
-    >
+    <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="md">
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
@@ -143,7 +137,6 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                     color="white"
                     size="sm"
                     type="submit"
-                    //     onClick={onCreateModalOpen}
                     icon={<AddIcon />}
                     aria-label={'create new item'}
                   />
@@ -160,7 +153,8 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                   flexDir="column"
                   justifyContent="center"
                   alignItems="center"
-                  bgColor={snapshot.isDraggingOver ? 'gray.100' : 'inherit'}
+                  bgColor={snapshot.isDraggingOver ? 'gray.200' : 'inherit'}
+                  borderWidth={snapshot.isDraggingOver ? 1 : 'inherit'}
                   mt={3}
                   borderRadius="md"
                   py={2}
@@ -184,11 +178,11 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                           borderBottomWidth="1px"
                           width="100%"
                           _hover={{
-                            bgColor: "gray.100"
+                            bgColor: 'gray.100',
                           }}
                           alignItems="center"
                           bgColor={
-                            draggableSnapshot.isDragging ? 'gray.200' : 'white'
+                            draggableSnapshot.isDragging ? 'cyan.100' : 'white'
                           }
                           py={2}
                           px={1}

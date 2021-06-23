@@ -256,20 +256,6 @@ export const Timer: React.FC<Props> = ({ user }) => {
             shadow="lg"
           />
         </Tooltip>
-        <Tooltip label="Reset timer">
-          <IconButton
-            isRound
-            aria-label="reset"
-            icon={<RepeatClockIcon />}
-            size="md"
-            variant="outline"
-            ml={2}
-            disabled={user.isTimerPlaying}
-            colorScheme="blue"
-            onClick={resetTimer}
-            shadow="lg"
-          />
-        </Tooltip>
         <Tooltip label="Open settings">
           <IconButton
             isRound
@@ -281,6 +267,20 @@ export const Timer: React.FC<Props> = ({ user }) => {
             icon={<SettingsIcon />}
             colorScheme="blue"
             onClick={onTimerSettingsOpen}
+            shadow="lg"
+          />
+        </Tooltip>
+        <Tooltip label="Reset timer">
+          <IconButton
+            isRound
+            aria-label="reset"
+            icon={<RepeatClockIcon />}
+            size="md"
+            variant="outline"
+            ml={2}
+            disabled={user.isTimerPlaying}
+            colorScheme="blue"
+            onClick={resetTimer}
             shadow="lg"
           />
         </Tooltip>

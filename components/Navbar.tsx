@@ -86,35 +86,14 @@ export const NavBar: React.FC<Props> = (props) => {
                 >
                   Dashboard
                 </MenuItem>
+                <MenuItem icon={<BsKanbanFill />} onClick={onBoardsOpen}>
+                  Boards
+                </MenuItem>
                 <MenuItem icon={<IoMdLogOut />} onClick={AuthUser.signOut}>
                   Logout
                 </MenuItem>
               </MenuList>
             </Menu>
-            {user !== null && boards.length > 0 ? (
-              <Tooltip label="Your boards" aria-label="boards">
-                <IconButton
-                  variant="ghost"
-                  size="lg"
-                  color="current"
-                  fontSize="3xl"
-                  icon={<BsKanbanFill />}
-                  aria-label={'boards'}
-                  onClick={onBoardsOpen}
-                />
-              </Tooltip>
-            ) : null}
-            <Tooltip label="Your todos" aria-label="todos">
-              <IconButton
-                variant="ghost"
-                size="lg"
-                color="current"
-                fontSize="3xl"
-                icon={<BsListCheck />}
-                aria-label={'todos'}
-                onClick={onTodosOpen}
-              />
-            </Tooltip>
           </>
         ) : (
           <IconButton
@@ -128,8 +107,33 @@ export const NavBar: React.FC<Props> = (props) => {
           />
         )}
       </HStack>
-      <HStack spacing={4}>
-        {user !== null ? <Timer user={user} /> : null}
+      {user !== null ? <Timer user={user} /> : null}
+      <HStack spacing={2}>
+        {/* {user !== null && boards.length > 0 ? (
+          <Tooltip label="Your boards" aria-label="boards">
+            <IconButton
+              variant="ghost"
+              size="lg"
+              color="current"
+              fontSize="3xl"
+              icon={<BsKanbanFill />}
+              aria-label={'boards'}
+              onClick={onBoardsOpen}
+            />
+          </Tooltip>
+        ) : null} */}
+        <Tooltip label="Your todos" aria-label="todos">
+          <IconButton
+            variant="ghost"
+            size="lg"
+            color="current"
+            fontSize="3xl"
+            icon={<BsListCheck />}
+            aria-label={'todos'}
+            onClick={onTodosOpen}
+            mr={4}
+          />
+        </Tooltip>
         {AuthUser.email ? (
           <>
             {/* <Tooltip label="Keyboard shortcuts" aria-label="Keyboard shortcuts">

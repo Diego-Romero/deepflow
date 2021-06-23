@@ -238,6 +238,7 @@ const BoardPage = () => {
                         justifyContent="center"
                         {...provided.droppableProps}
                         alignItems="flex-start"
+                        borderColor="gray.300"
                         borderWidth={snapshot.isDraggingOver ? '1px' : 'inherit'}
                       >
                         <Stack spacing={2} mr={8}>
