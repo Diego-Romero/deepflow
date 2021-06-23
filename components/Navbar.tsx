@@ -60,6 +60,18 @@ export const NavBar: React.FC<Props> = (props) => {
       <HStack spacing={2}>
         {AuthUser.email ? (
           <>
+            <Tooltip label="Your todos" aria-label="todos">
+              <IconButton
+                variant="ghost"
+                size="lg"
+                color="current"
+                fontSize="3xl"
+                icon={<BsListCheck />}
+                aria-label={'todos'}
+                onClick={onTodosOpen}
+                mr={4}
+              />
+            </Tooltip>
             {/* <Tooltip label="Go to dashboard" aria-label="Go to dashboard">
               <IconButton
                 variant="ghost"
@@ -71,29 +83,6 @@ export const NavBar: React.FC<Props> = (props) => {
                 onClick={() => router.push(config.routes.dashboard)}
               />
             </Tooltip> */}
-            <Menu>
-              <MenuButton
-                as={IconButton}
-                aria-label="Options"
-                icon={<HamburgerIcon />}
-                variant="ghost"
-                fontSize="3xl"
-              />
-              <MenuList color="gray.900" fontSize="lg">
-                <MenuItem
-                  icon={<IoMdHome />}
-                  onClick={() => router.push(config.routes.dashboard)}
-                >
-                  Dashboard
-                </MenuItem>
-                <MenuItem icon={<BsKanbanFill />} onClick={onBoardsOpen}>
-                  Boards
-                </MenuItem>
-                <MenuItem icon={<IoMdLogOut />} onClick={AuthUser.signOut}>
-                  Logout
-                </MenuItem>
-              </MenuList>
-            </Menu>
           </>
         ) : (
           <IconButton
@@ -109,6 +98,29 @@ export const NavBar: React.FC<Props> = (props) => {
       </HStack>
       {user !== null ? <Timer user={user} /> : null}
       <HStack spacing={2}>
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            aria-label="Options"
+            icon={<HamburgerIcon />}
+            variant="ghost"
+            fontSize="3xl"
+          />
+          <MenuList color="gray.900" fontSize="lg">
+            <MenuItem
+              icon={<IoMdHome />}
+              onClick={() => router.push(config.routes.dashboard)}
+            >
+              Dashboard
+            </MenuItem>
+            <MenuItem icon={<BsKanbanFill />} onClick={onBoardsOpen}>
+              Boards
+            </MenuItem>
+            <MenuItem icon={<IoMdLogOut />} onClick={AuthUser.signOut}>
+              Logout
+            </MenuItem>
+          </MenuList>
+        </Menu>
         {/* {user !== null && boards.length > 0 ? (
           <Tooltip label="Your boards" aria-label="boards">
             <IconButton
@@ -122,18 +134,6 @@ export const NavBar: React.FC<Props> = (props) => {
             />
           </Tooltip>
         ) : null} */}
-        <Tooltip label="Your todos" aria-label="todos">
-          <IconButton
-            variant="ghost"
-            size="lg"
-            color="current"
-            fontSize="3xl"
-            icon={<BsListCheck />}
-            aria-label={'todos'}
-            onClick={onTodosOpen}
-            mr={4}
-          />
-        </Tooltip>
         {AuthUser.email ? (
           <>
             {/* <Tooltip label="Keyboard shortcuts" aria-label="Keyboard shortcuts">
