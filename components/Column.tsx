@@ -2,15 +2,12 @@ import {
   AddIcon,
   DragHandleIcon,
   EditIcon,
-  SettingsIcon,
 } from '@chakra-ui/icons';
 import {
   Flex,
-  Box,
   Heading,
   HStack,
   IconButton,
-  Stack,
   Tooltip,
   useColorMode,
   useDisclosure,
@@ -34,6 +31,8 @@ interface Props {
   columnSize: number;
 }
 
+
+
 export const Column: React.FC<Props> = ({
   column,
   columnIndex,
@@ -42,7 +41,7 @@ export const Column: React.FC<Props> = ({
   updateColumn,
   updateItem,
   deleteItem,
-  columnSize
+  columnSize,
 }) => {
   const {
     isOpen: isCreateItemModalOpen,
@@ -58,12 +57,12 @@ export const Column: React.FC<Props> = ({
 
   function calculateColSize(n: number): string {
     const sizes = {
-      1: "150px",
-      2: "250px",
-      3: "350px",
-      4: "450px",
-      5: "550px",
-    }
+      1: '250px',
+      2: '300px',
+      3: '350px',
+      4: '400px',
+      5: '450px',
+    };
     return sizes[n];
   }
 

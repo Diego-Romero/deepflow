@@ -72,7 +72,7 @@ const DashboardPage = () => {
       name,
       createdAt: Date.now(),
       updatedAt: Date.now(),
-      colSize: 3
+      colSize: 3,
     };
     const boardData = {
       columns: createTemplateColumns(template),

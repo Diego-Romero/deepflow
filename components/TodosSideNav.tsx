@@ -50,13 +50,6 @@ interface Props {
   onClose: () => void;
 }
 
-// export const mockItems: TodoItem[] = [
-//   { name: 'test', createdAt: Date.now(), done: false },
-//   { name: 'test 1', createdAt: Date.now(), done: false },
-//   { name: 'test 2', createdAt: Date.now(), done: false },
-//   { name: 'test 3', createdAt: Date.now(), done: false },
-// ];
-
 export const TodosSideNav: React.FC<Props> = (props) => {
   const { isOpen, onClose } = props;
 
@@ -111,7 +104,7 @@ export const TodosSideNav: React.FC<Props> = (props) => {
       isOpen={isOpen}
       placement="left"
       onClose={onClose}
-      size="sm"
+      size="md"
       // finalFocusRef={btnRef}
     >
       <DrawerOverlay />
@@ -183,25 +176,25 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                           ref={draggableProvided.innerRef}
                           {...draggableProvided.draggableProps}
                           {...draggableProvided.dragHandleProps}
-                          mb={4}
                           justifyContent="space-between"
                           textDecoration={
                             item.done ? 'line-through' : 'inherit'
                           }
                           color={item.done ? 'gray.600' : 'inherit'}
-                          borderWidth="1px"
+                          borderBottomWidth="1px"
                           width="100%"
+                          _hover={{
+                            bgColor: "gray.100"
+                          }}
                           alignItems="center"
                           bgColor={
-                            draggableSnapshot.isDragging ? 'blue.100' : 'white'
+                            draggableSnapshot.isDragging ? 'gray.200' : 'white'
                           }
-                          shadow="md"
                           p={4}
-                          borderRadius="md"
                         >
                           <HStack>
                             <DragHandleIcon w={3} h={3} />
-                            <Text>{item.name}</Text>
+                            <Text noOfLines={1}>{item.name}</Text>
                           </HStack>
                           <HStack>
                             {item.done ? (
@@ -213,6 +206,7 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                                   <IconButton
                                     size="sm"
                                     variant="outline"
+                                    colorScheme="blue"
                                     isRound
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -231,6 +225,7 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                                 >
                                   <IconButton
                                     size="sm"
+                                    colorScheme="red"
                                     variant="outline"
                                     isRound
                                     onClick={(e) => {
@@ -251,6 +246,7 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                                   size="sm"
                                   variant="outline"
                                   isRound
+                                  colorScheme="blue"
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     updateTodo({ ...item, done: true }, index);

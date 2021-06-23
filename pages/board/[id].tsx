@@ -24,12 +24,9 @@ import { CreateColumnModal } from '../../components/CreateColumnModal';
 import { useRouter } from 'next/router';
 import config from '../../utils/config';
 import { AddIcon } from '@chakra-ui/icons';
-import { AiOutlineZoomIn, AiOutlineZoomOut } from "react-icons/ai"
+import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
 
-// enum colSizes {
-//   small = "200px",
-//   medium = ""
-// }
+const MIN_COL_SIZE = 1, MAX_COL_SIZE = 5;
 
 const BoardPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -90,7 +87,6 @@ const BoardPage = () => {
     getUser();
   }, []);
 
-
   const createNewItem = (listIndex: number, name: string) => {
     const newItem: ColumnItem = {
       name,
@@ -106,7 +102,7 @@ const BoardPage = () => {
   };
 
   const createNewColumn = (name: string) => {
-    const columns = [...boardData!.columns, { name, items: [] }];
+    const columns = [{ name, items: [] }, ...boardData!.columns];
     const nextBoard = { ...boardData!, columns };
     updateBoardData(nextBoard);
   };
@@ -200,11 +196,10 @@ const BoardPage = () => {
 
   function setColSize(n: number) {
     const newColSize: number = n + (board!.colSize || 3); // if there is no colSize
-    if (newColSize > 0 && newColSize < 6) {
-      updateBoard({...board!, colSize: newColSize })
+    if (newColSize >= MIN_COL_SIZE && newColSize <= MAX_COL_SIZE) {
+      updateBoard({ ...board!, colSize: newColSize });
     }
   }
-
 
   return (
     <PageLayout user={user}>
@@ -233,7 +228,7 @@ const BoardPage = () => {
                 updateBoard={updateBoard}
                 deleteBoard={deleteBoard}
               />
-              <Divider mb={4} />
+              <Divider />
               <Box>
                 <DragDropContext onDragEnd={onDragEnd}>
                   <Droppable
@@ -243,23 +238,56 @@ const BoardPage = () => {
                   >
                     {(provided, snapshot) => (
                       <Flex
+                        py={4}
+                        borderRadius="md"
                         flexDir="row"
                         ref={provided.innerRef}
                         justifyContent="center"
-                        p="2"
                         {...provided.droppableProps}
                         alignItems="flex-start"
-                        bg={
-                          snapshot.isDraggingOver
-                            ? colorMode === 'light'
-                              ? 'gray.300'
-                              : 'gray.700'
-                            : 'inherit'
-                        }
+                        borderWidth={snapshot.isDraggingOver ? '1px' : 'inherit'}
                       >
+                        <Stack spacing={2} mr={8}>
+                          <Tooltip label="Add Row">
+                            <IconButton
+                              isRound
+                              onClick={onOpen}
+                              shadow="lg"
+                              variant="solid"
+                              size="lg"
+                              aria-label="Add row"
+                              colorScheme="blue"
+                              icon={<AddIcon />}
+                            />
+                          </Tooltip>
+                          <Tooltip label="decrease column size">
+                            <IconButton
+                              isRound
+                              shadow="lg"
+                              variant="outline"
+                              isDisabled={board.colSize === MIN_COL_SIZE}
+                              size="lg"
+                              aria-label="Add row"
+                              onClick={() => setColSize(-1)}
+                              icon={<AiOutlineZoomOut />}
+                            />
+                          </Tooltip>
+                          <Tooltip label="increase column size">
+                            <IconButton
+                              isRound
+                              shadow="lg"
+                              variant="outline"
+                              size="lg"
+                              isDisabled={board.colSize === MAX_COL_SIZE}
+                              aria-label="Add row"
+                              onClick={() => setColSize(1)}
+                              icon={<AiOutlineZoomIn />}
+                            />
+                          </Tooltip>
+                        </Stack>
                         {boardData.columns.map((column, index) => (
                           <Column
-                          columnSize={board.colSize || 3}
+                            columnSize={board.colSize || 3}
                             column={column}
                             columnIndex={index}
                             key={index}
@@ -271,43 +299,6 @@ const BoardPage = () => {
                           />
                         ))}
                         {provided.placeholder}
-                        <Stack spacing={2}>
-
-                        <Tooltip label="Add Row">
-                          <IconButton
-                            isRound
-                            onClick={onOpen}
-                            shadow="lg"
-                            variant="solid"
-                            size="lg"
-                            aria-label="Add row"
-                            colorScheme="blue"
-                            icon={<AddIcon />}
-                          />
-                        </Tooltip>
-                        <Tooltip label="decrease column size">
-                          <IconButton
-                            isRound
-                            shadow="lg"
-                            variant="outline"
-                            size="lg"
-                            aria-label="Add row"
-                            onClick={() => setColSize(-1)}
-                            icon={<AiOutlineZoomOut />}
-                          />
-                        </Tooltip>
-                        <Tooltip label="increase column size">
-                          <IconButton
-                            isRound
-                            shadow="lg"
-                            variant="outline"
-                            size="lg"
-                            aria-label="Add row"
-                            onClick={() => setColSize(1)}
-                            icon={<AiOutlineZoomIn />}
-                          />
-                        </Tooltip>
-                        </Stack>
                       </Flex>
                     )}
                   </Droppable>
