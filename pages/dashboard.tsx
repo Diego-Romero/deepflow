@@ -64,12 +64,6 @@ const DashboardPage = () => {
     config.collections.userBoards(authUser.id as string)
   );
 
-  function firebaseUpdateUser(userUpdated: User) {
-    UserRef.set(userUpdated);
-    // boardDataDbRef.set(nextBoard);
-    console.log('need to update user'); // todo: finish updating user
-  }
-
   useEffect(() => {
     getUser();
   }, []);

@@ -1,4 +1,11 @@
-import { AddIcon, CheckIcon, DragHandleIcon } from '@chakra-ui/icons';
+import {
+  AddIcon,
+  CheckIcon,
+  DeleteIcon,
+  DragHandleIcon,
+  RepeatIcon,
+} from '@chakra-ui/icons';
+import Firebase from 'firebase';
 import {
   Drawer,
   Text,
@@ -16,12 +23,15 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TodoItem } from '../types';
 import * as Yup from 'yup';
 import { validation } from '../utils/util-functions';
 import { InputControl } from 'formik-chakra-ui';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { useAuthUser } from 'next-firebase-auth';
+import config from '../utils/config';
+import produce from 'immer';
 
 const reorder = (
   list: TodoItem[],
@@ -40,19 +50,48 @@ interface Props {
   onClose: () => void;
 }
 
-export const mockItems: TodoItem[] = [
-  { name: 'test', createdAt: Date.now(), done: false },
-  { name: 'test 1', createdAt: Date.now(), done: false },
-  { name: 'test 2', createdAt: Date.now(), done: false },
-  { name: 'test 3', createdAt: Date.now(), done: false },
-];
+// export const mockItems: TodoItem[] = [
+//   { name: 'test', createdAt: Date.now(), done: false },
+//   { name: 'test 1', createdAt: Date.now(), done: false },
+//   { name: 'test 2', createdAt: Date.now(), done: false },
+//   { name: 'test 3', createdAt: Date.now(), done: false },
+// ];
 
 export const TodosSideNav: React.FC<Props> = (props) => {
   const { isOpen, onClose } = props;
-  const [todos, setTodos] = useState<TodoItem[]>(mockItems);
+
+  const authUser = useAuthUser();
+  const [todos, setTodos] = useState<TodoItem[]>([]);
+
+  const todosRef = Firebase.database().ref(
+    config.collections.userTodos(authUser.id as string)
+  );
+
+  const getTodos = () => {
+    todosRef.on('value', (snapshot) => {
+      setTodos(snapshot.val() || []);
+    });
+  };
+
+  useEffect(() => {
+    getTodos();
+  }, []);
 
   const addTodo = (item: TodoItem) => {
-    setTodos([item, ...todos]);
+    todosRef.set([item, ...todos]);
+  };
+
+  const updateTodo = (item: TodoItem, index: number) => {
+    const next = produce(todos, (draft) => {
+      draft[index] = item;
+    });
+    todosRef.set(next);
+  };
+
+  const deleteTodo = (index: number) => {
+    const next = [...todos];
+    next.splice(index, 1);
+    todosRef.set(next);
   };
 
   const onDragEnd = (result) => {
@@ -84,13 +123,12 @@ export const TodosSideNav: React.FC<Props> = (props) => {
           <Formik
             initialValues={{ name: '' }}
             onSubmit={(values, actions) => {
-              console.log(values);
               const item: TodoItem = {
                 ...values,
                 createdAt: Date.now(),
                 done: false,
               };
-              setTodos([item, ...todos]);
+              addTodo(item);
               actions.resetForm();
             }}
             validationSchema={Yup.object().shape({ name: validation.name })}
@@ -129,10 +167,10 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                   flexDir="column"
                   justifyContent="center"
                   alignItems="center"
-		  bgColor={snapshot.isDraggingOver ? "gray.100" : "inherit"}
-		  mt={6}
-		  borderRadius="md"
-		  py={2}
+                  bgColor={snapshot.isDraggingOver ? 'gray.100' : 'inherit'}
+                  mt={6}
+                  borderRadius="md"
+                  py={2}
                 >
                   {todos.map((item, index) => (
                     <Draggable
@@ -147,11 +185,17 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                           {...draggableProvided.dragHandleProps}
                           mb={4}
                           justifyContent="space-between"
+                          textDecoration={
+                            item.done ? 'line-through' : 'inherit'
+                          }
+                          color={item.done ? 'gray.600' : 'inherit'}
                           borderWidth="1px"
                           width="100%"
                           alignItems="center"
-			  bgColor={draggableSnapshot.isDragging ? "blue.100" : "white"}
-			  shadow="md"
+                          bgColor={
+                            draggableSnapshot.isDragging ? 'blue.100' : 'white'
+                          }
+                          shadow="md"
                           p={4}
                           borderRadius="md"
                         >
@@ -160,22 +204,62 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                             <Text>{item.name}</Text>
                           </HStack>
                           <HStack>
-                            <Tooltip
-                              label="Mark as done"
-                              aria-label="mark as done"
-                            >
-                              <IconButton
-                                size="sm"
-                                variant="outline"
-                                isRound
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  // updateItem(columnIndex, itemIndex, {...item, done: true})
-                                }}
-                                icon={<CheckIcon />}
-                                aria-label={'Mark as done'}
-                              />
-                            </Tooltip>
+                            {item.done ? (
+                              <>
+                                <Tooltip
+                                  label="Mark as undone"
+                                  aria-label="mark as undone"
+                                >
+                                  <IconButton
+                                    size="sm"
+                                    variant="outline"
+                                    isRound
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      updateTodo(
+                                        { ...item, done: false },
+                                        index
+                                      );
+                                    }}
+                                    icon={<RepeatIcon />}
+                                    aria-label={'mark as undone'}
+                                  />
+                                </Tooltip>
+                                <Tooltip
+                                  label="Delete item"
+                                  aria-label="Delete item"
+                                >
+                                  <IconButton
+                                    size="sm"
+                                    variant="outline"
+                                    isRound
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      deleteTodo(index);
+                                    }}
+                                    icon={<DeleteIcon />}
+                                    aria-label={'Delete item'}
+                                  />
+                                </Tooltip>
+                              </>
+                            ) : (
+                              <Tooltip
+                                label="Mark as done"
+                                aria-label="mark as done"
+                              >
+                                <IconButton
+                                  size="sm"
+                                  variant="outline"
+                                  isRound
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    updateTodo({ ...item, done: true }, index);
+                                  }}
+                                  icon={<CheckIcon />}
+                                  aria-label={'Mark as done'}
+                                />
+                              </Tooltip>
+                            )}
                           </HStack>
                         </Flex>
                       )}
@@ -189,10 +273,10 @@ export const TodosSideNav: React.FC<Props> = (props) => {
         </DrawerBody>
 
         <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-          </DrawerFooter>
+          <Button variant="outline" mr={3} onClick={onClose}>
+            Cancel
+          </Button>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

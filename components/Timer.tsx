@@ -1,4 +1,4 @@
-import { RepeatIcon, SettingsIcon } from '@chakra-ui/icons';
+import { RepeatClockIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
   Flex,
   Text,
@@ -258,7 +258,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
           <IconButton
             isRound
             aria-label="reset"
-            icon={<RepeatIcon />}
+            icon={<RepeatClockIcon />}
             size="md"
             variant="outline"
             ml={2}
