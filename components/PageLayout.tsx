@@ -24,7 +24,7 @@ export const PageLayout: React.FC<Props> = (props) => {
         minW="900px"
       >
         <NavBar user={user} />
-        <Box>{children}</Box>
+        <Box bgColor="gray.200">{children}</Box>
         <Footer />
       </Grid>
       <Flex

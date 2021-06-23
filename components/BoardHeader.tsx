@@ -1,4 +1,4 @@
-import { EditIcon } from '@chakra-ui/icons';
+import { EditIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
   Box,
   Flex,
@@ -33,7 +33,18 @@ export const BoardHeader: React.FC<Props> = ({
         justifyContent="flex-start"
         width="100%"
       >
-        <HStack spacing={4}>
+        <HStack spacing={8}>
+          <Tooltip label="Edit" aria-label="edit">
+            <IconButton
+              size="lg"
+              colorScheme="blackAlpha"
+              variant="outline"
+              isRound
+              onClick={onOpen}
+              icon={<SettingsIcon />}
+              aria-label={'Edit'}
+            />
+          </Tooltip>
           <Text
             fontSize="4xl"
             fontWeight="bold"
@@ -43,16 +54,6 @@ export const BoardHeader: React.FC<Props> = ({
           >
             {board.name}
           </Text>
-          <Tooltip label="Edit" aria-label="edit">
-            <IconButton
-              size="lg"
-              variant="outline"
-              isRound
-              onClick={onOpen}
-              icon={<EditIcon />}
-              aria-label={'Edit'}
-            />
-          </Tooltip>
         </HStack>
       </Flex>
       <BoardSettingsModal

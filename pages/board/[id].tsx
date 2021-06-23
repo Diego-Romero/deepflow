@@ -209,7 +209,7 @@ const BoardPage = () => {
           <Box display={['none', 'block']}>
             {/* <pre>{JSON.stringify(board, null, 2)}</pre> */}
             <Flex
-              px={8}
+              px={4}
               py={8}
               flexDir="column"
               alignItems="flex-start"
@@ -253,28 +253,30 @@ const BoardPage = () => {
                               icon={<AddIcon />}
                             />
                           </Tooltip>
-                          <Tooltip label="decrease column size">
-                            <IconButton
-                              isRound
-                              shadow="lg"
-                              variant="outline"
-                              isDisabled={board.colSize === MIN_COL_SIZE}
-                              size="lg"
-                              aria-label="Add row"
-                              onClick={() => setColSize(-1)}
-                              icon={<AiOutlineZoomOut />}
-                            />
-                          </Tooltip>
                           <Tooltip label="increase column size">
                             <IconButton
                               isRound
                               shadow="lg"
                               variant="outline"
+                              colorScheme="blackAlpha"
                               size="lg"
                               isDisabled={board.colSize === MAX_COL_SIZE}
                               aria-label="Add row"
                               onClick={() => setColSize(1)}
                               icon={<AiOutlineZoomIn />}
+                            />
+                          </Tooltip>
+                          <Tooltip label="decrease column size">
+                            <IconButton
+                              isRound
+                              shadow="lg"
+                              variant="outline"
+                              colorScheme="blackAlpha"
+                              isDisabled={board.colSize === MIN_COL_SIZE}
+                              size="lg"
+                              aria-label="Add row"
+                              onClick={() => setColSize(-1)}
+                              icon={<AiOutlineZoomOut />}
                             />
                           </Tooltip>
                         </Stack>

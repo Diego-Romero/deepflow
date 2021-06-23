@@ -71,6 +71,26 @@ export const NavBar: React.FC<Props> = (props) => {
                 onClick={() => router.push(config.routes.dashboard)}
               />
             </Tooltip> */}
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label="Options"
+                icon={<HamburgerIcon />}
+                variant="ghost"
+                fontSize="3xl"
+              />
+              <MenuList color="gray.900" fontSize="lg">
+                <MenuItem
+                  icon={<IoMdHome />}
+                  onClick={() => router.push(config.routes.dashboard)}
+                >
+                  Dashboard
+                </MenuItem>
+                <MenuItem icon={<IoMdLogOut />} onClick={AuthUser.signOut}>
+                  Logout
+                </MenuItem>
+              </MenuList>
+            </Menu>
             {user !== null && boards.length > 0 ? (
               <Tooltip label="Your boards" aria-label="boards">
                 <IconButton
@@ -125,35 +145,6 @@ export const NavBar: React.FC<Props> = (props) => {
                 aria-label={`Keyboard shortcuts`}
               />
             </Tooltip> */}
-            <Menu>
-              <MenuButton
-                as={IconButton}
-                aria-label="Options"
-                icon={<HamburgerIcon />}
-                variant="ghost"
-                fontSize="3xl"
-              />
-              <MenuList color="gray.900" fontSize="lg">
-                <MenuItem
-                  icon={<IoMdHome />}
-                  onClick={() => router.push(config.routes.dashboard)}
-                >
-                  Dashboard
-                </MenuItem>
-                <MenuItem icon={<IoMdLogOut />} onClick={AuthUser.signOut}>
-                  Logout
-                </MenuItem>
-                {/* <MenuItem icon={<ExternalLinkIcon />} command="⌘N">
-                  New Window
-                </MenuItem>
-                <MenuItem icon={<RepeatIcon />} command="⌘⇧N">
-                  Open Closed Tab
-                </MenuItem>
-                <MenuItem icon={<EditIcon />} command="⌘O">
-                  Open File...
-                </MenuItem> */}
-              </MenuList>
-            </Menu>
             {/* <Tooltip label="Logout" aria-label="Logout">
               <IconButton
                 size="md"

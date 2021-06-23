@@ -14,6 +14,7 @@ export const Card: React.FC<Props> = ({ children, maxHeight = 'auto' }) => (
     p={6}
     shadow="md"
     borderColor="gray.200"
+    bgColor="white"
     borderWidth="1px"
   >
     {children}

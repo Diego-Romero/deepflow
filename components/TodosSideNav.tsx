@@ -161,7 +161,7 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                   justifyContent="center"
                   alignItems="center"
                   bgColor={snapshot.isDraggingOver ? 'gray.100' : 'inherit'}
-                  mt={6}
+                  mt={3}
                   borderRadius="md"
                   py={2}
                 >
@@ -190,7 +190,8 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                           bgColor={
                             draggableSnapshot.isDragging ? 'gray.200' : 'white'
                           }
-                          p={4}
+                          py={2}
+                          px={1}
                         >
                           <HStack>
                             <DragHandleIcon w={3} h={3} />

@@ -6,6 +6,7 @@ import {
   Tooltip,
   HStack,
   useDisclosure,
+  Box,
 } from '@chakra-ui/react';
 import { BsStopFill } from 'react-icons/bs';
 import React, { useEffect } from 'react';
@@ -177,34 +178,34 @@ export const Timer: React.FC<Props> = ({ user }) => {
     <Flex flexDir="row" alignItems="center">
       <Flex
         borderWidth="1px"
-        bgColor="gray.200"
+        bgColor="white"
         shadow="md"
         color="black"
-        borderRadius="md"
+        borderRadius="lg"
         p="4"
         alignItems="center"
         justifyContent="center"
       >
-        <Text
-          fontSize="2xl"
-          fontWeight="bold"
-          mr={4}
-          color={
-            user.onShortBreak || user.onLongBreak
-              ? 'green'
-              : user.isTimerPlaying
-              ? 'orange.500'
-              : 'inherit'
-          }
-        >
-          {user.isTimerPlaying ? (
-            <Flex flexDir="row" alignItems="center" justifyContent="center">
+        <Flex flexDir="row" alignItems="center" justifyContent="center">
+          <Text
+            fontSize="2xl"
+            fontWeight="bold"
+            mr={3}
+            color={
+              user.onShortBreak || user.onLongBreak
+                ? 'green'
+                : user.isTimerPlaying
+                ? 'orange.500'
+                : 'inherit'
+            }
+          >
+            {user.isTimerPlaying ? (
               <TimerRunning />
-            </Flex>
-          ) : (
-            <span>{displayNextTimer()}</span>
-          )}
-        </Text>
+            ) : (
+              <span>{displayNextTimer()}</span>
+            )}
+          </Text>
+        </Flex>
         <HStack>
           {user.isTimerPlaying ? (
             <Tooltip label="Stop timer">
@@ -236,9 +237,11 @@ export const Timer: React.FC<Props> = ({ user }) => {
             </Tooltip>
           )}
         </HStack>
-        <Text fontSize="2xl" fontWeight="bold" ml={4}>
-          {user.pomodoroCount} / {user.targetPerDay}
-        </Text>
+        <Box ml={3} pl={3} pr={3} mr={3} borderLeftWidth={1} borderRightWidth={1} borderColor="gray.500">
+          <Text fontSize="2xl" fontWeight="bold">
+            {user.pomodoroCount} / {user.targetPerDay}
+          </Text>
+        </Box>
 
         <Tooltip label="Full screen timer">
           <IconButton
@@ -250,7 +253,6 @@ export const Timer: React.FC<Props> = ({ user }) => {
             variant="outline"
             size="md"
             onClick={onFullScreenTimerOpen}
-            ml={4}
             shadow="lg"
           />
         </Tooltip>

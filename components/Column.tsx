@@ -1,8 +1,4 @@
-import {
-  AddIcon,
-  DragHandleIcon,
-  EditIcon,
-} from '@chakra-ui/icons';
+import { AddIcon, DragHandleIcon, EditIcon } from '@chakra-ui/icons';
 import {
   Flex,
   Heading,
@@ -12,6 +8,7 @@ import {
   useColorMode,
   useDisclosure,
   Grid,
+  Divider,
 } from '@chakra-ui/react';
 import React from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
@@ -30,8 +27,6 @@ interface Props {
   updateColumn: (name: string, index: number) => void;
   columnSize: number;
 }
-
-
 
 export const Column: React.FC<Props> = ({
   column,
@@ -69,29 +64,23 @@ export const Column: React.FC<Props> = ({
   return (
     <Draggable draggableId={`column-${columnIndex}`} index={columnIndex}>
       {(provided, snapshot) => (
-        <Grid
+        <Flex
           ref={provided.innerRef}
           {...provided.draggableProps}
           mr={4}
-          gridTemplateRows="auto 1fr"
           minH="70vh"
-          borderRadius="md"
+          flexDir="column"
+          borderRadius="lg"
           width={calculateColSize(columnSize)}
-          bgColor={
-            colorMode === 'light'
-              ? snapshot.isDragging
-                ? 'white'
-                : 'gray.100'
-              : 'gray.800'
-          }
-          shadow="md"
+          bgColor={snapshot.isDragging ? 'gray.100' : 'white'}
+          shadow="lg"
           borderWidth="1px"
+          py={4}
+          px={3}
         >
           <Flex
             flexDir="row"
             mb={4}
-            px="2"
-            pt="2"
             alignItems="center"
             justifyContent="space-between"
             onClick={(e) => {
@@ -134,19 +123,18 @@ export const Column: React.FC<Props> = ({
             </HStack>
           </Flex>
 
+          <Divider />
+
           <Droppable droppableId={`column-${columnIndex}`} type="item">
             {(itemsProvided, itemsSnapshot) => (
               <Flex
                 flexDir="column"
                 ref={itemsProvided.innerRef}
                 {...itemsProvided.droppableProps}
-                p="2"
                 bg={
                   itemsSnapshot.isDraggingOver
-                    ? colorMode === 'light'
-                      ? 'gray.200'
-                      : 'gray.700'
-                    : 'inherit'
+                      ? 'gray.100'
+                      : 'inherit'
                 }
                 height="100%"
               >
@@ -170,7 +158,7 @@ export const Column: React.FC<Props> = ({
                     colorScheme="blue"
                     shadow="lg"
                     width="auto"
-                    mt={1}
+                    mt={3}
                     mb={2}
                     color="white"
                     size="sm"
@@ -196,7 +184,7 @@ export const Column: React.FC<Props> = ({
             index={columnIndex}
             name={column.name}
           />
-        </Grid>
+        </Flex>
       )}
     </Draggable>
   );

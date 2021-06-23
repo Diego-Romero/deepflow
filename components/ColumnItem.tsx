@@ -52,24 +52,18 @@ export const ColumnItem: React.FC<Props> = ({
           flexDir="row"
           justifyContent="space-between"
           alignItems="center"
-          p={4}
-          borderWidth="1px"
-          borderRadius="md"
-          bgColor={
-            colorMode === 'light'
-              ? dragSnapshot.isDragging
-                ? 'gray.100'
-                : 'white'
-              : 'gray.900'
-          }
-          shadow="md"
+          py={4}
+          borderBottomWidth="1px"
+          bgColor={dragSnapshot.isDragging ? 'cyan.100' : 'white'}
           textDecoration={item.done ? 'line-through' : 'inherit'}
           color={item.done ? 'gray.600' : 'inherit'}
           cursor="pointer"
-          mb={2}
           onClick={(e) => {
             e.stopPropagation();
             onSettingsOpen();
+          }}
+          _hover={{
+            bgColor: 'gray.100',
           }}
         >
           <Flex alignItems="center" justifyContent="center">
