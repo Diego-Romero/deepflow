@@ -4,6 +4,9 @@ import { NextApiRequest } from 'next';
 import * as Yup from 'yup';
 import { TemplateTypes } from '../components/CreateBoardModal';
 import { Board, Column, ColumnItem } from '../types';
+import Firebase from 'firebase';
+import config from './config';
+
 
 export const reorder = (
   list: ColumnItem[],

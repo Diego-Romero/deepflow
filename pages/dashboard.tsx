@@ -16,19 +16,12 @@ import {
   useDisclosure,
   CircularProgress,
 } from '@chakra-ui/react';
-import { Board, User } from '../types';
+import { User } from '../types';
 import { useRouter } from 'next/router';
 import { IoMdArrowForward } from 'react-icons/io';
-import {
-  CreateBoardModal,
-  TemplateTypes,
-} from '../components/CreateBoardModal';
+import { CreateBoardModal } from '../components/CreateBoardModal';
 import { Fragment } from 'react';
-import {
-  BoardWithId,
-  createTemplateColumns,
-  mapBoardsFromFirebase,
-} from '../utils/util-functions';
+import { BoardWithId, mapBoardsFromFirebase } from '../utils/util-functions';
 import config from '../utils/config';
 
 const DashboardPage = () => {
@@ -48,10 +41,6 @@ const DashboardPage = () => {
     config.collections.user(authUser.id as string)
   );
 
-  const userBoardsRef = Firebase.database().ref(
-    config.collections.userBoards(authUser.id as string)
-  );
-
   useEffect(() => {
     getUser();
   }, []);
@@ -67,22 +56,6 @@ const DashboardPage = () => {
     });
   };
 
-  const createBoard = (name: string, template: TemplateTypes) => {
-    const newBoard: Board = {
-      name,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-      colSize: 3,
-    };
-    const boardData = {
-      columns: createTemplateColumns(template),
-    };
-    const key = userBoardsRef.push(newBoard).key;
-    const BoardDataRef = Firebase.database().ref(
-      config.collections.boardData(key as string)
-    );
-    BoardDataRef.set(boardData);
-  };
   return (
     <PageLayout user={user}>
       <Flex justifyContent="center">
@@ -160,7 +133,6 @@ const DashboardPage = () => {
       <CreateBoardModal
         modalOpen={isCreateModalOpen}
         modalClose={onCreateModalClose}
-        createBoard={createBoard}
       />
     </PageLayout>
   );

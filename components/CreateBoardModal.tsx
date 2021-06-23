@@ -1,6 +1,5 @@
 import {
   Button,
-  IconButton,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -14,7 +13,11 @@ import { InputControl, RadioGroupControl } from 'formik-chakra-ui';
 import React from 'react';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
-import { validation } from '../utils/util-functions';
+import { createTemplateColumns, validation } from '../utils/util-functions';
+import Firebase from 'firebase';
+import config from '../utils/config';
+import { Board } from '../types';
+import { useAuthUser } from 'next-firebase-auth';
 
 export interface BoardSettingsValues {
   name: string;
@@ -24,7 +27,6 @@ export interface BoardSettingsValues {
 interface Props {
   modalOpen: boolean;
   modalClose: () => void;
-  createBoard: (name: string, template: TemplateTypes) => void;
 }
 
 export enum TemplateTypes {
@@ -36,8 +38,9 @@ export enum TemplateTypes {
 export const CreateBoardModal: React.FC<Props> = ({
   modalOpen,
   modalClose,
-  createBoard,
 }) => {
+  const authUser = useAuthUser();
+
   const initialValues: BoardSettingsValues = {
     name: '',
     template: TemplateTypes.todoDoingDone,
@@ -45,6 +48,28 @@ export const CreateBoardModal: React.FC<Props> = ({
   const validationSchema = Yup.object().shape({
     name: validation.name,
   });
+
+  const userBoardsRef = Firebase.database().ref(
+    config.collections.userBoards(authUser.id as string)
+  );
+
+  const createBoard = (name: string, template: TemplateTypes) => {
+    const newBoard: Board = {
+      name,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      colSize: 3,
+    };
+    const boardData = {
+      columns: createTemplateColumns(template),
+    };
+    const key = userBoardsRef.push(newBoard).key;
+    const BoardDataRef = Firebase.database().ref(
+      config.collections.boardData(key as string)
+    );
+    BoardDataRef.set(boardData);
+  };
+
   return (
     <Modal isOpen={modalOpen} onClose={modalClose} size="md">
       <ModalOverlay />

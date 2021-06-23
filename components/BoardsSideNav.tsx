@@ -11,12 +11,14 @@ import {
   Stack,
   Flex,
   IconButton,
+  useDisclosure,
 } from '@chakra-ui/react';
 import React from 'react';
 import { IoMdArrowForward } from 'react-icons/io';
 import { BoardWithId } from '../utils/util-functions';
 import { useRouter } from 'next/router';
 import config from '../utils/config';
+import { CreateBoardModal } from './CreateBoardModal';
 
 interface Props {
   isOpen: boolean;
@@ -27,6 +29,11 @@ interface Props {
 export const BoardsSideNav: React.FC<Props> = (props) => {
   const { isOpen, onClose, boards } = props;
   const router = useRouter();
+  const {
+    isOpen: isCreateModalOpen,
+    onOpen: onCreateModalOpen,
+    onClose: onCreateModalClose,
+  } = useDisclosure();
 
   const navigateToBoard = (id: string) => {
     router.push(config.routes.goToBoard(id));
@@ -34,7 +41,7 @@ export const BoardsSideNav: React.FC<Props> = (props) => {
   };
 
   return (
-    <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="xs">
+    <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="sm">
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
@@ -69,13 +76,20 @@ export const BoardsSideNav: React.FC<Props> = (props) => {
             ))}
           </Flex>
         </DrawerBody>
-
-        <DrawerFooter>
+        <DrawerFooter borderTopWidth="1px">
           <Button variant="outline" mr={3} onClick={onClose}>
             Cancel
           </Button>
+          <Button colorScheme="blue" onClick={onCreateModalOpen}>
+            Create board
+          </Button>
         </DrawerFooter>
       </DrawerContent>
+
+      <CreateBoardModal
+        modalOpen={isCreateModalOpen}
+        modalClose={onCreateModalClose}
+      />
     </Drawer>
   );
 };
