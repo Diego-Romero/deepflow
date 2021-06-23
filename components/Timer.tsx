@@ -175,7 +175,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
   };
 
   return (
-    <Flex flexDir="row" alignItems="center">
+    <Flex flexDir="row" alignItems="center" display={["none", "flex"]}>
       <Flex
         borderWidth="1px"
         bgColor="white"

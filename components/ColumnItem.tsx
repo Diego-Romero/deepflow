@@ -71,11 +71,23 @@ export const ColumnItem: React.FC<Props> = ({
             <Text noOfLines={1}>{item.name}</Text>
           </Flex>
           <HStack spacing={1}>
+            <Tooltip label="Edit" aria-label="edit">
+              <IconButton
+                size="sm"
+                variant="ghost"
+                isRound
+                colorScheme="blue"
+                onClick={onSettingsOpen}
+                icon={<EditIcon />}
+                aria-label={'Edit'}
+              />
+            </Tooltip>
             {!item.done ? (
               <Tooltip label="Mark as done" aria-label="mark as done">
                 <IconButton
                   size="sm"
                   variant="outline"
+                  colorScheme="green"
                   isRound
                   onClick={(e) => {
                     e.stopPropagation();
@@ -91,6 +103,7 @@ export const ColumnItem: React.FC<Props> = ({
                   size="sm"
                   variant="outline"
                   isRound
+                colorScheme="red"
                   onClick={(e) => {
                     e.stopPropagation();
                     deleteItem(columnIndex, itemIndex);
@@ -100,16 +113,6 @@ export const ColumnItem: React.FC<Props> = ({
                 />
               </Tooltip>
             )}
-            <Tooltip label="Edit" aria-label="edit">
-              <IconButton
-                size="sm"
-                variant="outline"
-                isRound
-                onClick={onSettingsOpen}
-                icon={<EditIcon />}
-                aria-label={'Edit'}
-              />
-            </Tooltip>
           </HStack>
           <ItemSettingsModal
             modalOpen={isSettingsOpen}
