@@ -201,7 +201,8 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                                   <IconButton
                                     size="sm"
                                     variant="outline"
-                                    colorScheme="blue"
+                                    colorScheme="yellow"
+                                    backgroundColor="white"
                                     isRound
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -222,6 +223,8 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                                     size="sm"
                                     colorScheme="red"
                                     variant="outline"
+                                    backgroundColor="white"
+
                                     isRound
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -241,6 +244,7 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                                   size="sm"
                                   variant="outline"
                                   isRound
+                                    backgroundColor="white"
                                   colorScheme="blue"
                                   onClick={(e) => {
                                     e.stopPropagation();

@@ -53,17 +53,16 @@ export const SideNav: React.FC<Props> = (props) => {
       direction="column"
       align="center"
       justify="space-between"
-      bgColor="gray.50"
-      // p={4}
+      bgColor="white"
       shadow="md"
     >
-      <Stack spacing={3} p={4}>
+      <Stack spacing={2} p={4}>
         <Tooltip label="Dashboard" aria-label="dashboard">
           <IconButton
             size="lg"
             variant="ghost"
-            // colorScheme="blue"
-            fontSize="3xl"
+            colorScheme="gray"
+            fontSize="2xl"
             icon={<BsGraphUp />}
             aria-label={'dashboard'}
             onClick={() => router.push(config.routes.dashboard)}
@@ -73,9 +72,9 @@ export const SideNav: React.FC<Props> = (props) => {
         <Tooltip label="Boards" aria-label="boards">
           <IconButton
             variant="ghost"
-            // colorScheme="blue"
+            colorScheme="gray"
             size="lg"
-            fontSize="3xl"
+            fontSize="2xl"
             icon={<BsKanban />}
             aria-label={'boards'}
             onClick={onBoardsOpen}
@@ -85,9 +84,9 @@ export const SideNav: React.FC<Props> = (props) => {
         <Tooltip label="Your todos" aria-label="todos">
           <IconButton
             variant="ghost"
-            // colorScheme="blue"
+            colorScheme="gray"
             size="lg"
-            fontSize="3xl"
+            fontSize="2xl"
             icon={<BsListCheck />}
             aria-label={'todos'}
             onClick={onTodosOpen}

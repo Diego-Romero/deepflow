@@ -52,6 +52,7 @@ export const ColumnItem: React.FC<Props> = ({
           justifyContent="space-between"
           alignItems="center"
           py={4}
+          px={2}
           borderBottomWidth="1px"
           bgColor={dragSnapshot.isDragging ? 'cyan.100' : 'white'}
           textDecoration={item.done ? 'line-through' : 'inherit'}
@@ -86,8 +87,9 @@ export const ColumnItem: React.FC<Props> = ({
                 <IconButton
                   size="sm"
                   variant="outline"
-                  colorScheme="green"
+                  colorScheme="gray"
                   isRound
+                  backgroundColor="white"
                   onClick={(e) => {
                     e.stopPropagation();
                     updateItem(columnIndex, itemIndex, { ...item, done: true });
@@ -102,7 +104,7 @@ export const ColumnItem: React.FC<Props> = ({
                   size="sm"
                   variant="outline"
                   isRound
-                colorScheme="red"
+                  colorScheme="red"
                   onClick={(e) => {
                     e.stopPropagation();
                     deleteItem(columnIndex, itemIndex);
