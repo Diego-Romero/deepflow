@@ -9,8 +9,10 @@ const FullPageLoader = () => (
     justifyContent="center"
     width="100vw"
     height="100vh"
+    bgColor="white"
+    
   >
-    <CircularProgress isIndeterminate color="blue.500" />
+    <CircularProgress  isIndeterminate color="blue.500" />
     <Heading mt={4} size="md">
       Loading
     </Heading>

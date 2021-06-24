@@ -38,9 +38,10 @@ export const BoardHeader: React.FC<Props> = ({
           <Tooltip label="Edit" aria-label="edit">
             <IconButton
               size="md"
-              colorScheme="blue"
+              // colorScheme="blue"
               backgroundColor="white"
               variant="outline"
+              shadow="md"
               isRound
               onClick={onOpen}
               icon={<SettingsIcon />}

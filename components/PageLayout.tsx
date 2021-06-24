@@ -26,7 +26,7 @@ export const PageLayout: React.FC<Props> = (props) => {
       >
         <NavBar user={user} />
         <Grid
-          bgColor="gray.200"
+          bgColor="gray.100"
           gridTemplateColumns={user !== null ? 'auto 1fr' : '1fr'}
         >
           {user !== null ? <SideNav user={user} /> : null}

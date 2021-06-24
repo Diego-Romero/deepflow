@@ -69,10 +69,11 @@ export const Column: React.FC<Props> = ({
           flexDir="column"
           borderRadius="lg"
           width={calculateColSize(columnSize)}
-          bgColor={snapshot.isDragging ? 'gray.100' : 'white'}
-          shadow="lg"
+          shadow={snapshot.isDragging ? 'lg' : 'md'}
+          bgColor="white"
+          // shadow="md"
           borderWidth="1px"
-          // py={4}
+          pb={4}
           px={3}
         >
           <Flex
@@ -128,7 +129,7 @@ export const Column: React.FC<Props> = ({
                         columnIndex={columnIndex}
                         updateItem={updateItem}
                         deleteItem={deleteItem}
-                        columnSize={columnSize} 
+                        columnSize={columnSize}
                       />
                     ))
                   : null}
@@ -140,12 +141,11 @@ export const Column: React.FC<Props> = ({
             <IconButton
               variant="solid"
               colorScheme="gray"
-              // shadow="lg"
+              shadow="sm"
               width="auto"
-              mt={3}
+              size={columnSize <= 2 ? "xs" : "sm"}
+              mt={4}
               mb={2}
-              // color="white"
-              size="sm"
               onClick={onCreateModalOpen}
               icon={<AddIcon />}
               aria-label={'create new item'}

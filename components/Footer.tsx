@@ -13,7 +13,7 @@ export const Footer: React.FC = () => {
         textAlign="center"
         alignContent="center"
         justifyContent="center"
-        p="4"
+        p="3"
         bgGradient="linear(to-r, cyan.700,purple.500)"
         boxShadow="0 1px 3px 0 rgba(0, 0, 0, 0.1),0 1px 2px 0 rgba(0, 0, 0, 0.06)"
         color="white"
@@ -23,8 +23,8 @@ export const Footer: React.FC = () => {
           alignItems="center"
           spacing={4}
         >
-          <Heading size="sm">
-            Made with 🍹{' '}
+          <Heading size="xs">
+            Made with 🍹{'_'}
             <Link
               href="https://www.linkedin.com/in/dev-diego-romero/"
               isExternal
@@ -37,7 +37,7 @@ export const Footer: React.FC = () => {
             variant="outline"
             isRound
             colorScheme="white"
-            size="sm"
+            size="xs"
             aria-label="get in touch"
             onClick={onOpen}
             icon={<EmailIcon />}

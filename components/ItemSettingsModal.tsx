@@ -56,8 +56,6 @@ export const ItemSettingsModal: React.FC<Props> = ({
   colIndex,
   item,
 }) => {
-  const [isLargerThan480] = useMediaQuery('(min-width: 480px)');
-
   const initialValues: ItemSettingsValues = {
     name: item.name,
     description: item.description || '',
@@ -85,14 +83,24 @@ export const ItemSettingsModal: React.FC<Props> = ({
             {(props) => (
               <Form>
                 <Stack spacing={4}>
-                  <InputControl name="name" label="Name" isRequired />
+                  <InputControl
+                    name="name"
+                    label="Name"
+                    isRequired
+                  />
                   <TextareaControl
                     name="description"
+                    size="sm"
                     label="Description"
                     textareaProps={{ rows: 6 }}
                   />
-                  <SwitchControl name="done" label="Done" />
-                  <Text color="gray.500">
+                  <SwitchControl
+                    name="done"
+                    label="Done"
+                    size="sm"
+                    switchProps={{ size: 'sm' }}
+                  />
+                  <Text color="gray.500" fontSize="sm">
                     Created: {shortDateFormat(item.createdAt)}
                   </Text>
                 </Stack>

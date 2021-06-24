@@ -25,6 +25,7 @@ import { useRouter } from 'next/router';
 import config from '../../utils/config';
 import { AddIcon } from '@chakra-ui/icons';
 import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
+import { DeleteColumn } from '../../components/DeleteColumn';
 
 const MIN_COL_SIZE = 1,
   MAX_COL_SIZE = 5;
@@ -222,7 +223,7 @@ const BoardPage = () => {
                 updateBoard={updateBoard}
                 deleteBoard={deleteBoard}
               />
-              <Divider />
+              <Divider mb={4} borderColor="gray.300" />
               <Box>
                 <DragDropContext onDragEnd={onDragEnd}>
                   <Droppable
@@ -240,9 +241,12 @@ const BoardPage = () => {
                         {...provided.droppableProps}
                         alignItems="flex-start"
                         borderColor="gray.300"
-                        borderWidth={
-                          snapshot.isDraggingOver ? '1px' : 'inherit'
+                        bgColor={
+                          snapshot.isDraggingOver ? 'gray.300' : 'inherit'
                         }
+                        // borderWidth={
+                        //   snapshot.isDraggingOver ? '1px' : 'inherit'
+                        // }
                       >
                         <Stack spacing={2} mr={6}>
                           <Tooltip label="Add Row">
@@ -299,6 +303,7 @@ const BoardPage = () => {
                             deleteItem={deleteItem}
                           />
                         ))}
+                        {/* <DeleteColumn columnIndex={boardData.columns.length} /> */}
                         {provided.placeholder}
                       </Flex>
                     )}

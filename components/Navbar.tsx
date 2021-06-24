@@ -33,7 +33,8 @@ export const NavBar: React.FC<Props> = (props) => {
       direction="row"
       color="white"
       bgGradient="linear(to-r, cyan.700,purple.500)"
-      p={4}
+      px={4}
+      py={3}
       align="center"
       justify="space-between"
     >

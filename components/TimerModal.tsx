@@ -55,8 +55,10 @@ export const TimerModal: React.FC<Props> = ({
         <ModalCloseButton />
         <ModalBody>
           <Flex textAlign="center" p={8} flexDir="column">
-            <Heading color={formatTextColor()}>{formatText()}</Heading>
-            <Heading mt={4} size="3xl" color={formatTextColor()}>
+            <Heading size="lg" color={formatTextColor()}>
+              {formatText()}
+            </Heading>
+            <Heading mt={4} size="2xl" color={formatTextColor()}>
               {remainingTime}
             </Heading>
             <Text color="gray.500" mt={4} fontSize="lg">
@@ -64,11 +66,16 @@ export const TimerModal: React.FC<Props> = ({
             </Text>
             <Stack spacing={4} align="center" mt={4}>
               {user.isTimerPlaying ? (
-                <Button isFullWidth onClick={stopTimer}>
+                <Button size="sm" isFullWidth onClick={stopTimer}>
                   Stop
                 </Button>
               ) : (
-                <Button variant="outline" isFullWidth onClick={startTimer}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  isFullWidth
+                  onClick={startTimer}
+                >
                   Start
                 </Button>
               )}

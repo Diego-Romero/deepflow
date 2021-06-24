@@ -56,7 +56,8 @@ export const ColumnItem: React.FC<Props> = ({
           py={4}
           px={2}
           borderBottomWidth="1px"
-          bgColor={dragSnapshot.isDragging ? 'cyan.100' : 'white'}
+          // bgColor={dragSnapshot.isDragging ? 'gray.100' : 'white'}
+          bgColor="white"
           textDecoration={item.done ? 'line-through' : 'inherit'}
           color={item.done ? 'gray.600' : 'inherit'}
           cursor="pointer"
@@ -69,7 +70,7 @@ export const ColumnItem: React.FC<Props> = ({
           }}
         >
           <Flex alignItems="center" justifyContent="center">
-            <DragHandleIcon mr={1} w={2} h={2} />
+            {/* <DragHandleIcon mr={1} w={2} h={2} /> */}
             <Text noOfLines={1} fontSize={columnSize <= 2 ? 'sm' : 'md'}>
               {item.name}
             </Text>

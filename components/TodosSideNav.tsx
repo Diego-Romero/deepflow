@@ -224,7 +224,6 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                                     colorScheme="red"
                                     variant="outline"
                                     backgroundColor="white"
-
                                     isRound
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -244,7 +243,7 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                                   size="sm"
                                   variant="outline"
                                   isRound
-                                    backgroundColor="white"
+                                  backgroundColor="white"
                                   colorScheme="blue"
                                   onClick={(e) => {
                                     e.stopPropagation();
@@ -268,7 +267,7 @@ export const TodosSideNav: React.FC<Props> = (props) => {
         </DrawerBody>
 
         <DrawerFooter>
-          <Button variant="outline" mr={3} onClick={onClose}>
+          <Button size="sm" variant="outline" mr={3} onClick={onClose}>
             Cancel
           </Button>
         </DrawerFooter>

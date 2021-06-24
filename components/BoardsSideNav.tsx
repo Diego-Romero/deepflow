@@ -52,8 +52,8 @@ export const BoardsSideNav: React.FC<Props> = (props) => {
               <Flex
                 key={board.id}
                 flexDir="row"
-                py={4}
-                px={2}
+                py={3}
+                px={1}
                 borderBottomWidth="1px"
                 alignItems="center"
                 cursor="pointer"
@@ -63,10 +63,11 @@ export const BoardsSideNav: React.FC<Props> = (props) => {
                 }}
                 onClick={() => navigateToBoard(board.id)}
               >
-                <Text fontSize="large">{board.name}</Text>
+                <Text fontSize="md">{board.name}</Text>
                 <IconButton
                   colorScheme="blue"
                   isRound
+                  size="sm"
                   variant="ghost"
                   aria-label="Navigate to board"
                   icon={<IoMdArrowForward />}
@@ -76,10 +77,10 @@ export const BoardsSideNav: React.FC<Props> = (props) => {
           </Flex>
         </DrawerBody>
         <DrawerFooter borderTopWidth="1px">
-          <Button variant="outline" mr={3} onClick={onClose}>
+          <Button size="sm" variant="outline" mr={3} onClick={onClose}>
             Cancel
           </Button>
-          <Button colorScheme="blue" onClick={onCreateModalOpen}>
+          <Button size="sm" colorScheme="blue" onClick={onCreateModalOpen}>
             Create board
           </Button>
         </DrawerFooter>

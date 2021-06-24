@@ -90,33 +90,40 @@ export const CreateBoardModal: React.FC<Props> = ({
             {(_props) => (
               <Form>
                 <Stack spacing={4}>
-                  <InputControl name="name" label="Name" isRequired />
+                  <InputControl
+                    size="sm"
+                    name="name"
+                    label="Name"
+                    isRequired
+                    inputProps={{ size: 'sm', variant: 'flushed' }}
+                  />
                   <RadioGroupControl
+                    size="sm"
                     name="template"
                     label="Template"
                     helperText="We recommend starting with a template to help you get going"
                   >
-                    <Radio size="lg" value={TemplateTypes.todoDoingDone}>
-                      Default
-                    </Radio>
-                    <Radio size="lg" value={TemplateTypes.weekdays}>
-                      Weekdays
-                    </Radio>
-                    <Radio size="lg" value={TemplateTypes.blank}>
-                      Blank
-                    </Radio>
+                    <Stack spacing={2}>
+                      <Radio size="md" value={TemplateTypes.todoDoingDone}>
+                        Default
+                      </Radio>
+                      <Radio size="md" value={TemplateTypes.weekdays}>
+                        Weekdays
+                      </Radio>
+                      <Radio size="md" value={TemplateTypes.blank}>
+                        Blank
+                      </Radio>
+                    </Stack>
                   </RadioGroupControl>
                 </Stack>
                 <Button
                   mt={6}
                   mb={4}
+                  size="sm"
                   isFullWidth
                   type="submit"
                   variant="solid"
-                  bgGradient="linear(to-r, cyan.700,purple.500)"
-                  _hover={{
-                    bgGradient: 'linear(to-r, cyan.600,purple.400)',
-                  }}
+                  colorScheme="blue"
                   color="white"
                 >
                   Create
