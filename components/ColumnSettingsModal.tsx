@@ -90,10 +90,11 @@ export const ColumnSettingsModal: React.FC<Props> = ({
                       isRequired
                       isInvalid={form.errors.name && form.touched.name}
                     >
-                      <FormLabel htmlFor="name">Name</FormLabel>
+                      <FormLabel size="sm" htmlFor="name">Name</FormLabel>
                       <Input
                         {...field}
                         type="text"
+                        size='sm'
                         autoFocus={isLargerThan480}
                       />
                       <FormErrorMessage>{form.errors.name}</FormErrorMessage>
@@ -101,11 +102,12 @@ export const ColumnSettingsModal: React.FC<Props> = ({
                   )}
                 </Field>
                 <Button
-                  mt={8}
+                  mt={4}
                   isFullWidth
                   type="submit"
                   variant="solid"
                   colorScheme="blue"
+                  size="sm"
                   isLoading={props.isSubmitting}
                 >
                   Update
@@ -115,8 +117,8 @@ export const ColumnSettingsModal: React.FC<Props> = ({
                   isFullWidth
                   mt={4}
                   mb={4}
+                  size="sm"
                   colorScheme="red"
-                  size="md"
                   onClick={onDeleteAlertOpen}
                   icon={<DeleteIcon />}
                   aria-label={'Delete'}

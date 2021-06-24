@@ -81,19 +81,25 @@ export const BoardSettingsModal: React.FC<Props> = ({
             {(_props) => (
               <Form>
                 <Stack spacing={5}>
-                  <InputControl name="name" label="Name" isRequired />
+                  <InputControl
+                    name="name"
+                    label="Name"
+                    isRequired
+                    inputProps={{ size: 'sm' }}
+                  />
                 </Stack>
                 <Button
-                  mt={8}
+                  mt={4}
                   isFullWidth
                   type="submit"
                   variant="solid"
+                  size="sm"
                   colorScheme="blue"
                 >
                   Update
                 </Button>
                 <Divider mt={4} />
-                <Heading mt={4} size="md">
+                <Heading mt={4} size="xs">
                   Danger Zone
                 </Heading>
                 <Button
@@ -102,6 +108,7 @@ export const BoardSettingsModal: React.FC<Props> = ({
                   colorScheme="red"
                   variant="outline"
                   isFullWidth
+                  size="sm"
                   onClick={onDeleteAlertOpen}
                 >
                   Delete board
