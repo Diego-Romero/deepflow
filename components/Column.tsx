@@ -5,9 +5,7 @@ import {
   HStack,
   IconButton,
   Tooltip,
-  useColorMode,
   useDisclosure,
-  Grid,
   Divider,
 } from '@chakra-ui/react';
 import React from 'react';
@@ -48,7 +46,6 @@ export const Column: React.FC<Props> = ({
     onOpen: onSettingsOpen,
     onClose: onSettingsClose,
   } = useDisclosure();
-  const { colorMode } = useColorMode();
 
   function calculateColSize(n: number): string {
     const sizes = {
@@ -75,13 +72,15 @@ export const Column: React.FC<Props> = ({
           bgColor={snapshot.isDragging ? 'gray.100' : 'white'}
           shadow="lg"
           borderWidth="1px"
-          py={4}
+          // py={4}
           px={3}
         >
           <Flex
             flexDir="row"
-            mb={4}
+            pt={4}
+            pb={4}
             alignItems="center"
+            _hover={{ textDecor: 'bold' }}
             justifyContent="space-between"
             onClick={(e) => {
               e.stopPropagation();
@@ -91,14 +90,14 @@ export const Column: React.FC<Props> = ({
           >
             <Flex alignItems="center" justifyContent="center">
               <DragHandleIcon mr={1} w={3} h={3} />
-              <Heading size="md" noOfLines={1}>
+              <Heading size="sm" noOfLines={1}>
                 {column.name}
               </Heading>
             </Flex>
             <HStack spacing={1}>
               <Tooltip label="Edit" aria-label="edit">
                 <IconButton
-                  size="sm"
+                  size="xs"
                   variant="ghost"
                   isRound
                   onClick={onSettingsOpen}
@@ -129,6 +128,7 @@ export const Column: React.FC<Props> = ({
                         columnIndex={columnIndex}
                         updateItem={updateItem}
                         deleteItem={deleteItem}
+                        columnSize={columnSize} 
                       />
                     ))
                   : null}

@@ -188,7 +188,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
       >
         <Flex flexDir="row" alignItems="center" justifyContent="center">
           <Text
-            fontSize="2xl"
+            fontSize="xl"
             fontWeight="bold"
             mr={3}
             color={
@@ -213,7 +213,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
                 isRound
                 aria-label="stop"
                 icon={<BsStopFill />}
-                size="md"
+                size="sm"
                 colorScheme={
                   user.onShortBreak || user.onLongBreak ? 'green' : 'orange'
                 }
@@ -227,7 +227,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
                 isRound
                 aria-label="play"
                 icon={<IoMdPlay />}
-                size="md"
+                size="sm"
                 onClick={startNextTimer}
                 colorScheme={
                   user.onShortBreak || user.onLongBreak ? 'green' : 'blue'
@@ -238,7 +238,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
           )}
         </HStack>
         <Box ml={3} pl={3} pr={3} mr={3} borderLeftWidth={1} borderRightWidth={1} borderColor="gray.500">
-          <Text fontSize="2xl" fontWeight="bold">
+          <Text fontSize="xl" fontWeight="bold">
             {user.pomodoroCount} / {user.targetPerDay}
           </Text>
         </Box>
@@ -251,15 +251,15 @@ export const Timer: React.FC<Props> = ({ user }) => {
             // color="black"
             colorScheme="blue"
             variant="outline"
-            size="md"
+            size="sm"
             onClick={onFullScreenTimerOpen}
-            shadow="lg"
+            shadow="md"
           />
         </Tooltip>
         <Tooltip label="Open settings">
           <IconButton
             isRound
-            size="md"
+            size="sm"
             variant="outline"
             ml={2}
             disabled={user.isTimerPlaying}
@@ -275,7 +275,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
             isRound
             aria-label="reset"
             icon={<RepeatClockIcon />}
-            size="md"
+            size="sm"
             variant="outline"
             ml={2}
             disabled={user.isTimerPlaying}

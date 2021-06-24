@@ -2,6 +2,7 @@ import { EditIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
   Box,
   Flex,
+  Heading,
   HStack,
   IconButton,
   Text,
@@ -36,24 +37,23 @@ export const BoardHeader: React.FC<Props> = ({
         <HStack spacing={8}>
           <Tooltip label="Edit" aria-label="edit">
             <IconButton
-              size="lg"
-              colorScheme="blackAlpha"
-              variant="solid"
+              size="md"
+              colorScheme="blue"
+              backgroundColor="white"
+              variant="outline"
               isRound
               onClick={onOpen}
               icon={<SettingsIcon />}
               aria-label={'Edit'}
             />
           </Tooltip>
-          <Text
-            fontSize="4xl"
-            fontWeight="bold"
+          <Heading
             noOfLines={1}
             isTruncated
-            mb={0}
+            size="lg"
           >
             {board.name}
-          </Text>
+          </Heading>
         </HStack>
       </Flex>
       <BoardSettingsModal

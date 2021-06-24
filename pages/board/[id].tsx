@@ -251,7 +251,7 @@ const BoardPage = () => {
                               onClick={onOpen}
                               shadow="lg"
                               variant="solid"
-                              size="lg"
+                              size="md"
                               aria-label="Add row"
                               colorScheme="blue"
                               icon={<AddIcon />}
@@ -260,10 +260,11 @@ const BoardPage = () => {
                           <Tooltip label="increase column size">
                             <IconButton
                               isRound
-                              shadow="lg"
+                              shadow="md"
                               variant="solid"
-                              colorScheme="purple"
-                              size="lg"
+                              colorScheme="gray"
+                              backgroundColor="white"
+                              size="md"
                               isDisabled={board.colSize === MAX_COL_SIZE}
                               aria-label="Add row"
                               onClick={() => setColSize(1)}
@@ -273,11 +274,12 @@ const BoardPage = () => {
                           <Tooltip label="decrease column size">
                             <IconButton
                               isRound
-                              shadow="lg"
+                              shadow="md"
                               variant="solid"
-                              colorScheme="purple"
+                              colorScheme="gray"
+                              backgroundColor="white"
                               isDisabled={board.colSize === MIN_COL_SIZE}
-                              size="lg"
+                              size="md"
                               aria-label="Add row"
                               onClick={() => setColSize(-1)}
                               icon={<AiOutlineZoomOut />}

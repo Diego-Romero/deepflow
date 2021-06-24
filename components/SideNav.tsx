@@ -62,7 +62,7 @@ export const SideNav: React.FC<Props> = (props) => {
             size="lg"
             variant="ghost"
             colorScheme="gray"
-            fontSize="2xl"
+            fontSize="xl"
             icon={<BsGraphUp />}
             aria-label={'dashboard'}
             onClick={() => router.push(config.routes.dashboard)}
@@ -74,19 +74,19 @@ export const SideNav: React.FC<Props> = (props) => {
             variant="ghost"
             colorScheme="gray"
             size="lg"
-            fontSize="2xl"
+            fontSize="xl"
             icon={<BsKanban />}
             aria-label={'boards'}
             onClick={onBoardsOpen}
           />
         </Tooltip>
         <Divider borderColor="gray.500" />
-        <Tooltip label="Your todos" aria-label="todos">
+        <Tooltip label="Todos" aria-label="todos">
           <IconButton
             variant="ghost"
             colorScheme="gray"
             size="lg"
-            fontSize="2xl"
+            fontSize="xl"
             icon={<BsListCheck />}
             aria-label={'todos'}
             onClick={onTodosOpen}
@@ -100,8 +100,8 @@ export const SideNav: React.FC<Props> = (props) => {
           <IconButton
             size="lg"
             variant="ghost"
-            colorScheme="blue"
-            fontSize="3xl"
+            colorScheme="gray"
+            fontSize="2xl"
             onClick={onKeymapOpen}
             icon={<FaRegKeyboard />}
             aria-label={`Keyboard shortcuts`}

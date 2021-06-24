@@ -24,6 +24,7 @@ interface Props {
   columnIndex: number;
   updateItem: (columnIndex: number, itemIndex: number, item: ColItem) => void;
   deleteItem: (columnIndex: number, itemIndex: number) => void;
+  columnSize: number;
 }
 
 export const ColumnItem: React.FC<Props> = ({
@@ -32,6 +33,7 @@ export const ColumnItem: React.FC<Props> = ({
   columnIndex,
   updateItem,
   deleteItem,
+  columnSize,
 }) => {
   const {
     isOpen: isSettingsOpen,
@@ -67,52 +69,60 @@ export const ColumnItem: React.FC<Props> = ({
           }}
         >
           <Flex alignItems="center" justifyContent="center">
-            <DragHandleIcon mr={1} w={3} h={3} />
-            <Text noOfLines={1}>{item.name}</Text>
+            <DragHandleIcon mr={1} w={2} h={2} />
+            <Text noOfLines={1} fontSize={columnSize <= 2 ? 'sm' : 'md'}>
+              {item.name}
+            </Text>
           </Flex>
           <HStack spacing={1}>
-            <Tooltip label="Edit" aria-label="edit">
-              <IconButton
-                size="sm"
-                variant="ghost"
-                isRound
-                // colorScheme="blue"
-                onClick={onSettingsOpen}
-                icon={<EditIcon />}
-                aria-label={'Edit'}
-              />
-            </Tooltip>
             {!item.done ? (
-              <Tooltip label="Mark as done" aria-label="mark as done">
-                <IconButton
-                  size="sm"
-                  variant="outline"
-                  colorScheme="gray"
-                  isRound
-                  backgroundColor="white"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    updateItem(columnIndex, itemIndex, { ...item, done: true });
-                  }}
-                  icon={<CheckIcon />}
-                  aria-label={'Mark as done'}
-                />
-              </Tooltip>
+              <>
+                <Tooltip label="Edit" aria-label="edit">
+                  <IconButton
+                    size="xs"
+                    variant="ghost"
+                    isRound
+                    onClick={onSettingsOpen}
+                    icon={<EditIcon />}
+                    aria-label={'Edit'}
+                  />
+                </Tooltip>
+                <Tooltip label="Mark as done" aria-label="mark as done">
+                  <IconButton
+                    size="xs"
+                    variant="outline"
+                    colorScheme="gray"
+                    isRound
+                    backgroundColor="white"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      updateItem(columnIndex, itemIndex, {
+                        ...item,
+                        done: true,
+                      });
+                    }}
+                    icon={<CheckIcon />}
+                    aria-label={'Mark as done'}
+                  />
+                </Tooltip>
+              </>
             ) : (
-              <Tooltip label="Delete item" aria-label="Delete item">
-                <IconButton
-                  size="sm"
-                  variant="outline"
-                  isRound
-                  colorScheme="red"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteItem(columnIndex, itemIndex);
-                  }}
-                  icon={<DeleteIcon />}
-                  aria-label={'Delete item'}
-                />
-              </Tooltip>
+              <>
+                <Tooltip label="Delete item" aria-label="Delete item">
+                  <IconButton
+                    size="xs"
+                    variant="outline"
+                    isRound
+                    colorScheme="orange"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteItem(columnIndex, itemIndex);
+                    }}
+                    icon={<DeleteIcon />}
+                    aria-label={'Delete item'}
+                  />
+                </Tooltip>
+              </>
             )}
           </HStack>
           <ItemSettingsModal

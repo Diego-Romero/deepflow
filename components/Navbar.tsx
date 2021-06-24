@@ -57,7 +57,7 @@ export const NavBar: React.FC<Props> = (props) => {
             aria-label="Options"
             icon={<HamburgerIcon />}
             variant="ghost"
-            fontSize="3xl"
+            fontSize="xl"
           />
           <MenuList color="gray.900" fontSize="lg">
             {AuthUser.email ? (

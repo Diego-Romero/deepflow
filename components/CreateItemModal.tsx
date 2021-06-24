@@ -77,13 +77,13 @@ export const CreateItemModal: React.FC<Props> = ({
                           variant="flushed"
                           autoFocus
                           placeholder="New item name..."
-                          size="lg"
+                          size="md"
                           focusBorderColor="none"
                         />
                         <IconButton
                           variant="solid"
                           colorScheme="blue"
-                          size="md"
+                          size="sm"
                           isRound
                           mb={2}
                           type="submit"
@@ -95,17 +95,6 @@ export const CreateItemModal: React.FC<Props> = ({
                     </FormControl>
                   )}
                 </Field>
-                {/* <IconButton
-                  variant="solid"
-                  colorScheme="teal"
-                  size="sm"
-                  display="none"
-                  isRound
-                  mb={2}
-                  type="submit"
-                  aria-label="Create item"
-                  icon={<AddIcon />}
-                /> */}
               </Form>
             )}
           </Formik>

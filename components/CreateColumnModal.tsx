@@ -75,13 +75,13 @@ export const CreateColumnModal: React.FC<Props> = ({
                           variant="flushed"
                           autoFocus
                           placeholder="New column name"
-                          size="lg"
+                          size="md"
                           focusBorderColor="none"
                         />
                         <IconButton
                           variant="solid"
                           colorScheme="blue"
-                          size="md"
+                          size="sm"
                           isRound
                           mb={2}
                           type="submit"
