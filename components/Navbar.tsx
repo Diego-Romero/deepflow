@@ -39,19 +39,6 @@ export const NavBar: React.FC<Props> = (props) => {
       justify="space-between"
     >
       <HStack spacing={2}>
-        {/* <Breadcrumb fontWeight="bold" fontSize="xl" separator="-">
-          <BreadcrumbItem>
-            <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
-          </BreadcrumbItem>
-
-          <BreadcrumbItem>
-            <BreadcrumbLink href="#">Boards</BreadcrumbLink>
-          </BreadcrumbItem>
-
-          <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href="#">Todos</BreadcrumbLink>
-          </BreadcrumbItem>
-        </Breadcrumb> */}
         <Menu>
           <MenuButton
             as={IconButton}
@@ -60,7 +47,7 @@ export const NavBar: React.FC<Props> = (props) => {
             variant="ghost"
             fontSize="xl"
           />
-          <MenuList color="gray.900" fontSize="lg">
+          <MenuList color="gray.900" fontSize="md">
             {AuthUser.email ? (
               <>
                 <MenuItem icon={<IoMdLogOut />} onClick={AuthUser.signOut}>
@@ -69,6 +56,12 @@ export const NavBar: React.FC<Props> = (props) => {
               </>
             ) : (
               <>
+                <MenuItem
+                  icon={<IoMdHome />}
+                  onClick={() => router.push(config.routes.home)}
+                >
+                  Home
+                </MenuItem>
                 <MenuItem
                   icon={<IoMdLogIn />}
                   onClick={() => router.push(config.routes.auth)}
@@ -79,19 +72,6 @@ export const NavBar: React.FC<Props> = (props) => {
             )}
           </MenuList>
         </Menu>
-        {!AuthUser.email ? (
-          <>
-            <IconButton
-              size="md"
-              variant="ghost"
-              color="current"
-              fontSize="2xl"
-              icon={<IoMdHome />}
-              onClick={() => router.push('/')}
-              aria-label={`Home`}
-            />
-          </>
-        ) : null}
       </HStack>
       {user !== null ? <Timer user={user} /> : null}
     </Flex>

@@ -37,7 +37,7 @@ export const BoardHeader: React.FC<Props> = ({
         <HStack spacing={8}>
           <Tooltip label="Edit" aria-label="edit">
             <IconButton
-              size="md"
+              size="sm"
               // colorScheme="blue"
               backgroundColor="white"
               variant="outline"

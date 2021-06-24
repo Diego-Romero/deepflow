@@ -65,8 +65,8 @@ const DashboardPage = () => {
           py={[8, 8, 12]}
         >
           <Card>
-            <Heading size="lg" mb={4}>
-              Your boards
+            <Heading size="md" mb={4}>
+              Boards
             </Heading>
             {loading ? (
               <Flex justifyContent="center" alignItems="center">
@@ -96,12 +96,13 @@ const DashboardPage = () => {
                             justifyContent="space-between"
                             onClick={() => router.push(`/board/${board.id}`)}
                           >
-                            <Text fontSize="lg" noOfLines={1} isTruncated>
+                            <Text  noOfLines={1} isTruncated>
                               {board.name}
                             </Text>
                             <IconButton
                               colorScheme="purple"
                               isRound
+                              size="sm"
                               variant="ghost"
                               aria-label="Navigate to board"
                               icon={<IoMdArrowForward />}
@@ -114,13 +115,14 @@ const DashboardPage = () => {
                   )}
                 </Flex>
                 <Button
-                  mt={8}
+                  mt={4}
                   isFullWidth
                   bgGradient="linear(to-r, cyan.700,purple.500)"
                   _hover={{
                     bgGradient: 'linear(to-r, cyan.600,purple.400)',
                   }}
                   onClick={onCreateModalOpen}
+                  size="sm"
                   color="white"
                 >
                   Create Board

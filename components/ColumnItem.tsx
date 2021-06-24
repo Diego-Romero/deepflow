@@ -88,7 +88,7 @@ export const ColumnItem: React.FC<Props> = ({
                     aria-label={'Edit'}
                   />
                 </Tooltip>
-                <Tooltip label="Mark as done" aria-label="mark as done">
+                <Tooltip label="Done?" aria-label="mark as done">
                   <IconButton
                     size="xs"
                     variant="outline"
@@ -109,7 +109,7 @@ export const ColumnItem: React.FC<Props> = ({
               </>
             ) : (
               <>
-                <Tooltip label="Delete item" aria-label="Delete item">
+                <Tooltip label="Delete" aria-label="Delete item">
                   <IconButton
                     size="xs"
                     variant="outline"

@@ -109,7 +109,7 @@ export const Column: React.FC<Props> = ({
             </HStack>
           </Flex>
 
-          <Divider />
+          <Divider borderColor="gray.400" />
 
           <Droppable droppableId={`column-${columnIndex}`} type="item">
             {(itemsProvided, itemsSnapshot) => (
@@ -137,7 +137,7 @@ export const Column: React.FC<Props> = ({
               </Flex>
             )}
           </Droppable>
-          <Tooltip label="Create new item" aria-label="Create new item">
+          <Tooltip label="New" aria-label="Create new item">
             <IconButton
               variant="solid"
               colorScheme="gray"

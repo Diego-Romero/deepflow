@@ -208,7 +208,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
         </Flex>
         <HStack>
           {user.isTimerPlaying ? (
-            <Tooltip label="Stop timer">
+            <Tooltip label="Stop">
               <IconButton
                 isRound
                 aria-label="stop"
@@ -222,7 +222,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
               />
             </Tooltip>
           ) : (
-            <Tooltip label="Start timer">
+            <Tooltip label="Start">
               <IconButton
                 isRound
                 aria-label="play"
@@ -243,7 +243,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
           </Text>
         </Box>
 
-        <Tooltip label="Full screen timer">
+        <Tooltip label="Fullscreen">
           <IconButton
             isRound
             aria-label="full screen timer"
@@ -256,7 +256,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
             shadow="md"
           />
         </Tooltip>
-        <Tooltip label="Open settings">
+        <Tooltip label="Settings">
           <IconButton
             isRound
             size="sm"
@@ -270,7 +270,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
             shadow="lg"
           />
         </Tooltip>
-        <Tooltip label="Reset timer">
+        <Tooltip label="Reset">
           <IconButton
             isRound
             aria-label="reset"

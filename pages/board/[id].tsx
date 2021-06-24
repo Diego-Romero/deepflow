@@ -244,9 +244,6 @@ const BoardPage = () => {
                         bgColor={
                           snapshot.isDraggingOver ? 'gray.300' : 'inherit'
                         }
-                        // borderWidth={
-                        //   snapshot.isDraggingOver ? '1px' : 'inherit'
-                        // }
                       >
                         <Stack spacing={2} mr={6}>
                           <Tooltip label="Add Row">
@@ -255,27 +252,27 @@ const BoardPage = () => {
                               onClick={onOpen}
                               shadow="lg"
                               variant="solid"
-                              size="md"
+                              size="sm"
                               aria-label="Add row"
                               colorScheme="blue"
                               icon={<AddIcon />}
                             />
                           </Tooltip>
-                          <Tooltip label="increase column size">
+                          <Tooltip label="Increase column size">
                             <IconButton
                               isRound
                               shadow="md"
                               variant="solid"
                               colorScheme="gray"
                               backgroundColor="white"
-                              size="md"
+                              size="sm"
                               isDisabled={board.colSize === MAX_COL_SIZE}
                               aria-label="Add row"
                               onClick={() => setColSize(1)}
                               icon={<AiOutlineZoomIn />}
                             />
                           </Tooltip>
-                          <Tooltip label="decrease column size">
+                          <Tooltip label="Decrease column size">
                             <IconButton
                               isRound
                               shadow="md"
@@ -283,7 +280,7 @@ const BoardPage = () => {
                               colorScheme="gray"
                               backgroundColor="white"
                               isDisabled={board.colSize === MIN_COL_SIZE}
-                              size="md"
+                              size="sm"
                               aria-label="Add row"
                               onClick={() => setColSize(-1)}
                               icon={<AiOutlineZoomOut />}
