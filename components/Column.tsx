@@ -106,20 +106,6 @@ export const Column: React.FC<Props> = ({
                   aria-label={'Column settings'}
                 />
               </Tooltip>
-              {/* <Tooltip label="Create new item" aria-label="Create new item">
-                <IconButton
-                  size="sm"
-                  variant="outline"
-                  colorScheme="blue"
-                  isRound
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onCreateModalOpen();
-                  }}
-                  icon={<AddIcon />}
-                  aria-label={"Create new item"}
-                />
-              </Tooltip> */}
             </HStack>
           </Flex>
 
@@ -131,11 +117,7 @@ export const Column: React.FC<Props> = ({
                 flexDir="column"
                 ref={itemsProvided.innerRef}
                 {...itemsProvided.droppableProps}
-                bg={
-                  itemsSnapshot.isDraggingOver
-                      ? 'gray.100'
-                      : 'inherit'
-                }
+                bg={itemsSnapshot.isDraggingOver ? 'gray.200' : 'inherit'}
                 height="100%"
               >
                 {column.items
@@ -151,25 +133,24 @@ export const Column: React.FC<Props> = ({
                     ))
                   : null}
                 {itemsProvided.placeholder}
-
-                <Tooltip label="Create new item" aria-label="Create new item">
-                  <IconButton
-                    variant="solid"
-                    colorScheme="gray"
-                    // shadow="lg"
-                    width="auto"
-                    mt={3}
-                    mb={2}
-                    // color="white"
-                    size="sm"
-                    onClick={onCreateModalOpen}
-                    icon={<AddIcon />}
-                    aria-label={'create new item'}
-                  />
-                </Tooltip>
               </Flex>
             )}
           </Droppable>
+          <Tooltip label="Create new item" aria-label="Create new item">
+            <IconButton
+              variant="solid"
+              colorScheme="gray"
+              // shadow="lg"
+              width="auto"
+              mt={3}
+              mb={2}
+              // color="white"
+              size="sm"
+              onClick={onCreateModalOpen}
+              icon={<AddIcon />}
+              aria-label={'create new item'}
+            />
+          </Tooltip>
           <CreateItemModal
             modalOpen={isCreateItemModalOpen}
             modalClose={onCreateModalClose}

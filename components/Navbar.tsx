@@ -1,4 +1,7 @@
 import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
   Flex,
   HStack,
   IconButton,
@@ -35,6 +38,19 @@ export const NavBar: React.FC<Props> = (props) => {
       justify="space-between"
     >
       <HStack spacing={2}>
+        {/* <Breadcrumb fontWeight="bold" fontSize="xl" separator="-">
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
+          </BreadcrumbItem>
+
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Boards</BreadcrumbLink>
+          </BreadcrumbItem>
+
+          <BreadcrumbItem isCurrentPage>
+            <BreadcrumbLink href="#">Todos</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb> */}
         <Menu>
           <MenuButton
             as={IconButton}
