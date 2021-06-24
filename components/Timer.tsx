@@ -175,14 +175,15 @@ export const Timer: React.FC<Props> = ({ user }) => {
   };
 
   return (
-    <Flex flexDir="row" alignItems="center" display={["none", "flex"]}>
+    <Flex flexDir="row" alignItems="center" display={['none', 'flex']}>
       <Flex
         borderWidth="1px"
         bgColor="white"
         shadow="md"
         color="black"
         borderRadius="lg"
-        p="4"
+        px={4}
+        py={3}
         alignItems="center"
         justifyContent="center"
       >
@@ -237,7 +238,15 @@ export const Timer: React.FC<Props> = ({ user }) => {
             </Tooltip>
           )}
         </HStack>
-        <Box ml={3} pl={3} pr={3} mr={3} borderLeftWidth={1} borderRightWidth={1} borderColor="gray.500">
+        <Box
+          ml={3}
+          pl={3}
+          pr={3}
+          mr={3}
+          borderLeftWidth={1}
+          borderRightWidth={1}
+          borderColor="gray.500"
+        >
           <Text fontSize="xl" fontWeight="bold">
             {user.pomodoroCount} / {user.targetPerDay}
           </Text>

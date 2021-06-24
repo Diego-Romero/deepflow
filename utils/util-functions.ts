@@ -2,7 +2,13 @@ import { UseToastOptions } from '@chakra-ui/react';
 import moment from 'moment';
 import * as Yup from 'yup';
 import { TemplateTypes } from '../components/CreateBoardModal';
-import { Board, Column, ColumnItem } from '../types';
+import {
+  Board,
+  Column,
+  ColumnItem,
+  UserWorkedTime,
+  WorkedTimeWithDate,
+} from '../types';
 
 export const reorder = (
   list: ColumnItem[],
@@ -200,3 +206,13 @@ export const mapBoardsFromFirebase = (values: Board[]): BoardWithId[] => {
   }
   return nextBoards;
 };
+
+export function mapWorkedTimesToIncDate(
+  times: UserWorkedTime
+): WorkedTimeWithDate[] {
+  const result: WorkedTimeWithDate[] = [];
+  for (let key of Object.keys(times)) {
+    result.push({ date: key, ...times[key] });
+  }
+  return result;
+}

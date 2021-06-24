@@ -51,7 +51,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
   };
 
   return (
-    <Modal isOpen={modalOpen} onClose={modalClose} size="lg">
+    <Modal isOpen={modalOpen} onClose={modalClose} size="sm">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Pomodoro settings</ModalHeader>
@@ -75,8 +75,8 @@ export const TimerSettingsModal: React.FC<Props> = ({
                     </Text>
                   ) : null}
                   <Grid
-                    gridColumnGap={[null, null, 4]}
-                    gridRowGap={5}
+                    gridColumnGap={[null, null, 8]}
+                    gridRowGap={4}
                     gridTemplateColumns={['1fr', '1fr', 'repeat(2, 1fr)']}
                   >
                     <NumberInputControl
@@ -92,6 +92,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                         clampValueOnBlur: true,
                         inputMode: 'numeric',
                         precision: 0,
+                        size: "sm"
                       }}
                     />
 
@@ -108,6 +109,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                         clampValueOnBlur: true,
                         inputMode: 'numeric',
                         precision: 0,
+                        size: "sm"
                       }}
                     />
                     <NumberInputControl
@@ -123,6 +125,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                         clampValueOnBlur: true,
                         inputMode: 'numeric',
                         precision: 0,
+                        size: "sm"
                       }}
                     />
                     <NumberInputControl
@@ -138,6 +141,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                         clampValueOnBlur: true,
                         inputMode: 'numeric',
                         precision: 0,
+                        size: "sm"
                       }}
                     />
                     <NumberInputControl
@@ -153,6 +157,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                         clampValueOnBlur: true,
                         inputMode: 'numeric',
                         precision: 0,
+                        size: "sm"
                       }}
                     />
                   </Grid>
@@ -163,6 +168,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                   type="submit"
                   variant="solid"
                   colorScheme="blue"
+                  size="sm"
                 >
                   Update
                 </Button>

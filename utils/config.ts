@@ -10,6 +10,7 @@ const config = {
     mail: '/mail',
     users: '/users',
     user: (userId: string) => `/users/${userId}`,
+    userWorkedTimes: (userId: string) => `/workedTime/${userId}`,
     userTodos: (userId: string) => `/users/${userId}/todos`,
     userBoards: (userId: string) => `/users/${userId}/boards`,
     boardMetadata: (userId: string, boardId: string) =>

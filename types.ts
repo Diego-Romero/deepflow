@@ -13,6 +13,19 @@ export type User = {
   todos: TodoItem[];
 };
 
+export type UserWorkedTime = {
+  [date: string]: WorkedTime;
+};
+
+export interface WorkedTime {
+  count: number;
+  worked: number;
+}
+
+export interface WorkedTimeWithDate extends WorkedTime {
+  date: string;
+}
+
 export type TodoItem = {
   name: string;
   createdAt: number;

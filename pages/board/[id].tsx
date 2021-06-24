@@ -223,7 +223,7 @@ const BoardPage = () => {
                 updateBoard={updateBoard}
                 deleteBoard={deleteBoard}
               />
-              <Divider mb={4} borderColor="gray.300" />
+              <Divider borderColor="gray.300" />
               <Box>
                 <DragDropContext onDragEnd={onDragEnd}>
                   <Droppable
@@ -233,7 +233,7 @@ const BoardPage = () => {
                   >
                     {(provided, snapshot) => (
                       <Flex
-                        pb={4}
+                        py={4}
                         borderRadius="md"
                         flexDir="row"
                         ref={provided.innerRef}

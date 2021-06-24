@@ -7,33 +7,38 @@ import { Card } from '../components/Card';
 import {
   Box,
   Flex,
-  Text,
   Heading,
-  IconButton,
-  Divider,
-  useColorMode,
-  Button,
-  useDisclosure,
-  CircularProgress,
+  Grid,
+  Stack,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
 } from '@chakra-ui/react';
-import { User } from '../types';
-import { useRouter } from 'next/router';
-import { IoMdArrowForward } from 'react-icons/io';
-import { CreateBoardModal } from '../components/CreateBoardModal';
-import { Fragment } from 'react';
-import { BoardWithId, mapBoardsFromFirebase } from '../utils/util-functions';
+import { User, UserWorkedTime, WorkedTimeWithDate } from '../types';
+import {
+  BoardWithId,
+  mapBoardsFromFirebase,
+  mapWorkedTimesToIncDate,
+} from '../utils/util-functions';
 import config from '../utils/config';
+import { BoardsCard } from '../components/BoardsCard';
+
+// const mockWorkedTime: UserWorkedTime = {
+//   '23-06-2021': { count: 10, worked: 250 },
+//   '22-06-2021': { count: 12, worked: 250 },
+//   '21-06-2021': { count: 10, worked: 250 },
+//   '20-06-2021': { count: 14, worked: 250 },
+//   '19-06-2021': { count: 8, worked: 250 },
+//   '18-06-2021': { count: 10, worked: 250 },
+//   '17-06-2021': { count: 8, worked: 250 },
+// };
 
 const DashboardPage = () => {
-  const {
-    isOpen: isCreateModalOpen,
-    onOpen: onCreateModalOpen,
-    onClose: onCreateModalClose,
-  } = useDisclosure();
-  const router = useRouter();
   const [boards, setBoards] = useState<BoardWithId[]>([]);
-  const [loading, setLoading] = useState(true);
-  const { colorMode } = useColorMode();
+  const [workedTimes, setWorkedTimes] = useState<WorkedTimeWithDate[]>([]);
+  const [boardsLoading, setBoardsLoading] = useState(true);
   const authUser = useAuthUser();
   const [user, setUser] = useState<User | null>(null);
 
@@ -41,8 +46,13 @@ const DashboardPage = () => {
     config.collections.user(authUser.id as string)
   );
 
+  const workedTimeRef = Firebase.database().ref(
+    config.collections.userWorkedTimes(authUser.id as string)
+  );
+
   useEffect(() => {
     getUser();
+    getWorkedTimes();
   }, []);
 
   const getUser = () => {
@@ -51,91 +61,67 @@ const DashboardPage = () => {
         const user = snapshot.val() as User;
         setUser(user);
         if (user.boards) setBoards(mapBoardsFromFirebase(user.boards));
-        setLoading(false);
+        setBoardsLoading(false);
       }
+    });
+  };
+
+  const getWorkedTimes = () => {
+    workedTimeRef.on('value', (snapshot) => {
+      const workedTime = snapshot.val() as UserWorkedTime;
+      const withDate = mapWorkedTimesToIncDate(workedTime);
+      console.log(withDate);
+      setWorkedTimes(withDate);
+      // console.log('worked time', workedTime);
+      // if (!workedTime) {
+      //   workedTimeRef.set(mockWorkedTime);
+      // }
     });
   };
 
   return (
     <PageLayout user={user}>
       <Flex justifyContent="center">
-        <Box
-          width={['100%', '100%', 'container.sm']}
-          px={[4, null, 8]}
-          py={[8, 8, 12]}
+        <Grid
+          my={8}
+          gridGap={8}
+          width="container.md"
+          gridTemplateColumns="1fr 1fr"
+          gridTemplateRows="auto"
         >
-          <Card>
+          <Stack spacing={4}>
+            <BoardsCard loading={boardsLoading} boards={boards} />
+            <Card>
+              <Heading size="md" mb={4}>
+                Todos
+              </Heading>
+            </Card>
+          </Stack>
+          <Card maxHeight="80vh">
             <Heading size="md" mb={4}>
-              Boards
+              Work Records
             </Heading>
-            {loading ? (
-              <Flex justifyContent="center" alignItems="center">
-                <Box>
-                  <CircularProgress isIndeterminate color="purple.500" />
-                  <Text>Loading</Text>
-                </Box>
-              </Flex>
-            ) : (
-              <Box>
-                <Flex flexDirection="column">
-                  {boards.length === 0 ? (
-                    <Text>You do not have any boards</Text>
-                  ) : (
-                    <Fragment>
-                      {boards.map((board, index) => (
-                        <Box key={board.id}>
-                          <Flex
-                            p={2}
-                            cursor="pointer"
-                            key={board.id}
-                            alignItems="center"
-                            _hover={{
-                              backgroundColor:
-                                colorMode === 'light' ? 'gray.100' : 'gray.900',
-                            }}
-                            justifyContent="space-between"
-                            onClick={() => router.push(`/board/${board.id}`)}
-                          >
-                            <Text  noOfLines={1} isTruncated>
-                              {board.name}
-                            </Text>
-                            <IconButton
-                              colorScheme="purple"
-                              isRound
-                              size="sm"
-                              variant="ghost"
-                              aria-label="Navigate to board"
-                              icon={<IoMdArrowForward />}
-                            />
-                          </Flex>
-                          <Divider />
-                        </Box>
-                      ))}
-                    </Fragment>
-                  )}
-                </Flex>
-                <Button
-                  mt={4}
-                  isFullWidth
-                  bgGradient="linear(to-r, cyan.700,purple.500)"
-                  _hover={{
-                    bgGradient: 'linear(to-r, cyan.600,purple.400)',
-                  }}
-                  onClick={onCreateModalOpen}
-                  size="sm"
-                  color="white"
-                >
-                  Create Board
-                </Button>
-              </Box>
-            )}
+            <Accordion defaultIndex={[0]} allowMultiple>
+              <AccordionItem>
+                <h2>
+                  <AccordionButton px={0} py={2}>
+                    <Box flex="1" textAlign="left">
+                      Section 1 title
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4} px={0}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
           </Card>
-        </Box>
+        </Grid>
       </Flex>
-      <CreateBoardModal
-        modalOpen={isCreateModalOpen}
-        modalClose={onCreateModalClose}
-      />
     </PageLayout>
   );
 };
