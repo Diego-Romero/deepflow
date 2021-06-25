@@ -1,11 +1,16 @@
-import { Box } from '@chakra-ui/react';
+import { Box, CircularProgress, Flex } from '@chakra-ui/react';
 import React from 'react';
 
 interface Props {
   maxHeight?: string;
+  loading?: boolean;
 }
 
-export const Card: React.FC<Props> = ({ children, maxHeight = 'auto' }) => (
+export const Card: React.FC<Props> = ({
+  children,
+  maxHeight = 'auto',
+  loading = false,
+}) => (
   <Box
     borderStyle="solid"
     borderRadius="12px"
@@ -17,6 +22,14 @@ export const Card: React.FC<Props> = ({ children, maxHeight = 'auto' }) => (
     bgColor="white"
     borderWidth="1px"
   >
-    {children}
+    {loading ? (
+      <Flex justifyContent="center" alignItems="center">
+        <Box>
+          <CircularProgress isIndeterminate color="gray.900" />
+        </Box>
+      </Flex>
+    ) : (
+      <Box>{children}</Box>
+    )}
   </Box>
 );

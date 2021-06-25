@@ -7,6 +7,7 @@ import {
   HStack,
   useDisclosure,
   Box,
+  useToast,
 } from '@chakra-ui/react';
 import { BsStopFill } from 'react-icons/bs';
 import React, { useEffect } from 'react';
@@ -30,14 +31,6 @@ interface Props {
 
 const TIMER_DEFAULT_TIME = 0;
 
-const resetUserTimerFields = {
-  pomodoroCount: 0,
-  timerEndTime: TIMER_DEFAULT_TIME,
-  onShortBreak: false,
-  onLongBreak: false,
-  isTimerPlaying: false,
-};
-
 export const Timer: React.FC<Props> = ({ user }) => {
   const [remainingTime, setRemainingTime] = React.useState<string>(``);
   const {
@@ -53,6 +46,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
   const [playWorkTimerDone] = useSound(workTimerDoneSound);
   const [playRestTimerDone] = useSound(restTimerDoneSound);
   const authUser = useAuthUser();
+  const toast = useToast();
 
   const userRef = Firebase.database().ref(
     config.collections.user(authUser.id as string)
@@ -201,6 +195,34 @@ export const Timer: React.FC<Props> = ({ user }) => {
     });
   };
 
+  function playSound() {
+    if (user.onShortBreak || user.onLongBreak) playRestTimerDone();
+    else playWorkTimerDone();
+  }
+
+  const isUserOnBreak = user.onShortBreak || user.onLongBreak;
+
+  function showToast() {
+    toast({
+      title: 'Pomodoro finished',
+      description: 'How did it go?',
+      render: () => <div>hola</div>,
+      status: 'info',
+      duration: 9000,
+      isClosable: true,
+    });
+    // if (!isUserOnBreak) {
+    //   toast({
+    //     title: 'Pomodoro finished',
+    //     description: 'How did it go?',
+    //     render: () => <div>hola</div>,
+    //     status: 'info',
+    //     duration: 9000,
+    //     isClosable: true,
+    //   });
+    // }
+  }
+
   const calculateTimeLeft = () => {
     const now = new Date();
     const difference = user.timerEndTime - now.getTime();
@@ -208,8 +230,21 @@ export const Timer: React.FC<Props> = ({ user }) => {
     const seconds = Math.floor((difference / 1000) % 60);
 
     if (minutes <= 0 && seconds <= 0) {
-      if (user.onShortBreak || user.onLongBreak) playRestTimerDone();
-      else playWorkTimerDone();
+      toast({
+        title: 'Pomodoro finished',
+        description: 'How did it go?',
+        render: () => (
+          <Flex bgColor="gray.100" color="white" p={4} borderRadius="lg" >
+            <Text>How did it go?</Text>
+          </Flex>
+        ),
+        status: 'info',
+        position: 'bottom-right',
+        duration: 60000,
+        isClosable: true,
+      });
+      playSound();
+      showToast();
       setIsTimerPlaying(false);
     }
 

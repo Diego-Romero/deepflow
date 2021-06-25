@@ -65,24 +65,19 @@ const DashboardPage = () => {
         <Grid
           my={8}
           gridGap={6}
-          width="container.lg"
-          gridTemplateColumns="1fr 2fr"
+          width="container.xl"
+          gridTemplateColumns="1fr 1.5fr 1fr"
           gridTemplateRows="auto"
         >
           <Stack spacing={6}>
             <BoardsCard loading={boardsLoading} boards={boards} />
             <TodosCard />
           </Stack>
-          <Stack spacing={6}>
-            <Card>
-              <Heading size="md">Today work intention</Heading>
-              <Text py={20}>To be implemeted</Text>
-            </Card>
-            <WorkedTimesCard
-              workedTimes={workedTimes}
-              loading={recordsLoading}
-            />
-          </Stack>
+          <Card>
+            <Heading size="md">Intention</Heading>
+            <Text py={20}>To be implemeted</Text>
+          </Card>
+          <WorkedTimesCard workedTimes={workedTimes} loading={recordsLoading} />
         </Grid>
       </Flex>
     </PageLayout>

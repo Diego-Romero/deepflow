@@ -11,7 +11,7 @@ const FullPageLoader = () => (
     height="100vh"
     bgColor="white"
   >
-    <CircularProgress isIndeterminate color="blue.500" />
+    <CircularProgress isIndeterminate color="gray.900" />
     <Heading mt={4} size="md">
       Loading
     </Heading>

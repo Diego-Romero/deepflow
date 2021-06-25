@@ -31,56 +31,48 @@ interface Props {
 export const WorkedTimesCard: React.FC<Props> = (props) => {
   const { workedTimes, loading } = props;
   return (
-    <Card maxHeight="80vh">
+    <Card maxHeight="80vh" loading={loading}>
       <Heading size="md" mb={4}>
-        Work Records
+        Records 
       </Heading>
-      {loading ? (
-        <Flex justifyContent="center" alignItems="center">
-          <Box>
-            <CircularProgress isIndeterminate color="blue.500" />
-          </Box>
-        </Flex>
-      ) : (
-        <Accordion defaultIndex={[0]} allowMultiple>
-          {workedTimes && workedTimes.length > 0 ? (
-            workedTimes.reverse().map((time) => (
-              <AccordionItem key={time.date}>
-                <AccordionButton px={0} py={2}>
-                  <Box flex="1" textAlign="left">
-                    <Text fontSize="sm" color="gray.600">
-                      {formatDateFromIso(time.date)}
-                    </Text>
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-                <AccordionPanel pb={4} px={0}>
-                  <List spacing={3} fontSize="sm">
-                    <ListItem>
-                      <ListIcon as={MdCheckCircle} color="green.400" />
-                      Pomodoros: <b>{time.count}</b>
-                    </ListItem>
-                    <ListItem>
-                      <ListIcon as={AiFillClockCircle} color="green.400" />
-                      Time worked: <b>{convertMinutesToHours(time.worked)}</b>
-                    </ListItem>
-                  </List>
-                </AccordionPanel>
-              </AccordionItem>
-            ))
-          ) : (
-            <>
-              <Text size="sm">
-                You currently have no records. <br />
-                <br />
-                Record your pomodoros and we will tell you how much progress you
-                make each day.
-                <br />
-              </Text>
-            </>
-          )}
-        </Accordion>
-      )}
+      <Accordion defaultIndex={[0]} allowMultiple>
+        {workedTimes && workedTimes.length > 0 ? (
+          workedTimes.reverse().map((time) => (
+            <AccordionItem key={time.date}>
+              <AccordionButton px={0} py={2}>
+                <Box flex="1" textAlign="left">
+                  <Text fontSize="sm" color="gray.600">
+                    {formatDateFromIso(time.date)}
+                  </Text>
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4} px={0}>
+                <List spacing={3} fontSize="sm">
+                  <ListItem>
+                    <ListIcon as={MdCheckCircle} color="green.400" />
+                    Pomodoros: <b>{time.count}</b>
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={AiFillClockCircle} color="green.400" />
+                    Time worked: <b>{convertMinutesToHours(time.worked)}</b>
+                  </ListItem>
+                </List>
+              </AccordionPanel>
+            </AccordionItem>
+          ))
+        ) : (
+          <>
+            <Text size="sm">
+              You currently have no records. <br />
+              <br />
+              Record your pomodoros and we will tell you how much progress you
+              make each day.
+              <br />
+            </Text>
+          </>
+        )}
+      </Accordion>
     </Card>
   );
 };

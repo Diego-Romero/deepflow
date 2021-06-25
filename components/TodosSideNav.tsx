@@ -154,9 +154,8 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                   alignItems="center"
                   bgColor={snapshot.isDraggingOver ? 'gray.200' : 'inherit'}
                   borderWidth={snapshot.isDraggingOver ? 1 : 'inherit'}
-                  mt={3}
                   borderRadius="md"
-                  py={2}
+                  my={4}
                 >
                   {todos.map((item, index) => (
                     <Draggable
@@ -180,9 +179,7 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                             bgColor: 'gray.100',
                           }}
                           alignItems="center"
-                          bgColor={
-                            draggableSnapshot.isDragging ? 'cyan.100' : 'white'
-                          }
+                          bgColor="white"
                           py={2}
                           px={1}
                         >
