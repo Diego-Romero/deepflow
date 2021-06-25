@@ -14,8 +14,8 @@ export const Footer: React.FC = () => {
         alignContent="center"
         justifyContent="center"
         p="3"
-        bgGradient="linear(to-r, cyan.700,purple.500)"
-        boxShadow="0 1px 3px 0 rgba(0, 0, 0, 0.1),0 1px 2px 0 rgba(0, 0, 0, 0.06)"
+        // bgGradient="linear(to-r, cyan.700,purple.500)"
+        bgColor="gray.800"
         color="white"
       >
         <Stack

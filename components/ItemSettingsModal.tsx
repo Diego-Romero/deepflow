@@ -83,11 +83,7 @@ export const ItemSettingsModal: React.FC<Props> = ({
             {(props) => (
               <Form>
                 <Stack spacing={4}>
-                  <InputControl
-                    name="name"
-                    label="Name"
-                    isRequired
-                  />
+                  <InputControl name="name" label="Name" isRequired />
                   <TextareaControl
                     name="description"
                     size="sm"

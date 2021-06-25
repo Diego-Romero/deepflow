@@ -36,7 +36,7 @@ export const BoardsCard: React.FC<Props> = (props) => {
       {loading ? (
         <Flex justifyContent="center" alignItems="center">
           <Box>
-            <CircularProgress  isIndeterminate color="blue.500" />
+            <CircularProgress isIndeterminate color="blue.500" />
           </Box>
         </Flex>
       ) : (
@@ -63,7 +63,7 @@ export const BoardsCard: React.FC<Props> = (props) => {
                         {board.name}
                       </Text>
                       <IconButton
-                        colorScheme="purple"
+                        colorScheme="gray"
                         isRound
                         size="sm"
                         variant="ghost"
@@ -80,10 +80,11 @@ export const BoardsCard: React.FC<Props> = (props) => {
           <Button
             mt={4}
             isFullWidth
-            bgGradient="linear(to-r, cyan.700,purple.500)"
+            colorScheme="blackAlpha"
             _hover={{
-              bgGradient: 'linear(to-r, cyan.600,purple.400)',
+              bgColor: "gray.700"
             }}
+            bgColor="gray.900"
             color="white"
             onClick={onCreateModalOpen}
             size="sm"

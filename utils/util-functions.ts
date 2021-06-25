@@ -196,7 +196,7 @@ export function longDateFormat(date: number) {
 }
 
 export function formatDateFromIso(isoDate: string): string {
-  return moment(isoDate).format('dddd DD MMM YY');
+  return moment(isoDate).format('DD MMM YYYY, dddd');
 }
 
 export function convertMinutesToHours(n: number): string {

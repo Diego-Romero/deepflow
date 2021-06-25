@@ -90,11 +90,13 @@ export const ColumnSettingsModal: React.FC<Props> = ({
                       isRequired
                       isInvalid={form.errors.name && form.touched.name}
                     >
-                      <FormLabel size="sm" htmlFor="name">Name</FormLabel>
+                      <FormLabel size="sm" htmlFor="name">
+                        Name
+                      </FormLabel>
                       <Input
                         {...field}
                         type="text"
-                        size='sm'
+                        size="sm"
                         autoFocus={isLargerThan480}
                       />
                       <FormErrorMessage>{form.errors.name}</FormErrorMessage>

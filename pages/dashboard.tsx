@@ -4,7 +4,7 @@ import Firebase from 'firebase';
 import FullPageLoader from '../components/FullPageLoader';
 import { PageLayout } from '../components/PageLayout';
 import { Card } from '../components/Card';
-import { Flex, Heading, Grid, Stack } from '@chakra-ui/react';
+import { Flex, Heading, Text, Grid, Stack } from '@chakra-ui/react';
 import { User, UserWorkedTime, WorkedTimeWithDate } from '../types';
 import {
   BoardWithId,
@@ -66,14 +66,18 @@ const DashboardPage = () => {
           my={8}
           gridGap={6}
           width="container.lg"
-          gridTemplateColumns="1fr 1.5fr"
+          gridTemplateColumns="1fr 2fr"
           gridTemplateRows="auto"
         >
-          <Stack spacing={4}>
+          <Stack spacing={6}>
             <BoardsCard loading={boardsLoading} boards={boards} />
             <TodosCard />
           </Stack>
-          <Stack>
+          <Stack spacing={6}>
+            <Card>
+              <Heading size="md">Today work intention</Heading>
+              <Text py={20}>To be implemeted</Text>
+            </Card>
             <WorkedTimesCard
               workedTimes={workedTimes}
               loading={recordsLoading}

@@ -128,17 +128,13 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                     inputProps={{ variant: 'flushed', autoFocus: true }}
                   />
                   <IconButton
-                    variant="solid"
                     shadow="lg"
                     width="auto"
                     mt={1}
                     mb={2}
                     size="sm"
-                    bgGradient="linear(to-r, cyan.700,purple.500)"
-                    _hover={{
-                      bgGradient: 'linear(to-r, cyan.600,purple.400)',
-                    }}
-                    color="white"
+                    borderColor="gray.900"
+                    variant="outline"
                     type="submit"
                     icon={<AddIcon />}
                     aria-label={'create new item'}
@@ -247,7 +243,9 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                                   variant="outline"
                                   isRound
                                   backgroundColor="white"
-                                  colorScheme="blue"
+                                  colorScheme="gray"
+                                  color="gray.900"
+                                  borderColor="gray.900"
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     updateTodo({ ...item, done: true }, index);

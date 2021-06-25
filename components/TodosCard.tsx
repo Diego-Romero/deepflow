@@ -1,4 +1,10 @@
-import { AddIcon, CheckIcon, DeleteIcon, DragHandleIcon, RepeatIcon } from '@chakra-ui/icons';
+import {
+  AddIcon,
+  CheckIcon,
+  DeleteIcon,
+  DragHandleIcon,
+  RepeatIcon,
+} from '@chakra-ui/icons';
 import {
   Heading,
   Text,
@@ -6,24 +12,18 @@ import {
   Box,
   CircularProgress,
   IconButton,
-  Divider,
-  Button,
-  useDisclosure,
   Stack,
-	HStack,
-	Tooltip,
+  HStack,
+  Tooltip,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import { InputControl } from 'formik-chakra-ui';
 import { useAuthUser } from 'next-firebase-auth';
-import router from 'next/router';
-import React, { Fragment, useEffect, useState } from 'react';
-import { IoMdArrowForward } from 'react-icons/io';
+import React, { useEffect, useState } from 'react';
 import { TodoItem } from '../types';
 import Firebase from 'firebase';
-import { BoardWithId, validation } from '../utils/util-functions';
+import { validation } from '../utils/util-functions';
 import { Card } from './Card';
-import { CreateBoardModal } from './CreateBoardModal';
 import config from '../utils/config';
 import produce from 'immer';
 import * as Yup from 'yup';
@@ -121,20 +121,16 @@ export const TodosCard: React.FC = () => {
                 <Stack spacing={3}>
                   <InputControl
                     name="name"
-                    inputProps={{ variant: 'flushed', autoFocus: true }}
+                    inputProps={{ variant: 'flushed' }}
                   />
                   <IconButton
-                    variant="solid"
                     shadow="lg"
                     width="auto"
                     mt={1}
                     mb={2}
                     size="sm"
-                    bgGradient="linear(to-r, cyan.700,purple.500)"
-                    _hover={{
-                      bgGradient: 'linear(to-r, cyan.600,purple.400)',
-                    }}
-                    color="white"
+                    borderColor="gray.900"
+                    variant="outline"
                     type="submit"
                     icon={<AddIcon />}
                     aria-label={'create new item'}
@@ -152,7 +148,7 @@ export const TodosCard: React.FC = () => {
                   flexDir="column"
                   justifyContent="center"
                   alignItems="center"
-                  bgColor={snapshot.isDraggingOver ? 'gray.200' : 'inherit'}
+                  bgColor={snapshot.isDraggingOver ? 'gray.100' : 'inherit'}
                   borderWidth={snapshot.isDraggingOver ? 1 : 'inherit'}
                   mt={3}
                   borderRadius="md"
@@ -180,9 +176,7 @@ export const TodosCard: React.FC = () => {
                             bgColor: 'gray.100',
                           }}
                           alignItems="center"
-                          bgColor={
-                            draggableSnapshot.isDragging ? 'cyan.100' : 'white'
-                          }
+                          bgColor={'white'}
                           py={2}
                           px={1}
                         >
@@ -243,7 +237,9 @@ export const TodosCard: React.FC = () => {
                                   variant="outline"
                                   isRound
                                   backgroundColor="white"
-                                  colorScheme="blue"
+                                  colorScheme="gray"
+                                  borderColor="gray.900"
+                                  color="gray.900"
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     updateTodo({ ...item, done: true }, index);

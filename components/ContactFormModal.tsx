@@ -72,7 +72,7 @@ export const ContactFormModal: React.FC<Props> = ({
   }
 
   return (
-    <Modal isOpen={modalOpen} onClose={modalClose} size="xl">
+    <Modal isOpen={modalOpen} onClose={modalClose} size="md">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Contact</ModalHeader>
@@ -96,10 +96,13 @@ export const ContactFormModal: React.FC<Props> = ({
                       isRequired
                       isInvalid={form.errors.email && form.touched.email}
                     >
-                      <FormLabel htmlFor="name">Email</FormLabel>
+                      <FormLabel size="sm" htmlFor="name">
+                        Email
+                      </FormLabel>
                       <Input
                         {...field}
                         type="email"
+                        size="sm"
                         autoFocus={isLargerThan480}
                       />
                       <FormErrorMessage>{form.errors.name}</FormErrorMessage>
@@ -112,12 +115,14 @@ export const ContactFormModal: React.FC<Props> = ({
                       id="message"
                       isRequired
                       isInvalid={form.errors.message && form.touched.message}
+                      size="sm"
+                      mt={4}
                     >
                       <FormLabel htmlFor="message">Message</FormLabel>
                       <Textarea
+                        size="sm"
                         rows={6}
                         placeholder="Your feedback is incredibly valuable to me, thanks!"
-                        size="md"
                         {...field}
                       />
                       <FormErrorMessage>
@@ -130,11 +135,9 @@ export const ContactFormModal: React.FC<Props> = ({
                   mt={4}
                   isFullWidth
                   type="submit"
-                  bgGradient="linear(to-r, cyan.700,purple.500)"
-                  _hover={{
-                    bgGradient: 'linear(to-r, cyan.600,purple.400)',
-                  }}
-                  color="white"
+                  size="sm"
+                  // variant="outline"
+                  colorScheme="gray"
                   isLoading={props.isSubmitting}
                 >
                   Send
@@ -143,6 +146,7 @@ export const ContactFormModal: React.FC<Props> = ({
                   mt={4}
                   mb={4}
                   colorScheme="gray"
+                  size="sm"
                   variant="outline"
                   isFullWidth
                   isLoading={props.isSubmitting}

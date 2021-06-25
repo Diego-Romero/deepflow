@@ -252,7 +252,7 @@ const BoardPage = () => {
                               onClick={onOpen}
                               shadow="lg"
                               variant="solid"
-                              size="sm"
+                              size="md"
                               aria-label="Add row"
                               colorScheme="blue"
                               icon={<AddIcon />}
@@ -265,7 +265,9 @@ const BoardPage = () => {
                               variant="solid"
                               colorScheme="gray"
                               backgroundColor="white"
-                              size="sm"
+                              borderColor="gray.900"
+                              color="gray.900"
+                              size="md"
                               isDisabled={board.colSize === MAX_COL_SIZE}
                               aria-label="Add row"
                               onClick={() => setColSize(1)}
@@ -279,8 +281,10 @@ const BoardPage = () => {
                               variant="solid"
                               colorScheme="gray"
                               backgroundColor="white"
+                              borderColor="gray.900"
+                              color="gray.900"
                               isDisabled={board.colSize === MIN_COL_SIZE}
-                              size="sm"
+                              size="md"
                               aria-label="Add row"
                               onClick={() => setColSize(-1)}
                               icon={<AiOutlineZoomOut />}

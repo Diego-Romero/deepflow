@@ -50,7 +50,6 @@ export const SideNav: React.FC<Props> = (props) => {
   }, [user]);
 
   const isOnDashboard = router.pathname === config.routes.dashboard;
-  // const isOnDashboard = false;
 
   return (
     <Flex
@@ -61,12 +60,24 @@ export const SideNav: React.FC<Props> = (props) => {
       shadow="md"
     >
       <Stack spacing={2} p={4}>
+        <Tooltip label="Dashboard" aria-label="dashboard">
+          <IconButton
+            size="lg"
+            variant="outline"
+            colorScheme="gray"
+            fontSize="xl"
+            icon={<BsGraphUp />}
+            isActive={isOnDashboard}
+            aria-label={'dashboard'}
+            onClick={() => router.push(config.routes.dashboard)}
+          />
+        </Tooltip>
+        <Divider borderColor="gray.500" />
         <Tooltip label="Boards" aria-label="boards">
           <IconButton
             variant="ghost"
             colorScheme="gray"
             size="lg"
-            // disabled={isOnDashboard}
             fontSize="xl"
             icon={<BsKanban />}
             aria-label={'boards'}
@@ -78,25 +89,11 @@ export const SideNav: React.FC<Props> = (props) => {
           <IconButton
             variant="ghost"
             colorScheme="gray"
-            // disabled={isOnDashboard}
             size="lg"
             fontSize="xl"
             icon={<BsListCheck />}
             aria-label={'todos'}
             onClick={onTodosOpen}
-          />
-        </Tooltip>
-        <Divider borderColor="gray.500" />
-        <Tooltip label="Dashboard" aria-label="dashboard">
-          <IconButton
-            size="lg"
-            variant="ghost"
-            colorScheme="gray"
-            fontSize="xl"
-            icon={<BsGraphUp />}
-            isActive={isOnDashboard}
-            aria-label={'dashboard'}
-            onClick={() => router.push(config.routes.dashboard)}
           />
         </Tooltip>
         <Divider borderColor="gray.500" />

@@ -109,7 +109,7 @@ export const Column: React.FC<Props> = ({
             </HStack>
           </Flex>
 
-          <Divider borderColor="gray.400" />
+          <Divider />
 
           <Droppable droppableId={`column-${columnIndex}`} type="item">
             {(itemsProvided, itemsSnapshot) => (
@@ -139,11 +139,13 @@ export const Column: React.FC<Props> = ({
           </Droppable>
           <Tooltip label="New" aria-label="Create new item">
             <IconButton
-              variant="solid"
+              variant="outline"
               colorScheme="gray"
-              shadow="sm"
+              color="gray.900"
+              borderColor="gray.900"
+              shadow="md"
               width="auto"
-              size={columnSize <= 2 ? "xs" : "sm"}
+              size={'sm'}
               mt={4}
               mb={2}
               onClick={onCreateModalOpen}

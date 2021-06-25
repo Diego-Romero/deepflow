@@ -65,7 +65,7 @@ export const BoardsSideNav: React.FC<Props> = (props) => {
               >
                 <Text fontSize="md">{board.name}</Text>
                 <IconButton
-                  colorScheme="blue"
+                  colorScheme="gray"
                   isRound
                   size="sm"
                   variant="ghost"
@@ -80,7 +80,13 @@ export const BoardsSideNav: React.FC<Props> = (props) => {
           <Button size="sm" variant="outline" mr={3} onClick={onClose}>
             Cancel
           </Button>
-          <Button size="sm" colorScheme="blue" onClick={onCreateModalOpen}>
+          <Button
+            size="sm"
+            colorScheme="blackAlpha"
+            bgColor="gray.900"
+            color="white"
+            onClick={onCreateModalOpen}
+          >
             Create board
           </Button>
         </DrawerFooter>

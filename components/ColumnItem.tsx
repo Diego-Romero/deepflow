@@ -71,7 +71,7 @@ export const ColumnItem: React.FC<Props> = ({
         >
           <Flex alignItems="center" justifyContent="center">
             {/* <DragHandleIcon mr={1} w={2} h={2} /> */}
-            <Text noOfLines={1} fontSize={columnSize <= 2 ? 'sm' : 'md'}>
+            <Text noOfLines={1} fontSize={'sm'}>
               {item.name}
             </Text>
           </Flex>

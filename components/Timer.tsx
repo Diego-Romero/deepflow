@@ -172,15 +172,15 @@ export const Timer: React.FC<Props> = ({ user }) => {
     const now = new Date();
     let countdownDate = new Date();
     if (user.onLongBreak) {
-      // countdownDate.setTime(now.getTime() + 0.2 * 60 * 1000); // to be used when testing
-      countdownDate.setTime(now.getTime() + user.longRestTime * 60 * 1000);
+      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
+      // countdownDate.setTime(now.getTime() + user.longRestTime * 60 * 1000);
     } else if (user.onShortBreak)
-      // countdownDate.setTime(now.getTime() + 0.2 * 60 * 1000);
-      // to be used when testing
-      countdownDate.setTime(now.getTime() + user.shortRestTime * 60 * 1000);
+      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000);
+    // to be used when testing
+    // countdownDate.setTime(now.getTime() + user.shortRestTime * 60 * 1000);
     else {
-      // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
-      countdownDate.setTime(now.getTime() + user.workInterval * 60 * 1000);
+      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
+      // countdownDate.setTime(now.getTime() + user.workInterval * 60 * 1000);
     }
     // calculates the next valid timer and starts the board
     firebaseUpdateUser({
@@ -251,13 +251,13 @@ export const Timer: React.FC<Props> = ({ user }) => {
         color="black"
         borderRadius="lg"
         px={4}
-        py={3}
+        py={2}
         alignItems="center"
         justifyContent="center"
       >
         <Flex flexDir="row" alignItems="center" justifyContent="center">
           <Text
-            fontSize="xl"
+            fontSize="lg"
             fontWeight="bold"
             mr={3}
             color={
@@ -298,9 +298,18 @@ export const Timer: React.FC<Props> = ({ user }) => {
                 icon={<IoMdPlay />}
                 size="sm"
                 onClick={startNextTimer}
-                colorScheme={
-                  user.onShortBreak || user.onLongBreak ? 'green' : 'purple'
+                bgGradient={
+                  user.onShortBreak || user.onLongBreak
+                    ? 'linear(to-r, teal.400, green.400)'
+                    : 'linear(to-r, cyan.700,purple.500)'
                 }
+                _hover={{
+                  bgGradient:
+                    user.onLongBreak || user.onLongBreak
+                      ? 'linear(to-r, teal.300, green.300)'
+                      : 'linear(to-r, cyan.300,purple.300)',
+                }}
+                color="white"
                 shadow="md"
               />
             </Tooltip>
@@ -315,7 +324,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
           borderRightWidth={1}
           borderColor="gray.500"
         >
-          <Text fontSize="xl" fontWeight="bold">
+          <Text fontSize="lg" fontWeight="bold">
             {user.pomodoroCount} / {user.targetPerDay}
           </Text>
         </Box>
@@ -325,12 +334,13 @@ export const Timer: React.FC<Props> = ({ user }) => {
             isRound
             aria-label="full screen timer"
             icon={<BsArrowsAngleExpand />}
-            // color="black"
-            colorScheme="blue"
             variant="outline"
             size="sm"
             onClick={onFullScreenTimerOpen}
             shadow="md"
+            color="gray.900"
+            borderColor="gray.900"
+            colorScheme="gray"
           />
         </Tooltip>
         <Tooltip label="Settings">
@@ -342,12 +352,14 @@ export const Timer: React.FC<Props> = ({ user }) => {
             disabled={user.isTimerPlaying}
             aria-label="update"
             icon={<SettingsIcon />}
-            colorScheme="blue"
             onClick={onTimerSettingsOpen}
             shadow="lg"
+            color="gray.900"
+            borderColor="gray.900"
+            colorScheme="gray"
           />
         </Tooltip>
-        <Tooltip label="Reset">
+        {/* <Tooltip label="Reset">
           <IconButton
             isRound
             aria-label="reset"
@@ -356,11 +368,13 @@ export const Timer: React.FC<Props> = ({ user }) => {
             variant="outline"
             ml={2}
             disabled={user.isTimerPlaying}
-            colorScheme="blue"
             onClick={() => resetTimer(getTodayIsoString())}
             shadow="lg"
+            color="gray.900"
+            borderColor="gray.900"
+            colorScheme="gray"
           />
-        </Tooltip>
+        </Tooltip> */}
       </Flex>
       <TimerSettingsModal
         user={user}

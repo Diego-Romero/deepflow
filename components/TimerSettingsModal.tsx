@@ -92,7 +92,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                         clampValueOnBlur: true,
                         inputMode: 'numeric',
                         precision: 0,
-                        size: "sm"
+                        size: 'sm',
                       }}
                     />
 
@@ -109,7 +109,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                         clampValueOnBlur: true,
                         inputMode: 'numeric',
                         precision: 0,
-                        size: "sm"
+                        size: 'sm',
                       }}
                     />
                     <NumberInputControl
@@ -125,7 +125,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                         clampValueOnBlur: true,
                         inputMode: 'numeric',
                         precision: 0,
-                        size: "sm"
+                        size: 'sm',
                       }}
                     />
                     <NumberInputControl
@@ -141,7 +141,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                         clampValueOnBlur: true,
                         inputMode: 'numeric',
                         precision: 0,
-                        size: "sm"
+                        size: 'sm',
                       }}
                     />
                     <NumberInputControl
@@ -157,7 +157,7 @@ export const TimerSettingsModal: React.FC<Props> = ({
                         clampValueOnBlur: true,
                         inputMode: 'numeric',
                         precision: 0,
-                        size: "sm"
+                        size: 'sm',
                       }}
                     />
                   </Grid>
@@ -167,8 +167,13 @@ export const TimerSettingsModal: React.FC<Props> = ({
                   isFullWidth
                   type="submit"
                   variant="solid"
-                  colorScheme="blue"
                   size="sm"
+                  colorScheme="blackAlpha"
+                  _hover={{
+                    bgColor: 'gray.700',
+                  }}
+                  bgColor="gray.900"
+                  color="white"
                 >
                   Update
                 </Button>

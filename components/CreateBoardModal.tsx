@@ -71,7 +71,7 @@ export const CreateBoardModal: React.FC<Props> = ({
   };
 
   return (
-    <Modal isOpen={modalOpen} onClose={modalClose} size="md">
+    <Modal isOpen={modalOpen} onClose={modalClose} size="sm">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Create board</ModalHeader>
@@ -122,11 +122,11 @@ export const CreateBoardModal: React.FC<Props> = ({
                   size="sm"
                   isFullWidth
                   type="submit"
-                  variant="solid"
-                  bgGradient="linear(to-r, cyan.700,purple.500)"
+                  colorScheme="blackAlpha"
                   _hover={{
-                    bgGradient: 'linear(to-r, cyan.600,purple.400)',
+                    bgColor: 'gray.700',
                   }}
+                  bgColor="gray.900"
                   color="white"
                 >
                   Create

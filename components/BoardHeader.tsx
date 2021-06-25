@@ -48,11 +48,7 @@ export const BoardHeader: React.FC<Props> = ({
               aria-label={'Edit'}
             />
           </Tooltip>
-          <Heading
-            noOfLines={1}
-            isTruncated
-            size="lg"
-          >
+          <Heading noOfLines={1} isTruncated size="lg">
             {board.name}
           </Heading>
         </HStack>
