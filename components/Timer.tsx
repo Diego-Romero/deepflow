@@ -231,7 +231,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
                 size="sm"
                 onClick={startNextTimer}
                 colorScheme={
-                  user.onShortBreak || user.onLongBreak ? 'green' : 'blue'
+                  user.onShortBreak || user.onLongBreak ? 'green' : 'purple'
                 }
                 shadow="md"
               />

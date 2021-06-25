@@ -4,18 +4,7 @@ import Firebase from 'firebase';
 import FullPageLoader from '../components/FullPageLoader';
 import { PageLayout } from '../components/PageLayout';
 import { Card } from '../components/Card';
-import {
-  Box,
-  Flex,
-  Heading,
-  Grid,
-  Stack,
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-} from '@chakra-ui/react';
+import { Flex, Heading, Grid, Stack } from '@chakra-ui/react';
 import { User, UserWorkedTime, WorkedTimeWithDate } from '../types';
 import {
   BoardWithId,
@@ -24,21 +13,23 @@ import {
 } from '../utils/util-functions';
 import config from '../utils/config';
 import { BoardsCard } from '../components/BoardsCard';
+import { WorkedTimesCard } from '../components/WorkedTimesCard';
 
-// const mockWorkedTime: UserWorkedTime = {
-//   '23-06-2021': { count: 10, worked: 250 },
-//   '22-06-2021': { count: 12, worked: 250 },
-//   '21-06-2021': { count: 10, worked: 250 },
-//   '20-06-2021': { count: 14, worked: 250 },
-//   '19-06-2021': { count: 8, worked: 250 },
-//   '18-06-2021': { count: 10, worked: 250 },
-//   '17-06-2021': { count: 8, worked: 250 },
-// };
+const mockWorkedTime: UserWorkedTime = {
+  '2021-06-17': { count: 10, worked: 250 },
+  '2021-06-18': { count: 10, worked: 250 },
+  '2021-06-19': { count: 10, worked: 250 },
+  '2021-06-20': { count: 10, worked: 250 },
+  '2021-06-21': { count: 10, worked: 250 },
+  '2021-06-22': { count: 10, worked: 250 },
+  '2021-06-23': { count: 10, worked: 250 },
+};
 
 const DashboardPage = () => {
   const [boards, setBoards] = useState<BoardWithId[]>([]);
   const [workedTimes, setWorkedTimes] = useState<WorkedTimeWithDate[]>([]);
   const [boardsLoading, setBoardsLoading] = useState(true);
+  const [recordsLoading, setRecordsLoading] = useState(true);
   const authUser = useAuthUser();
   const [user, setUser] = useState<User | null>(null);
 
@@ -69,13 +60,14 @@ const DashboardPage = () => {
   const getWorkedTimes = () => {
     workedTimeRef.on('value', (snapshot) => {
       const workedTime = snapshot.val() as UserWorkedTime;
+      if (!workedTime) {
+        workedTimeRef.set(mockWorkedTime);
+      }
       const withDate = mapWorkedTimesToIncDate(workedTime);
       console.log(withDate);
       setWorkedTimes(withDate);
-      // console.log('worked time', workedTime);
-      // if (!workedTime) {
-      //   workedTimeRef.set(mockWorkedTime);
-      // }
+      console.log('worked time', workedTime);
+      setRecordsLoading(false);
     });
   };
 
@@ -84,7 +76,7 @@ const DashboardPage = () => {
       <Flex justifyContent="center">
         <Grid
           my={8}
-          gridGap={8}
+          gridGap={6}
           width="container.md"
           gridTemplateColumns="1fr 1fr"
           gridTemplateRows="auto"
@@ -97,29 +89,12 @@ const DashboardPage = () => {
               </Heading>
             </Card>
           </Stack>
-          <Card maxHeight="80vh">
-            <Heading size="md" mb={4}>
-              Work Records
-            </Heading>
-            <Accordion defaultIndex={[0]} allowMultiple>
-              <AccordionItem>
-                <h2>
-                  <AccordionButton px={0} py={2}>
-                    <Box flex="1" textAlign="left">
-                      Section 1 title
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4} px={0}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </AccordionPanel>
-              </AccordionItem>
-            </Accordion>
-          </Card>
+          <Stack>
+            <WorkedTimesCard
+              workedTimes={workedTimes}
+              loading={recordsLoading}
+            />
+          </Stack>
         </Grid>
       </Flex>
     </PageLayout>

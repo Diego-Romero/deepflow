@@ -7,7 +7,7 @@ import {
   IconButton,
   Divider,
   Button,
-	useDisclosure,
+  useDisclosure,
 } from '@chakra-ui/react';
 import router from 'next/router';
 import React, { Fragment } from 'react';
@@ -36,8 +36,7 @@ export const BoardsCard: React.FC<Props> = (props) => {
       {loading ? (
         <Flex justifyContent="center" alignItems="center">
           <Box>
-            <CircularProgress isIndeterminate color="purple.500" />
-            <Text>Loading</Text>
+            <CircularProgress  isIndeterminate color="blue.500" />
           </Box>
         </Flex>
       ) : (
@@ -85,9 +84,9 @@ export const BoardsCard: React.FC<Props> = (props) => {
             _hover={{
               bgGradient: 'linear(to-r, cyan.600,purple.400)',
             }}
+            color="white"
             onClick={onCreateModalOpen}
             size="sm"
-            color="white"
           >
             New
           </Button>

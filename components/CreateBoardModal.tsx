@@ -123,7 +123,10 @@ export const CreateBoardModal: React.FC<Props> = ({
                   isFullWidth
                   type="submit"
                   variant="solid"
-                  colorScheme="blue"
+                  bgGradient="linear(to-r, cyan.700,purple.500)"
+                  _hover={{
+                    bgGradient: 'linear(to-r, cyan.600,purple.400)',
+                  }}
                   color="white"
                 >
                   Create

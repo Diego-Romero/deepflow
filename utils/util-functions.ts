@@ -195,6 +195,19 @@ export function longDateFormat(date: number) {
   return moment.unix(date).format('Do-MMM-YYYY h:mm a');
 }
 
+export function formatDateFromIso(isoDate: string): string {
+  console.log(isoDate);
+  return moment(isoDate).format('dddd DD MMM YY');
+}
+
+export function convertMinutesToHours(n: number): string {
+  const hours = n / 60;
+  const rhours = Math.floor(hours);
+  const minutes = (hours - rhours) * 60;
+  const rminutes = Math.round(minutes);
+  return `${rhours} hours and ${rminutes} minutes`;
+}
+
 export interface BoardWithId extends Board {
   id: string;
 }

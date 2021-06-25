@@ -129,13 +129,16 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                   />
                   <IconButton
                     variant="solid"
-                    colorScheme="blue"
                     shadow="lg"
                     width="auto"
                     mt={1}
                     mb={2}
-                    color="white"
                     size="sm"
+                    bgGradient="linear(to-r, cyan.700,purple.500)"
+                    _hover={{
+                      bgGradient: 'linear(to-r, cyan.600,purple.400)',
+                    }}
+                    color="white"
                     type="submit"
                     icon={<AddIcon />}
                     aria-label={'create new item'}
