@@ -24,12 +24,14 @@ import config from '../utils/config';
 import { useAuthUser } from 'next-firebase-auth';
 import { TimerSettingsModal } from './TimerSettingsModal';
 import moment from 'moment';
+import { PomodoroNotesForm } from './PomodoroNotesForm';
 
 interface Props {
   user: User;
 }
 
 const TIMER_DEFAULT_TIME = 0;
+const POMODORO_NOTE_TIMER_MS = 30000;
 
 export const Timer: React.FC<Props> = ({ user }) => {
   const [remainingTime, setRemainingTime] = React.useState<string>(``);
@@ -43,6 +45,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
     onOpen: onTimerSettingsOpen,
     onClose: onTimerSettingsClose,
   } = useDisclosure();
+
   const [playWorkTimerDone] = useSound(workTimerDoneSound);
   const [playRestTimerDone] = useSound(restTimerDoneSound);
   const authUser = useAuthUser();
@@ -50,6 +53,13 @@ export const Timer: React.FC<Props> = ({ user }) => {
 
   const userRef = Firebase.database().ref(
     config.collections.user(authUser.id as string)
+  );
+
+  const todayWorkedTimeRef = Firebase.database().ref(
+    config.collections.userWorkTimeYesterday(
+      authUser.id as string,
+      getTodayIsoString()
+    )
   );
 
   function firebaseUpdateUser(userUpdated: User) {
@@ -202,25 +212,35 @@ export const Timer: React.FC<Props> = ({ user }) => {
 
   const isUserOnBreak = user.onShortBreak || user.onLongBreak;
 
+  function closeToast() {
+    toast.closeAll();
+  }
+
+  async function saveNote(note: string) {
+    const todayValue = await todayWorkedTimeRef.get();
+    const val = todayValue.val() as WorkedTime | null;
+    if (!val) {
+      const todayVal: WorkedTime = { count: 0, worked: 0, notes: [note] };
+      todayWorkedTimeRef.set(todayVal);
+    } else {
+      const todayVal: WorkedTime = { ...val, notes: [...val.notes, note] };
+      todayWorkedTimeRef.set(todayVal);
+    }
+    closeToast();
+  }
+
   function showToast() {
-    toast({
-      title: 'Pomodoro finished',
-      description: 'How did it go?',
-      render: () => <div>hola</div>,
-      status: 'info',
-      duration: 9000,
-      isClosable: true,
-    });
-    // if (!isUserOnBreak) {
-    //   toast({
-    //     title: 'Pomodoro finished',
-    //     description: 'How did it go?',
-    //     render: () => <div>hola</div>,
-    //     status: 'info',
-    //     duration: 9000,
-    //     isClosable: true,
-    //   });
-    // }
+    if (!isUserOnBreak) {
+      toast({
+        render: () => (
+          <PomodoroNotesForm close={() => closeToast()} saveNote={saveNote} />
+        ),
+        duration: POMODORO_NOTE_TIMER_MS,
+        isClosable: true,
+        variant: 'top-accent',
+        position: 'bottom-right',
+      });
+    }
   }
 
   const calculateTimeLeft = () => {
@@ -230,19 +250,6 @@ export const Timer: React.FC<Props> = ({ user }) => {
     const seconds = Math.floor((difference / 1000) % 60);
 
     if (minutes <= 0 && seconds <= 0) {
-      toast({
-        title: 'Pomodoro finished',
-        description: 'How did it go?',
-        render: () => (
-          <Flex bgColor="gray.100" color="white" p={4} borderRadius="lg" >
-            <Text>How did it go?</Text>
-          </Flex>
-        ),
-        status: 'info',
-        position: 'bottom-right',
-        duration: 60000,
-        isClosable: true,
-      });
       playSound();
       showToast();
       setIsTimerPlaying(false);

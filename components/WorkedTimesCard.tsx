@@ -12,6 +12,9 @@ import {
   ListIcon,
   Flex,
   CircularProgress,
+  Stack,
+  UnorderedList,
+  Divider,
 } from '@chakra-ui/react';
 import React from 'react';
 import { AiFillClockCircle } from 'react-icons/ai';
@@ -33,7 +36,7 @@ export const WorkedTimesCard: React.FC<Props> = (props) => {
   return (
     <Card maxHeight="80vh" loading={loading}>
       <Heading size="md" mb={4}>
-        Records 
+        Records
       </Heading>
       <Accordion defaultIndex={[0]} allowMultiple>
         {workedTimes && workedTimes.length > 0 ? (
@@ -58,6 +61,26 @@ export const WorkedTimesCard: React.FC<Props> = (props) => {
                     Time worked: <b>{convertMinutesToHours(time.worked)}</b>
                   </ListItem>
                 </List>
+                {time.notes && time.notes.length > 0 ? (
+                  <>
+                    <Divider my={3} />
+                    <Stack spacing={2}>
+                      <Text>Notes</Text>
+                      <UnorderedList
+                        pl={4}
+                        spacing={2}
+                        fontSize="xs"
+                        color="gray.600"
+                      >
+                        {time.notes.map((note, index) => (
+                          <ListItem key={`note-${index}`}>
+                            <Text>{note}</Text>
+                          </ListItem>
+                        ))}
+                      </UnorderedList>
+                    </Stack>
+                  </>
+                ) : null}
               </AccordionPanel>
             </AccordionItem>
           ))

@@ -21,6 +21,7 @@ export type UserWorkedTime = {
 export interface WorkedTime {
   count: number;
   worked: number;
+  notes: string[];
 }
 
 export interface WorkedTimeWithDate extends WorkedTime {
