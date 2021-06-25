@@ -196,7 +196,6 @@ export function longDateFormat(date: number) {
 }
 
 export function formatDateFromIso(isoDate: string): string {
-  console.log(isoDate);
   return moment(isoDate).format('dddd DD MMM YY');
 }
 

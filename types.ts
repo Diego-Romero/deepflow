@@ -11,6 +11,7 @@ export type User = {
   isTimerPlaying: boolean;
   boards?: Board[];
   todos: TodoItem[];
+  workingDayIsoString: string;
 };
 
 export type UserWorkedTime = {

@@ -49,7 +49,7 @@ export const BoardsCard: React.FC<Props> = (props) => {
                 {boards.map((board) => (
                   <Box key={board.id}>
                     <Flex
-                      p={2}
+                      py={2}
                       cursor="pointer"
                       key={board.id}
                       alignItems="center"

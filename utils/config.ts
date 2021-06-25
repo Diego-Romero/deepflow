@@ -11,6 +11,7 @@ const config = {
     users: '/users',
     user: (userId: string) => `/users/${userId}`,
     userWorkedTimes: (userId: string) => `/workedTime/${userId}`,
+    userWorkTimeYesterday: (userId: string, dateIsoString: string) => `/workedTime/${userId}/${dateIsoString}`,
     userTodos: (userId: string) => `/users/${userId}/todos`,
     userBoards: (userId: string) => `/users/${userId}/boards`,
     boardMetadata: (userId: string, boardId: string) =>

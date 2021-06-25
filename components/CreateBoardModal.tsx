@@ -95,7 +95,7 @@ export const CreateBoardModal: React.FC<Props> = ({
                     name="name"
                     label="Name"
                     isRequired
-                    inputProps={{ size: 'sm', variant: 'flushed' }}
+                    inputProps={{ size: 'sm' }}
                   />
                   <RadioGroupControl
                     size="sm"

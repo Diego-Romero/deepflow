@@ -13,7 +13,7 @@ import React, { useEffect } from 'react';
 import useSound from 'use-sound';
 import { IoMdPlay } from 'react-icons/io';
 import { BsArrowsAngleExpand } from 'react-icons/bs';
-import { User } from '../types';
+import { User, WorkedTime } from '../types';
 import { formatWatchTime } from '../utils/util-functions';
 import { TimerModal } from './TimerModal';
 import workTimerDoneSound from '../public/sounds/work-timer-done.mp3';
@@ -22,12 +22,21 @@ import Firebase from 'firebase';
 import config from '../utils/config';
 import { useAuthUser } from 'next-firebase-auth';
 import { TimerSettingsModal } from './TimerSettingsModal';
+import moment from 'moment';
 
 interface Props {
   user: User;
 }
 
 const TIMER_DEFAULT_TIME = 0;
+
+const resetUserTimerFields = {
+  pomodoroCount: 0,
+  timerEndTime: TIMER_DEFAULT_TIME,
+  onShortBreak: false,
+  onLongBreak: false,
+  isTimerPlaying: false,
+};
 
 export const Timer: React.FC<Props> = ({ user }) => {
   const [remainingTime, setRemainingTime] = React.useState<string>(``);
@@ -45,19 +54,69 @@ export const Timer: React.FC<Props> = ({ user }) => {
   const [playRestTimerDone] = useSound(restTimerDoneSound);
   const authUser = useAuthUser();
 
-  const UserRef = Firebase.database().ref(
+  const userRef = Firebase.database().ref(
     config.collections.user(authUser.id as string)
   );
 
-  function firebaseUpdateBoard(userUpdated: User) {
-    UserRef.set(userUpdated);
+  function firebaseUpdateUser(userUpdated: User) {
+    userRef.set(userUpdated);
   }
+
+  function formatSingleDigit(n: number): string {
+    return n.toString().length === 1 ? `0${n}` : n.toString();
+  }
+
+  async function recordPreviousWorkedTime(
+    count: number,
+    worked: number,
+    isoString: string
+  ) {
+    const userId = authUser.id as string;
+    const dateWorkedTimeRef = Firebase.database().ref(
+      config.collections.userWorkTimeYesterday(userId, isoString)
+    );
+
+    const record = await dateWorkedTimeRef.get();
+    const val = record.val() as WorkedTime | null;
+    if (val) {
+      dateWorkedTimeRef.set({
+        count: count + val.count,
+        worked: worked + val.worked,
+      });
+    } else {
+      dateWorkedTimeRef.set({
+        count,
+        worked,
+      });
+    }
+  }
+
+  function getTodayIsoString() {
+    const today = moment().toObject();
+    return `${today.years}-${formatSingleDigit(
+      today.months + 1
+    )}-${formatSingleDigit(today.date)}`;
+  }
+
+  useEffect(() => {
+    // When we render the timer, we calculate if there was any pomodoros done in the previous session
+    // if they were, we store it in the user records and reset the current timer.
+    const todayIsoString = getTodayIsoString();
+    if (!user.workingDayIsoString) {
+      userRef.set({ ...user, workingDayIsoString: todayIsoString });
+    } else {
+      if (user.workingDayIsoString !== todayIsoString) {
+        // if we moved ahead in date, we reset timer and record the work done
+        resetTimer(user.workingDayIsoString);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (!user.isTimerPlaying && user.timerEndTime !== TIMER_DEFAULT_TIME) {
       if (user.onShortBreak || user.onLongBreak) {
         // if is on break just set the breaks to false
-        firebaseUpdateBoard({
+        firebaseUpdateUser({
           ...user,
           onShortBreak: false,
           onLongBreak: false,
@@ -67,7 +126,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
         // increase the counter and set the appropriate break
         const nextPomodoroCounter = user.pomodoroCount + 1;
         if (nextPomodoroCounter % user.longBreakAfter === 0) {
-          firebaseUpdateBoard({
+          firebaseUpdateUser({
             ...user,
             pomodoroCount: nextPomodoroCounter,
             onLongBreak: true,
@@ -75,7 +134,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
             timerEndTime: TIMER_DEFAULT_TIME,
           });
         } else {
-          firebaseUpdateBoard({
+          firebaseUpdateUser({
             ...user,
             pomodoroCount: nextPomodoroCounter,
             onShortBreak: true,
@@ -88,34 +147,43 @@ export const Timer: React.FC<Props> = ({ user }) => {
   }, [user]);
 
   const setIsTimerPlaying = (isTimerPlaying: boolean) => {
-    firebaseUpdateBoard({ ...user, isTimerPlaying });
+    firebaseUpdateUser({ ...user, isTimerPlaying });
   };
 
-  const resetTimer = () =>
-    firebaseUpdateBoard({
+  // resets the timer, records the previously stored working time on the provided ISO string
+  const resetTimer = (isoString: string) => {
+    recordPreviousWorkedTime(
+      user.pomodoroCount,
+      user.workInterval * user.pomodoroCount,
+      isoString
+    );
+    firebaseUpdateUser({
       ...user,
       pomodoroCount: 0,
       timerEndTime: TIMER_DEFAULT_TIME,
       onShortBreak: false,
       onLongBreak: false,
       isTimerPlaying: false,
+      workingDayIsoString: getTodayIsoString(),
     });
+  };
 
   const startNextTimer = () => {
     const now = new Date();
     let countdownDate = new Date();
     if (user.onLongBreak) {
-      // countdownDate.setTime(now.getTime() + 0.2 * 60 * 1000); // to be used when testing
-      countdownDate.setTime(now.getTime() + user.longRestTime * 60 * 1000);
+      countdownDate.setTime(now.getTime() + 0.2 * 60 * 1000); // to be used when testing
+      // countdownDate.setTime(now.getTime() + user.longRestTime * 60 * 1000);
     } else if (user.onShortBreak)
-      // countdownDate.setTime(now.getTime() + 0.2 * 60 * 1000); // to be used when testing
-      countdownDate.setTime(now.getTime() + user.shortRestTime * 60 * 1000);
+      countdownDate.setTime(now.getTime() + 0.2 * 60 * 1000);
+    // to be used when testing
+    // countdownDate.setTime(now.getTime() + user.shortRestTime * 60 * 1000);
     else {
-      // countdownDate.setTime(now.getTime() + 0.5 * 60 * 1000); // to be used when testing
-      countdownDate.setTime(now.getTime() + user.workInterval * 60 * 1000);
+      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
+      // countdownDate.setTime(now.getTime() + user.workInterval * 60 * 1000);
     }
     // calculates the next valid timer and starts the board
-    firebaseUpdateBoard({
+    firebaseUpdateUser({
       ...user,
       timerEndTime: countdownDate.getTime(),
       isTimerPlaying: true,
@@ -124,7 +192,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
   };
 
   const stopTimer = () => {
-    firebaseUpdateBoard({
+    firebaseUpdateUser({
       ...user,
       isTimerPlaying: false,
       timerEndTime: TIMER_DEFAULT_TIME,
@@ -289,7 +357,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
             ml={2}
             disabled={user.isTimerPlaying}
             colorScheme="blue"
-            onClick={resetTimer}
+            onClick={() => resetTimer(getTodayIsoString())}
             shadow="lg"
           />
         </Tooltip>
@@ -297,7 +365,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
       <TimerSettingsModal
         user={user}
         modalClose={onTimerSettingsClose}
-        updateUser={firebaseUpdateBoard}
+        updateUser={firebaseUpdateUser}
         modalOpen={isTimerSettingsOpen}
       />
       <TimerModal

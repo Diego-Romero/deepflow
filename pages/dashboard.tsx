@@ -15,16 +15,6 @@ import config from '../utils/config';
 import { BoardsCard } from '../components/BoardsCard';
 import { WorkedTimesCard } from '../components/WorkedTimesCard';
 
-const mockWorkedTime: UserWorkedTime = {
-  '2021-06-17': { count: 10, worked: 250 },
-  '2021-06-18': { count: 10, worked: 250 },
-  '2021-06-19': { count: 10, worked: 250 },
-  '2021-06-20': { count: 10, worked: 250 },
-  '2021-06-21': { count: 10, worked: 250 },
-  '2021-06-22': { count: 10, worked: 250 },
-  '2021-06-23': { count: 10, worked: 250 },
-};
-
 const DashboardPage = () => {
   const [boards, setBoards] = useState<BoardWithId[]>([]);
   const [workedTimes, setWorkedTimes] = useState<WorkedTimeWithDate[]>([]);
@@ -60,13 +50,10 @@ const DashboardPage = () => {
   const getWorkedTimes = () => {
     workedTimeRef.on('value', (snapshot) => {
       const workedTime = snapshot.val() as UserWorkedTime;
-      if (!workedTime) {
-        workedTimeRef.set(mockWorkedTime);
+      if (workedTime) {
+        const withDate = mapWorkedTimesToIncDate(workedTime);
+        setWorkedTimes(withDate);
       }
-      const withDate = mapWorkedTimesToIncDate(workedTime);
-      console.log(withDate);
-      setWorkedTimes(withDate);
-      console.log('worked time', workedTime);
       setRecordsLoading(false);
     });
   };
@@ -100,9 +87,6 @@ const DashboardPage = () => {
     </PageLayout>
   );
 };
-
-// todo: set a SSR to fetch the initial lists?
-// todo: test against fetching the lists on the client side
 
 export default withAuthUser({
   whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,

@@ -44,7 +44,7 @@ export const WorkedTimesCard: React.FC<Props> = (props) => {
       ) : (
         <Accordion defaultIndex={[0]} allowMultiple>
           {workedTimes && workedTimes.length > 0 ? (
-            workedTimes.map((time) => (
+            workedTimes.reverse().map((time) => (
               <AccordionItem key={time.date}>
                 <AccordionButton px={0} py={2}>
                   <Box flex="1" textAlign="left">
