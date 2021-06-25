@@ -14,6 +14,7 @@ import {
 import config from '../utils/config';
 import { BoardsCard } from '../components/BoardsCard';
 import { WorkedTimesCard } from '../components/WorkedTimesCard';
+import { TodosCard } from '../components/TodosCard';
 
 const DashboardPage = () => {
   const [boards, setBoards] = useState<BoardWithId[]>([]);
@@ -64,17 +65,13 @@ const DashboardPage = () => {
         <Grid
           my={8}
           gridGap={6}
-          width="container.md"
-          gridTemplateColumns="1fr 1fr"
+          width="container.lg"
+          gridTemplateColumns="1fr 1.5fr"
           gridTemplateRows="auto"
         >
           <Stack spacing={4}>
             <BoardsCard loading={boardsLoading} boards={boards} />
-            <Card>
-              <Heading size="md" mb={4}>
-                Todos
-              </Heading>
-            </Card>
+            <TodosCard />
           </Stack>
           <Stack>
             <WorkedTimesCard
