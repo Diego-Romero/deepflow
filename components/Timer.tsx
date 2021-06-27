@@ -154,11 +154,19 @@ export const Timer: React.FC<Props> = ({ user }) => {
     firebaseUpdateUser({ ...user, isTimerPlaying });
   };
 
+  // rough estimation of the worked time, adds the work intervals * the pomodoroCount, also includes the short rests but not the long ones
+  function calculateWorkedTime(): number {
+    // add the rested time to the pomodoros as well
+    let sum = user.workInterval * user.pomodoroCount; // the time worked
+    sum += user.pomodoroCount * user.shortRestTime;
+    return sum;
+  }
+
   // resets the timer, records the previously stored working time on the provided ISO string
   const resetTimer = (isoString: string) => {
     recordPreviousWorkedTime(
       user.pomodoroCount,
-      user.workInterval * user.pomodoroCount,
+      calculateWorkedTime(),
       isoString
     );
     firebaseUpdateUser({
