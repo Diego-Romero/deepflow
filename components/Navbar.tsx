@@ -1,4 +1,5 @@
 import {
+  Badge,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -32,7 +33,6 @@ export const NavBar: React.FC<Props> = (props) => {
     <Flex
       direction="row"
       color="white"
-      // bgGradient="linear(to-r, cyan.700,purple.500)"
       bgColor="gray.900"
       px={4}
       py={3}
@@ -73,8 +73,11 @@ export const NavBar: React.FC<Props> = (props) => {
             )}
           </MenuList>
         </Menu>
+        <Badge fontSize="sm" variant="subtle" colorScheme="green">
+          Beta
+        </Badge>
       </HStack>
-      {user !== null ? <Timer user={user} /> : null}
+      <HStack>{user !== null ? <Timer user={user} /> : null}</HStack>
     </Flex>
   );
 };
