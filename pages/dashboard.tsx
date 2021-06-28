@@ -15,6 +15,7 @@ import config from '../utils/config';
 import { BoardsCard } from '../components/BoardsCard';
 import { WorkedTimesCard } from '../components/WorkedTimesCard';
 import { TodosCard } from '../components/TodosCard';
+import { IntentionCard } from '../components/IntentionCard';
 
 const DashboardPage = () => {
   const [boards, setBoards] = useState<BoardWithId[]>([]);
@@ -73,10 +74,7 @@ const DashboardPage = () => {
             <BoardsCard loading={boardsLoading} boards={boards} />
             <TodosCard />
           </Stack>
-          <Card>
-            <Heading size="md">Intention</Heading>
-            <Text py={20}>To be implemeted</Text>
-          </Card>
+          <IntentionCard />
           <WorkedTimesCard workedTimes={workedTimes} loading={recordsLoading} />
         </Grid>
       </Flex>
