@@ -10,7 +10,6 @@ import {
   Text,
   Flex,
   Box,
-  CircularProgress,
   IconButton,
   Stack,
   HStack,
@@ -100,7 +99,7 @@ export const TodosCard: React.FC = () => {
           initialValues={{ name: '' }}
           onSubmit={(values, actions) => {
             const item: TodoItem = {
-            ...values,
+              ...values,
               createdAt: Date.now(),
               done: false,
             };
@@ -165,7 +164,7 @@ export const TodosCard: React.FC = () => {
                       >
                         <HStack>
                           <DragHandleIcon w={3} h={3} />
-                          <Text noOfLines={1}>{item.name}</Text>
+                          <Text noOfLines={1} fontSize="sm">{item.name}</Text>
                         </HStack>
                         <HStack>
                           {item.done ? (

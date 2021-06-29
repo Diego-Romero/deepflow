@@ -52,7 +52,7 @@ export const BoardsCard: React.FC<Props> = (props) => {
                     justifyContent="space-between"
                     onClick={() => router.push(`/board/${board.id}`)}
                   >
-                    <Text noOfLines={1} isTruncated>
+                    <Text noOfLines={1} isTruncated fontSize="sm">
                       {board.name}
                     </Text>
                     <IconButton

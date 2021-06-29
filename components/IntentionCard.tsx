@@ -49,7 +49,7 @@ export const IntentionCard: React.FC<Props> = () => {
   async function setContentFromFirebase() {
     const workedTimeToday = await todayWorkedTimeRef.get();
     const val = workedTimeToday.val() as WorkedTime;
-    if (val.intention) {
+    if (val && val.intention) {
       const raw = convertFromRaw(JSON.parse(val.intention));
       setEditorState(EditorState.createWithContent(raw));
     }
