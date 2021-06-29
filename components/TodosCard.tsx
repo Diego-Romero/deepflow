@@ -118,8 +118,12 @@ export const TodosCard: React.FC = () => {
                   mt={1}
                   mb={2}
                   size="sm"
-                  borderColor="gray.900"
-                  variant="outline"
+                  bgColor="gray.900"
+                  colorScheme="blackAlpha"
+                  _hover={{
+                    bgColor: 'gray.700',
+                  }}
+                  color="white"
                   type="submit"
                   icon={<AddIcon />}
                   aria-label={'create new item'}
@@ -164,7 +168,9 @@ export const TodosCard: React.FC = () => {
                       >
                         <HStack>
                           <DragHandleIcon w={3} h={3} />
-                          <Text noOfLines={1} fontSize="sm">{item.name}</Text>
+                          <Text noOfLines={1} fontSize="sm">
+                            {item.name}
+                          </Text>
                         </HStack>
                         <HStack>
                           {item.done ? (
