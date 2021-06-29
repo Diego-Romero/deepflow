@@ -7,7 +7,7 @@ import {
   Flex,
   Button,
 } from '@chakra-ui/react';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Editor,
   EditorState,
@@ -33,6 +33,7 @@ export const IntentionCard: React.FC<Props> = () => {
   const [editorState, setEditorState] = React.useState<EditorState>(() =>
     EditorState.createEmpty()
   );
+  const [loading, setLoading] = useState(true);
 
   const todayWorkedTimeRef = Firebase.database().ref(
     config.collections.userWorkTimeYesterday(
@@ -52,6 +53,7 @@ export const IntentionCard: React.FC<Props> = () => {
       const raw = convertFromRaw(JSON.parse(val.intention));
       setEditorState(EditorState.createWithContent(raw));
     }
+    setLoading(false);
   }
 
   const debouncedSave = useCallback(
@@ -90,12 +92,8 @@ export const IntentionCard: React.FC<Props> = () => {
   }
 
   return (
-    <Card maxHeight="80vh">
-      <Flex
-        alignItems="flex-start"
-        justifyContent="space-between"
-        flexDir="row"
-      >
+    <Card maxHeight="80vh" loading={loading}>
+      <Flex alignItems="flex-end" justifyContent="space-between" flexDir="row">
         <Heading size="md" mb={4}>
           Intention
         </Heading>
