@@ -29,7 +29,7 @@ export const Card: React.FC<Props> = ({
         </Box>
       </Flex>
     ) : (
-      <Box>{children}</Box>
+      <Box height="100%">{children}</Box>
     )}
   </Box>
 );

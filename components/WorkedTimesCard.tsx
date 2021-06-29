@@ -52,11 +52,12 @@ export const WorkedTimesCard: React.FC<Props> = (props) => {
                 <List spacing={3} fontSize="sm">
                   <ListItem>
                     <ListIcon as={MdCheckCircle} color="green.400" />
-                    Pomodoros: <b>{time.count}</b>
+                    Pomodoros: <b>{time.count || 0}</b>
                   </ListItem>
                   <ListItem>
                     <ListIcon as={AiFillClockCircle} color="green.400" />
-                    Time worked: <b>{convertMinutesToHours(time.worked)}</b>
+                    Time worked:{' '}
+                    <b>{convertMinutesToHours(time.worked || 0)}</b>
                   </ListItem>
                 </List>
                 {time.notes && time.notes.length > 0 ? (

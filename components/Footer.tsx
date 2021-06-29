@@ -1,6 +1,13 @@
 import { EmailIcon } from '@chakra-ui/icons';
 import { Flex, Heading } from '@chakra-ui/layout';
-import { Box, IconButton, Link, Stack, useDisclosure } from '@chakra-ui/react';
+import {
+  Badge,
+  Box,
+  IconButton,
+  Link,
+  Stack,
+  useDisclosure,
+} from '@chakra-ui/react';
 import React from 'react';
 import { ContactFormModal } from './ContactFormModal';
 
@@ -23,7 +30,10 @@ export const Footer: React.FC = () => {
           alignItems="center"
           spacing={4}
         >
-          <Heading size="xs">
+          <Badge fontSize="xs" variant="subtle" colorScheme="green">
+            Beta
+          </Badge>
+          {/* <Heading size="xs">
             Made with 🍹{'_'}
             <Link
               href="https://www.linkedin.com/in/dev-diego-romero/"
@@ -41,7 +51,7 @@ export const Footer: React.FC = () => {
             aria-label="get in touch"
             onClick={onOpen}
             icon={<EmailIcon />}
-          />
+          /> */}
         </Stack>
       </Flex>
       <ContactFormModal modalOpen={isOpen} modalClose={onClose} />

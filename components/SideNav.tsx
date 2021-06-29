@@ -59,11 +59,11 @@ export const SideNav: React.FC<Props> = (props) => {
       bgColor="white"
       shadow="md"
     >
-      <Stack spacing={2} p={4}>
+      <Stack spacing={2} p={2}>
         <Tooltip label="Dashboard" aria-label="dashboard">
           <IconButton
-            size="lg"
-            variant="outline"
+            size="md"
+            variant="ghost"
             colorScheme="gray"
             fontSize="xl"
             icon={<BsGraphUp />}
@@ -77,7 +77,7 @@ export const SideNav: React.FC<Props> = (props) => {
           <IconButton
             variant="ghost"
             colorScheme="gray"
-            size="lg"
+            size="md"
             fontSize="xl"
             icon={<BsKanban />}
             aria-label={'boards'}
@@ -89,7 +89,7 @@ export const SideNav: React.FC<Props> = (props) => {
           <IconButton
             variant="ghost"
             colorScheme="gray"
-            size="lg"
+            size="md"
             fontSize="xl"
             icon={<BsListCheck />}
             aria-label={'todos'}
@@ -102,7 +102,7 @@ export const SideNav: React.FC<Props> = (props) => {
         <Divider borderColor="gray.500" />
         <Tooltip label="Keyboard shortcuts" aria-label="Keyboard shortcuts">
           <IconButton
-            size="lg"
+            size="md"
             variant="ghost"
             colorScheme="gray"
             fontSize="2xl"

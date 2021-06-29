@@ -15,7 +15,7 @@ import useSound from 'use-sound';
 import { IoMdPlay } from 'react-icons/io';
 import { BsArrowsAngleExpand } from 'react-icons/bs';
 import { User, WorkedTime } from '../types';
-import { formatWatchTime } from '../utils/util-functions';
+import { formatWatchTime, getTodayIsoString } from '../utils/util-functions';
 import { TimerModal } from './TimerModal';
 import workTimerDoneSound from '../public/sounds/work-timer-done.mp3';
 import restTimerDoneSound from '../public/sounds/rest-timer-done.mp3';
@@ -23,7 +23,6 @@ import Firebase from 'firebase';
 import config from '../utils/config';
 import { useAuthUser } from 'next-firebase-auth';
 import { TimerSettingsModal } from './TimerSettingsModal';
-import moment from 'moment';
 import { PomodoroNotesForm } from './PomodoroNotesForm';
 
 interface Props {
@@ -66,10 +65,6 @@ export const Timer: React.FC<Props> = ({ user }) => {
     userRef.set(userUpdated);
   }
 
-  function formatSingleDigit(n: number): string {
-    return n.toString().length === 1 ? `0${n}` : n.toString();
-  }
-
   async function recordPreviousWorkedTime(
     count: number,
     worked: number,
@@ -79,11 +74,10 @@ export const Timer: React.FC<Props> = ({ user }) => {
     const dateWorkedTimeRef = Firebase.database().ref(
       config.collections.userWorkTimeYesterday(userId, isoString)
     );
-
     const record = await dateWorkedTimeRef.get();
     const val = record.val() as WorkedTime | null;
     if (val) {
-      dateWorkedTimeRef.set({
+      dateWorkedTimeRef.update({
         count: count + val.count,
         worked: worked + val.worked,
       });
@@ -93,13 +87,6 @@ export const Timer: React.FC<Props> = ({ user }) => {
         worked,
       });
     }
-  }
-
-  function getTodayIsoString() {
-    const today = moment().toObject();
-    return `${today.years}-${formatSingleDigit(
-      today.months + 1
-    )}-${formatSingleDigit(today.date)}`;
   }
 
   useEffect(() => {
@@ -300,7 +287,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
         shadow="md"
         color="black"
         borderRadius="lg"
-        px={4}
+        px={2}
         py={2}
         alignItems="center"
         justifyContent="center"

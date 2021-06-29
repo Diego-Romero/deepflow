@@ -228,3 +228,14 @@ export function mapWorkedTimesToIncDate(
   }
   return result;
 }
+
+export function getTodayIsoString() {
+  const today = moment().toObject();
+  return `${today.years}-${formatSingleDigit(
+    today.months + 1
+  )}-${formatSingleDigit(today.date)}`;
+}
+
+function formatSingleDigit(n: number): string {
+  return n.toString().length === 1 ? `0${n}` : n.toString();
+}

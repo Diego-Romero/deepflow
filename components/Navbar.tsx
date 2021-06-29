@@ -1,8 +1,5 @@
 import {
-  Badge,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
+  Button,
   Flex,
   HStack,
   IconButton,
@@ -34,12 +31,12 @@ export const NavBar: React.FC<Props> = (props) => {
       direction="row"
       color="white"
       bgColor="gray.900"
-      px={4}
+      px={2}
       py={3}
       align="center"
       justify="space-between"
     >
-      <HStack spacing={2}>
+      <HStack spacing={4}>
         <Menu>
           <MenuButton
             as={IconButton}
@@ -48,7 +45,7 @@ export const NavBar: React.FC<Props> = (props) => {
             variant="ghost"
             fontSize="xl"
           />
-          <MenuList color="gray.900" fontSize="md">
+          <MenuList color="gray.900" fontSize="sm">
             {AuthUser.email ? (
               <>
                 <MenuItem icon={<IoMdLogOut />} onClick={AuthUser.signOut}>
@@ -73,11 +70,19 @@ export const NavBar: React.FC<Props> = (props) => {
             )}
           </MenuList>
         </Menu>
-        <Badge fontSize="sm" variant="subtle" colorScheme="green">
-          Beta
-        </Badge>
+        {router.route === `/board/[id]` ? (
+          <Button
+            colorScheme="whiteAlpha"
+            size="xs"
+            onClick={() => router.push(config.routes.dashboard)}
+          >
+            Back
+          </Button>
+        ) : null}
       </HStack>
-      <HStack>{user !== null ? <Timer user={user} /> : null}</HStack>
+      <HStack spacing={4}>
+        {user !== null ? <Timer user={user} /> : null}
+      </HStack>
     </Flex>
   );
 };

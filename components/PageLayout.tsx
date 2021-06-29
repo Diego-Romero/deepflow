@@ -30,7 +30,7 @@ export const PageLayout: React.FC<Props> = (props) => {
           gridTemplateColumns={user !== null ? 'auto 1fr' : '1fr'}
         >
           {user !== null ? <SideNav user={user} /> : null}
-          {children}
+          <Box px={4}>{children}</Box>
         </Grid>
         <Footer />
       </Grid>

@@ -3,8 +3,7 @@ import { useAuthUser, withAuthUser, AuthAction } from 'next-firebase-auth';
 import Firebase from 'firebase';
 import FullPageLoader from '../components/FullPageLoader';
 import { PageLayout } from '../components/PageLayout';
-import { Card } from '../components/Card';
-import { Flex, Heading, Text, Grid, Stack } from '@chakra-ui/react';
+import { Flex, Grid, Stack } from '@chakra-ui/react';
 import { User, UserWorkedTime, WorkedTimeWithDate } from '../types';
 import {
   BoardWithId,

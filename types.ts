@@ -22,6 +22,7 @@ export interface WorkedTime {
   count: number;
   worked: number;
   notes: string[];
+  intention?: string | null;
 }
 
 export interface WorkedTimeWithDate extends WorkedTime {

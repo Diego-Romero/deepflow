@@ -137,8 +137,13 @@ export const ContactFormModal: React.FC<Props> = ({
                   type="submit"
                   size="sm"
                   // variant="outline"
-                  colorScheme="gray"
                   isLoading={props.isSubmitting}
+                  colorScheme="blackAlpha"
+                  _hover={{
+                    bgColor: 'gray.700',
+                  }}
+                  bgColor="gray.900"
+                  color="white"
                 >
                   Send
                 </Button>
