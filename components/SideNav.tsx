@@ -100,7 +100,7 @@ export const SideNav: React.FC<Props> = (props) => {
       </Stack>
       <Stack>
         <Divider borderColor="gray.500" />
-        <Tooltip label="Keyboard shortcuts" aria-label="Keyboard shortcuts">
+        <Tooltip label="Shortcuts" aria-label="Keyboard shortcuts">
           <IconButton
             size="md"
             variant="ghost"

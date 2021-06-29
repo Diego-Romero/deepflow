@@ -5,6 +5,7 @@ import {
   IconButton,
   Divider,
   Flex,
+  Button,
 } from '@chakra-ui/react';
 import React, { useCallback, useEffect } from 'react';
 import {
@@ -16,13 +17,14 @@ import {
 } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import { Card } from './Card';
-import { AiOutlineBold, AiOutlineItalic } from 'react-icons/ai';
 import { getTodayIsoString } from '../utils/util-functions';
 import Firebase from 'firebase';
 import config from '../utils/config';
 import { useAuthUser } from 'next-firebase-auth';
 import { WorkedTime } from '../types';
 import { debounce } from 'lodash';
+import { BlockStyleControls } from './BlockStyleControls';
+import { InlineStylesControl } from './InlineStylesControl';
 
 interface Props {}
 
@@ -58,7 +60,6 @@ export const IntentionCard: React.FC<Props> = () => {
   );
 
   const saveContent = async (currentState: EditorState) => {
-    console.log('saving');
     const contentState = currentState.getCurrentContent();
     const raw = convertToRaw(contentState);
     const parsed = JSON.stringify(raw);
@@ -72,20 +73,22 @@ export const IntentionCard: React.FC<Props> = () => {
 
   function handleKeyCommand(command, editorState) {
     const newState = RichUtils.handleKeyCommand(editorState, command);
-
     if (newState) {
       setEditorState(newState);
       return 'handled';
     }
-
     return 'not-handled';
   }
 
-  function makeTextBold() {
-    setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
+  function _toggleBlockType(blockType: string) {
+    console.log(blockType);
+    setEditorState(RichUtils.toggleBlockType(editorState, blockType));
   }
 
-  // const { workedTimes, loading } = props;
+  function _toggleInlineStyle(inlineStyle) {
+    setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle));
+  }
+
   return (
     <Card maxHeight="80vh">
       <Flex
@@ -96,33 +99,25 @@ export const IntentionCard: React.FC<Props> = () => {
         <Heading size="md" mb={4}>
           Intention
         </Heading>
-        {/* <InfoIcon w={4} h={4} /> */}
       </Flex>
-      <Box
-        gridTemplateRows="auto 1fr"
-        borderWidth="1px"
-        borderRadius="md"
-        fontSize="sm"
-        height="85%"
-      >
-        <ButtonGroup variant="ghost" spacing="0" size="sm">
-          <IconButton
-            onClick={makeTextBold}
-            aria-label="Bold"
-            icon={<AiOutlineBold />}
+      <Box borderWidth="1px" borderRadius="md" fontSize="sm">
+        <Flex flexDir="row" alignItems="center">
+          <InlineStylesControl
+            editorState={editorState}
+            onToggle={_toggleInlineStyle}
           />
-          <IconButton
-            onClick={makeTextBold}
-            aria-label="Italic"
-            icon={<AiOutlineItalic />}
+          <BlockStyleControls
+            editorState={editorState}
+            onToggle={_toggleBlockType}
           />
-        </ButtonGroup>
+        </Flex>
         <Divider />
         <Box p={3}>
           <Editor
             editorState={editorState}
             onChange={onChange}
             handleKeyCommand={handleKeyCommand}
+            spellCheck={true}
             placeholder="What would you like to achieve today? Set out an intention for the day."
           />
         </Box>
