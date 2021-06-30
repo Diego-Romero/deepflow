@@ -45,6 +45,7 @@ export const BlockStyleControls: React.FC<BlockStyleProps> = (props) => {
               isActive={blockType === type.style}
               icon={type.icon}
               fontSize="xl"
+              key={type.style}
               aria-label={type.label}
             />
           ) : (
@@ -52,6 +53,7 @@ export const BlockStyleControls: React.FC<BlockStyleProps> = (props) => {
               onClick={() => props.onToggle(type.style)}
               isActive={blockType === type.style}
               fontSize="sm"
+              key={type.style}
               aria-label={type.label}
             >
               {type.label}

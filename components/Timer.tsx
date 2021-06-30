@@ -65,6 +65,56 @@ export const Timer: React.FC<Props> = ({ user }) => {
     userRef.set(userUpdated);
   }
 
+  useEffect(() => {
+    // When we render the timer, we calculate if there was any pomodoros done in the previous session
+    // if they were, we store it in the user records and reset the current timer.
+    const todayIsoString = getTodayIsoString();
+    if (!user.workingDayIsoString) {
+      userRef.set({ ...user, workingDayIsoString: todayIsoString });
+    } else {
+      if (user.workingDayIsoString !== todayIsoString) {
+        // if we moved ahead in date, we reset timer and record the work done
+        resetTimer(user.workingDayIsoString);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!user.isTimerPlaying && user.timerEndTime !== TIMER_DEFAULT_TIME) {
+      console.log('should update user', user);
+      if (user.onShortBreak || user.onLongBreak) {
+        // if is on break just set the breaks to false
+        firebaseUpdateUser({
+          ...user,
+          onShortBreak: false,
+          onLongBreak: false,
+          timerEndTime: TIMER_DEFAULT_TIME,
+        });
+      } else {
+        console.log('should increase pomodoro and time');
+        // increase the counter and set the appropriate break
+        const nextPomodoroCounter = user.pomodoroCount + 1;
+        if (nextPomodoroCounter % user.longBreakAfter === 0) {
+          firebaseUpdateUser({
+            ...user,
+            pomodoroCount: nextPomodoroCounter,
+            onLongBreak: true,
+            isTimerPlaying: false,
+            timerEndTime: TIMER_DEFAULT_TIME,
+          });
+        } else {
+          firebaseUpdateUser({
+            ...user,
+            pomodoroCount: nextPomodoroCounter,
+            onShortBreak: true,
+            isTimerPlaying: false,
+            timerEndTime: TIMER_DEFAULT_TIME,
+          });
+        }
+      }
+    }
+  }, [user]);
+
   async function recordPreviousWorkedTime(
     count: number,
     worked: number,
@@ -88,54 +138,6 @@ export const Timer: React.FC<Props> = ({ user }) => {
       });
     }
   }
-
-  useEffect(() => {
-    // When we render the timer, we calculate if there was any pomodoros done in the previous session
-    // if they were, we store it in the user records and reset the current timer.
-    const todayIsoString = getTodayIsoString();
-    if (!user.workingDayIsoString) {
-      userRef.set({ ...user, workingDayIsoString: todayIsoString });
-    } else {
-      if (user.workingDayIsoString !== todayIsoString) {
-        // if we moved ahead in date, we reset timer and record the work done
-        resetTimer(user.workingDayIsoString);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!user.isTimerPlaying && user.timerEndTime !== TIMER_DEFAULT_TIME) {
-      if (user.onShortBreak || user.onLongBreak) {
-        // if is on break just set the breaks to false
-        firebaseUpdateUser({
-          ...user,
-          onShortBreak: false,
-          onLongBreak: false,
-          timerEndTime: TIMER_DEFAULT_TIME,
-        });
-      } else {
-        // increase the counter and set the appropriate break
-        const nextPomodoroCounter = user.pomodoroCount + 1;
-        if (nextPomodoroCounter % user.longBreakAfter === 0) {
-          firebaseUpdateUser({
-            ...user,
-            pomodoroCount: nextPomodoroCounter,
-            onLongBreak: true,
-            isTimerPlaying: false,
-            timerEndTime: TIMER_DEFAULT_TIME,
-          });
-        } else {
-          firebaseUpdateUser({
-            ...user,
-            pomodoroCount: nextPomodoroCounter,
-            onShortBreak: true,
-            isTimerPlaying: false,
-            timerEndTime: TIMER_DEFAULT_TIME,
-          });
-        }
-      }
-    }
-  }, [user]);
 
   const setIsTimerPlaying = (isTimerPlaying: boolean) => {
     firebaseUpdateUser({ ...user, isTimerPlaying });
@@ -171,15 +173,15 @@ export const Timer: React.FC<Props> = ({ user }) => {
     const now = new Date();
     let countdownDate = new Date();
     if (user.onLongBreak) {
-      // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
-      countdownDate.setTime(now.getTime() + user.longRestTime * 60 * 1000);
+      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
+      // countdownDate.setTime(now.getTime() + user.longRestTime * 60 * 1000);
     } else if (user.onShortBreak)
-      // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000);
-      // to be used when testing
-      countdownDate.setTime(now.getTime() + user.shortRestTime * 60 * 1000);
+      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000);
+    // to be used when testing
+    // countdownDate.setTime(now.getTime() + user.shortRestTime * 60 * 1000);
     else {
-      // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
-      countdownDate.setTime(now.getTime() + user.workInterval * 60 * 1000);
+      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
+      // countdownDate.setTime(now.getTime() + user.workInterval * 60 * 1000);
     }
     // calculates the next valid timer and starts the board
     firebaseUpdateUser({
@@ -218,7 +220,8 @@ export const Timer: React.FC<Props> = ({ user }) => {
       const todayVal: WorkedTime = { count: 0, worked: 0, notes: [note] };
       todayWorkedTimeRef.set(todayVal);
     } else {
-      const todayVal: WorkedTime = { ...val, notes: [...val.notes, note] };
+      const notes = val.notes || [];
+      const todayVal: WorkedTime = { ...val, notes: [...notes, note] };
       todayWorkedTimeRef.set(todayVal);
     }
     closeToast();
@@ -246,6 +249,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
 
     if (minutes <= 0 && seconds <= 0) {
       playSound();
+      closeToast()
       showToast();
       setIsTimerPlaying(false);
     }

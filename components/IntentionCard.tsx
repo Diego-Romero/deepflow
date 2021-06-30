@@ -1,12 +1,4 @@
-import {
-  Heading,
-  Box,
-  ButtonGroup,
-  IconButton,
-  Divider,
-  Flex,
-  Button,
-} from '@chakra-ui/react';
+import { Heading, Box, Divider, Flex } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Editor,
@@ -83,11 +75,10 @@ export const IntentionCard: React.FC<Props> = () => {
   }
 
   function _toggleBlockType(blockType: string) {
-    console.log(blockType);
     setEditorState(RichUtils.toggleBlockType(editorState, blockType));
   }
 
-  function _toggleInlineStyle(inlineStyle) {
+  function _toggleInlineStyle(inlineStyle: string) {
     setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle));
   }
 

@@ -1,7 +1,11 @@
 import { ButtonGroup, Button, IconButton } from '@chakra-ui/react';
 import { EditorState } from 'draft-js';
 import React from 'react';
-import { AiOutlineBold, AiOutlineItalic, AiOutlineUnderline } from 'react-icons/ai';
+import {
+  AiOutlineBold,
+  AiOutlineItalic,
+  AiOutlineUnderline,
+} from 'react-icons/ai';
 
 const INLINE_STYLES = [
   { label: 'Bold', style: 'BOLD', icon: <AiOutlineBold /> },
@@ -21,26 +25,14 @@ export const InlineStylesControl: React.FC<BlockStyleProps> = (props) => {
   return (
     <ButtonGroup variant="ghost" spacing="0" size="sm">
       {INLINE_STYLES.map((type) => (
-        <>
-          {type.icon ? (
-            <IconButton
-              onClick={() => props.onToggle(type.style)}
-              icon={type.icon}
-              fontSize="md"
-              isActive={currentStyle.has(type.style)}
-              aria-label={type.label}
-            />
-          ) : (
-            <Button
-              onClick={() => props.onToggle(type.style)}
-              isActive={currentStyle.has(type.style)}
-              fontSize="sm"
-              aria-label={type.label}
-            >
-              {type.label}
-            </Button>
-          )}
-        </>
+        <IconButton
+          key={type.style}
+          onClick={() => props.onToggle(type.style)}
+          icon={type.icon}
+          fontSize="md"
+          isActive={currentStyle.has(type.style)}
+          aria-label={type.label}
+        />
       ))}
     </ButtonGroup>
   );
