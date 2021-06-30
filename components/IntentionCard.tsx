@@ -1,4 +1,4 @@
-import { Heading, Box, Divider, Flex } from '@chakra-ui/react';
+import { Heading, Box, Flex, Divider } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Editor,
@@ -84,13 +84,13 @@ export const IntentionCard: React.FC<Props> = () => {
   }
 
   return (
-    <Card maxHeight="80vh" loading={loading}>
+    <Card loading={loading}>
       <Flex alignItems="flex-end" justifyContent="space-between" flexDir="row">
         <Heading size="md" mb={4}>
           Intention
         </Heading>
       </Flex>
-      <Box borderWidth="1px" borderRadius="md" fontSize="sm">
+      <Box borderWidth="1px" borderRadius="md" fontSize="sm" >
         <Flex flexDir="row" alignItems="center">
           <InlineStylesControl
             editorState={editorState}
@@ -102,7 +102,12 @@ export const IntentionCard: React.FC<Props> = () => {
           />
         </Flex>
         <Divider />
-        <Box p={3}>
+        <Box p={3} borderRadius="sm" sx={{
+          'div.DraftEditor-root': {
+            height: "400px"
+          }
+        }}>
+          {/* Editor is styled in global.css styles */}
           <Editor
             editorState={editorState}
             onChange={onChange}

@@ -38,28 +38,14 @@ export const BlockStyleControls: React.FC<BlockStyleProps> = (props) => {
   return (
     <ButtonGroup variant="ghost" spacing="0" size="sm">
       {BLOCK_TYPES.map((type) => (
-        <>
-          {type.icon ? (
-            <IconButton
-              onClick={() => props.onToggle(type.style)}
-              isActive={blockType === type.style}
-              icon={type.icon}
-              fontSize="xl"
-              key={type.style}
-              aria-label={type.label}
-            />
-          ) : (
-            <Button
-              onClick={() => props.onToggle(type.style)}
-              isActive={blockType === type.style}
-              fontSize="sm"
-              key={type.style}
-              aria-label={type.label}
-            >
-              {type.label}
-            </Button>
-          )}
-        </>
+        <IconButton
+          onClick={() => props.onToggle(type.style)}
+          isActive={blockType === type.style}
+          icon={type.icon}
+          fontSize="xl"
+          key={type.style}
+          aria-label={type.label}
+        />
       ))}
     </ButtonGroup>
   );

@@ -19,7 +19,6 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
@@ -56,9 +55,9 @@ export const WorkedTimesCard: React.FC<Props> = (props) => {
       <Accordion defaultIndex={[0]} allowMultiple>
         {workedTimes && workedTimes.length > 0 ? (
           workedTimes.reverse().map((time) => (
-            <>
+            <Box key={time.date}>
               {todayIsoString !== time.date ? ( // only show if is not today
-                <AccordionItem key={time.date}>
+                <AccordionItem>
                   <AccordionButton px={0} py={2}>
                     <Box flex="1" textAlign="left">
                       <Text fontSize="sm" color="gray.600">
@@ -95,7 +94,7 @@ export const WorkedTimesCard: React.FC<Props> = (props) => {
                   </AccordionPanel>
                 </AccordionItem>
               ) : null}
-            </>
+            </Box>
           ))
         ) : (
           <>

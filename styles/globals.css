@@ -14,3 +14,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+/* div.DraftEditor-root {
+  min-height: 400px;
+} */

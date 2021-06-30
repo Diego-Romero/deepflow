@@ -140,7 +140,6 @@ export const Column: React.FC<Props> = ({
           <Tooltip label="New" aria-label="Create new item">
             <IconButton
               variant="outline"
-              // colorScheme="blackAlpha"
               shadow="sm"
               width="auto"
               size={'sm'}
