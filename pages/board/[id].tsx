@@ -251,10 +251,12 @@ const BoardPage = () => {
                               isRound
                               onClick={onOpen}
                               shadow="lg"
-                              variant="solid"
+                              // variant="solid"
+                              _hover={{ bgColor: 'gray.700' }}
+                              bgColor="gray.900"
+                              color="white"
                               size="md"
                               aria-label="Add row"
-                              colorScheme="blue"
                               icon={<AddIcon />}
                             />
                           </Tooltip>

@@ -80,10 +80,13 @@ export const CreateColumnModal: React.FC<Props> = ({
                         />
                         <IconButton
                           variant="solid"
-                          colorScheme="blue"
+                          // colorScheme="blue"
                           size="sm"
                           isRound
                           mb={2}
+                          _hover={{ bgColor: 'gray.700' }}
+                          bgColor="gray.900"
+                          color="white"
                           type="submit"
                           aria-label="Create column"
                           icon={<AddIcon />}

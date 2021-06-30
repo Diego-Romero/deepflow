@@ -82,9 +82,12 @@ export const CreateItemModal: React.FC<Props> = ({
                         />
                         <IconButton
                           variant="solid"
-                          colorScheme="blue"
+                          // colorScheme="blue"
                           size="sm"
                           isRound
+                          _hover={{ bgColor: 'gray.700' }}
+                          bgColor="gray.900"
+                          color="white"
                           mb={2}
                           type="submit"
                           aria-label="Create item"

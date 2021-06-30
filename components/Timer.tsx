@@ -173,15 +173,15 @@ export const Timer: React.FC<Props> = ({ user }) => {
     const now = new Date();
     let countdownDate = new Date();
     if (user.onLongBreak) {
-      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
-      // countdownDate.setTime(now.getTime() + user.longRestTime * 60 * 1000);
+      // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
+      countdownDate.setTime(now.getTime() + user.longRestTime * 60 * 1000);
     } else if (user.onShortBreak)
-      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000);
-    // to be used when testing
-    // countdownDate.setTime(now.getTime() + user.shortRestTime * 60 * 1000);
+      // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000);
+      // to be used when testing
+      countdownDate.setTime(now.getTime() + user.shortRestTime * 60 * 1000);
     else {
-      countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
-      // countdownDate.setTime(now.getTime() + user.workInterval * 60 * 1000);
+      // countdownDate.setTime(now.getTime() + 0.1 * 60 * 1000); // to be used when testing
+      countdownDate.setTime(now.getTime() + user.workInterval * 60 * 1000);
     }
     // calculates the next valid timer and starts the board
     firebaseUpdateUser({
@@ -249,7 +249,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
 
     if (minutes <= 0 && seconds <= 0) {
       playSound();
-      closeToast()
+      closeToast();
       showToast();
       setIsTimerPlaying(false);
     }
@@ -284,7 +284,7 @@ export const Timer: React.FC<Props> = ({ user }) => {
   };
 
   return (
-    <Flex flexDir="row" alignItems="center" display={['none', 'flex']}>
+    <Flex flexDir="row" alignItems="center">
       <Flex
         borderWidth="1px"
         bgColor="white"

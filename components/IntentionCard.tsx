@@ -25,6 +25,7 @@ export const IntentionCard: React.FC<Props> = () => {
   const [editorState, setEditorState] = React.useState<EditorState>(() =>
     EditorState.createEmpty()
   );
+
   const [loading, setLoading] = useState(true);
 
   const todayWorkedTimeRef = Firebase.database().ref(

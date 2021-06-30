@@ -65,11 +65,11 @@ const DashboardPage = () => {
         <Grid
           my={8}
           gridGap={6}
-          width="container.xl"
-          gridTemplateColumns="1fr 1.5fr 1fr"
+          width={[null, null, "container.md", "container.xl"]}
+          gridTemplateColumns={[null, null, '1.5fr 1fr', '1fr 2.5fr 1fr']}
           gridTemplateRows="auto"
         >
-          <Stack spacing={6}>
+          <Stack spacing={6} display={['none', 'none', 'none', 'flex']}>
             <BoardsCard loading={boardsLoading} boards={boards} />
             <TodosCard />
           </Stack>

@@ -133,9 +133,11 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                     mt={1}
                     mb={2}
                     size="sm"
-                    borderColor="gray.900"
                     variant="outline"
                     type="submit"
+                    bgColor="gray.900"
+                    _hover={{ bgColor: 'gray.700' }}
+                    color="white"
                     icon={<AddIcon />}
                     aria-label={'create new item'}
                   />

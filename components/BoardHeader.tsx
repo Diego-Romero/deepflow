@@ -34,7 +34,7 @@ export const BoardHeader: React.FC<Props> = ({
         justifyContent="flex-start"
         width="100%"
       >
-        <HStack spacing={8}>
+        <HStack spacing={8} pl={1}>
           <Tooltip label="Edit" aria-label="edit">
             <IconButton
               size="sm"

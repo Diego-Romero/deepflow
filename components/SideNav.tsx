@@ -53,6 +53,7 @@ export const SideNav: React.FC<Props> = (props) => {
 
   return (
     <Flex
+      display={['none', 'flex']}
       direction="column"
       align="center"
       justify="space-between"

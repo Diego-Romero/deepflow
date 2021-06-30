@@ -19,10 +19,8 @@ export const PageLayout: React.FC<Props> = (props) => {
         height="100vh"
         width="100vw"
         overflow="auto"
-        display={['none', null, 'grid']}
         gridTemplateRows="auto 1fr auto"
         gridTemplateAreas="'header' 'main' 'footer'"
-        minW="900px"
       >
         <NavBar user={user} />
         <Grid
@@ -34,19 +32,6 @@ export const PageLayout: React.FC<Props> = (props) => {
         </Grid>
         <Footer />
       </Grid>
-      <Flex
-        display={['flex', null, 'none']}
-        flexDir="column"
-        justifyContent="space-between"
-        height="100vh"
-        width="100vw"
-      >
-        <Box>
-          <NavBar user={user} />
-          <Box>{children}</Box>
-        </Box>
-        <Footer />
-      </Flex>
     </Box>
   );
 };

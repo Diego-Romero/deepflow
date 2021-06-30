@@ -108,7 +108,10 @@ export const ColumnSettingsModal: React.FC<Props> = ({
                   isFullWidth
                   type="submit"
                   variant="solid"
-                  colorScheme="blue"
+                  // colorScheme="blue"
+                  _hover={{ bgColor: 'gray.700' }}
+                  bgColor="gray.900"
+                  color="white"
                   size="sm"
                   isLoading={props.isSubmitting}
                 >

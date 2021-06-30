@@ -9,16 +9,11 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-  useMediaQuery,
 } from '@chakra-ui/react';
 import React from 'react';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
-import {
-  longDateFormat,
-  shortDateFormat,
-  validation,
-} from '../utils/util-functions';
+import { shortDateFormat, validation } from '../utils/util-functions';
 import { ColumnItem } from '../types';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { InputControl, SwitchControl, TextareaControl } from 'formik-chakra-ui';
@@ -104,8 +99,11 @@ export const ItemSettingsModal: React.FC<Props> = ({
                   mt={8}
                   isFullWidth
                   type="submit"
+                  size="sm"
                   variant="solid"
-                  colorScheme="blue"
+                  _hover={{ bgColor: 'gray.700' }}
+                  bgColor="gray.900"
+                  color="white"
                   isLoading={props.isSubmitting}
                 >
                   Update
@@ -116,7 +114,7 @@ export const ItemSettingsModal: React.FC<Props> = ({
                   mt={4}
                   mb={4}
                   colorScheme="red"
-                  size="md"
+                  size="sm"
                   onClick={() => {
                     deleteItem(colIndex, itemIndex);
                     modalClose();

@@ -5,9 +5,11 @@ import {
   EditIcon,
 } from '@chakra-ui/icons';
 import {
+  Divider,
   Flex,
   HStack,
   IconButton,
+  Stack,
   Text,
   Tooltip,
   useColorMode,
@@ -53,8 +55,8 @@ export const ColumnItem: React.FC<Props> = ({
           flexDir="row"
           justifyContent="space-between"
           alignItems="center"
-          py={4}
-          px={2}
+          // px={1}
+          py={3}
           borderBottomWidth="1px"
           // bgColor={dragSnapshot.isDragging ? 'gray.100' : 'white'}
           bgColor="white"
@@ -69,62 +71,63 @@ export const ColumnItem: React.FC<Props> = ({
             bgColor: 'gray.100',
           }}
         >
-          <Flex alignItems="center" justifyContent="center">
-            {/* <DragHandleIcon mr={1} w={2} h={2} /> */}
-            <Text noOfLines={1} fontSize={'sm'}>
-              {item.name}
-            </Text>
-          </Flex>
-          <HStack spacing={1}>
-            {!item.done ? (
-              <>
-                <Tooltip label="Edit" aria-label="edit">
-                  <IconButton
-                    size="xs"
-                    variant="ghost"
-                    isRound
-                    onClick={onSettingsOpen}
-                    icon={<EditIcon />}
-                    aria-label={'Edit'}
-                  />
-                </Tooltip>
-                <Tooltip label="Done?" aria-label="mark as done">
-                  <IconButton
-                    size="xs"
-                    variant="outline"
-                    colorScheme="gray"
-                    isRound
-                    backgroundColor="white"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      updateItem(columnIndex, itemIndex, {
-                        ...item,
-                        done: true,
-                      });
-                    }}
-                    icon={<CheckIcon />}
-                    aria-label={'Mark as done'}
-                  />
-                </Tooltip>
-              </>
-            ) : (
-              <>
-                <Tooltip label="Delete" aria-label="Delete item">
-                  <IconButton
-                    size="xs"
-                    variant="outline"
-                    isRound
-                    colorScheme="orange"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteItem(columnIndex, itemIndex);
-                    }}
-                    icon={<DeleteIcon />}
-                    aria-label={'Delete item'}
-                  />
-                </Tooltip>
-              </>
-            )}
+          {/* <DragHandleIcon mr={1} w={2} h={2} /> */}
+          <Text textAlign="left" fontSize={'sm'}>
+            {item.name}
+          </Text>
+          <HStack>
+            <Stack spacing={2} ml={2} borderLeftWidth={1} pl={2}>
+              {!item.done ? (
+                <>
+                  {/* <Tooltip label="Edit" aria-label="edit">
+                    <IconButton
+                      size="xs"
+                      variant="outline"
+                      isRound
+                      backgroundColor="white"
+                      onClick={onSettingsOpen}
+                      icon={<EditIcon />}
+                      aria-label={'Edit'}
+                    />
+                  </Tooltip> */}
+                  <Tooltip label="Done?" aria-label="mark as done">
+                    <IconButton
+                      size="xs"
+                      variant="outline"
+                      colorScheme="green"
+                      isRound
+                      backgroundColor="white"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        updateItem(columnIndex, itemIndex, {
+                          ...item,
+                          done: true,
+                        });
+                      }}
+                      icon={<CheckIcon />}
+                      aria-label={'Mark as done'}
+                    />
+                  </Tooltip>
+                </>
+              ) : (
+                <>
+                  <Tooltip label="Delete" aria-label="Delete item">
+                    <IconButton
+                      size="xs"
+                      variant="outline"
+                      isRound
+                      colorScheme="orange"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteItem(columnIndex, itemIndex);
+                      }}
+                      icon={<DeleteIcon />}
+                      aria-label={'Delete item'}
+                    />
+                  </Tooltip>
+                </>
+              )}
+            </Stack>
           </HStack>
           <ItemSettingsModal
             modalOpen={isSettingsOpen}

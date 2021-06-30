@@ -94,7 +94,9 @@ export const BoardSettingsModal: React.FC<Props> = ({
                   type="submit"
                   variant="solid"
                   size="sm"
-                  colorScheme="blue"
+                  _hover={{ bgColor: 'gray.700' }}
+                  bgColor="gray.900"
+                  color="white"
                 >
                   Update
                 </Button>
