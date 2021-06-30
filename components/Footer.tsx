@@ -25,22 +25,17 @@ export const Footer: React.FC = () => {
         bgColor="gray.800"
         color="white"
       >
-        <Stack
-          direction={['column', 'column', 'row']}
-          alignItems="center"
-          spacing={4}
-        >
+        <Stack direction={'row'} alignItems="center" spacing={4}>
           <Badge fontSize="xs" variant="subtle" colorScheme="green">
             Beta
           </Badge>
-          {/* <Heading size="xs">
-            Made with 🍹{'_'}
+          <Heading size="xs">
             <Link
               href="https://www.linkedin.com/in/dev-diego-romero/"
               isExternal
               textDecor="underline"
             >
-              by Diego Romero
+              Made by Diego Romero
             </Link>
           </Heading>
           <IconButton
@@ -51,7 +46,7 @@ export const Footer: React.FC = () => {
             aria-label="get in touch"
             onClick={onOpen}
             icon={<EmailIcon />}
-          /> */}
+          />
         </Stack>
       </Flex>
       <ContactFormModal modalOpen={isOpen} modalClose={onClose} />
