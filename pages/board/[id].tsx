@@ -86,7 +86,7 @@ const BoardPage = () => {
   const createNewItem = (listIndex: number, name: string) => {
     const newItem: ColumnItem = {
       name,
-      createdAt: Date.now(),
+      createdAt: +new Date(),
       done: false,
       description: '',
     };

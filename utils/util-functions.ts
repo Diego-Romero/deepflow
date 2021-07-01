@@ -188,11 +188,11 @@ export function toastConfig(
 }
 
 export function shortDateFormat(date: number) {
-  return moment.unix(date).format('Do-MMM');
+  return moment(date).format('Do-MMM');
 }
 
 export function longDateFormat(date: number) {
-  return moment.unix(date).format('Do-MMM-YYYY h:mm a');
+  return moment(date).format('DD MMM YYYY');
 }
 
 export function formatDateFromIso(isoDate: string): string {

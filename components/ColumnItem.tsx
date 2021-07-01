@@ -19,7 +19,7 @@ import {
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { ColumnItem as ColItem } from '../types';
-import { shortDateFormat } from '../utils/util-functions';
+import { longDateFormat, shortDateFormat } from '../utils/util-functions';
 import { ItemSettingsModal } from './ItemSettingsModal';
 
 interface Props {
@@ -56,7 +56,7 @@ export const ColumnItem: React.FC<Props> = ({
           {...dragProvided.dragHandleProps}
           flexDir="row"
           justifyContent="space-between"
-          alignItems="center"
+          alignItems="flex-start"
           // px={1}
           py={3}
           // borderBottomWidth="1px"
@@ -79,12 +79,12 @@ export const ColumnItem: React.FC<Props> = ({
           }}
         >
           {/* <DragHandleIcon mr={1} w={2} h={2} /> */}
-          <Stack>
+          <Stack spacing={1}>
             <Text textAlign="left" fontSize={'sm'}>
               {item.name}
             </Text>
-            <Text textAlign="left" fontSize={'xs'} color="gray.600">
-              {shortDateFormat(item.createdAt)}
+            <Text textAlign="left" fontSize="x-small" color="gray.600">
+              {longDateFormat(item.createdAt)}
             </Text>
           </Stack>
           <HStack>
