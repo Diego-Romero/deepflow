@@ -30,6 +30,8 @@ export const InlineStylesControl: React.FC<BlockStyleProps> = (props) => {
           onClick={() => props.onToggle(type.style)}
           icon={type.icon}
           fontSize="md"
+          colorScheme="whiteAlpha"
+          color="white"
           isActive={currentStyle.has(type.style)}
           aria-label={type.label}
         />

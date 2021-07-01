@@ -72,7 +72,7 @@ const DashboardPage = () => {
             'container.lg',
             'container.xl',
           ]}
-          gridTemplateColumns={[null, null, null, '1.5fr 1fr', '1fr 2fr 1fr']}
+          gridTemplateColumns={[null, null, null, '1.5fr 1fr', '1.2fr 2fr 1fr']}
           gridTemplateRows="auto"
         >
           <Stack spacing={6} display={['none', 'none', 'none', 'none', 'flex']}>
