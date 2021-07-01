@@ -27,6 +27,7 @@ import config from '../utils/config';
 import produce from 'immer';
 import * as Yup from 'yup';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { TodoItemComponent } from './TodoItem';
 
 const reorder = (
   list: TodoItem[],
@@ -141,103 +142,19 @@ export const TodosCard: React.FC = () => {
                 flexDir="column"
                 justifyContent="center"
                 alignItems="center"
-                bgColor={snapshot.isDraggingOver ? 'gray.100' : 'inherit'}
+                // bgColor={snapshot.isDraggingOver ? 'gray.100' : 'inherit'}
                 borderWidth={snapshot.isDraggingOver ? 1 : 'inherit'}
                 borderRadius="md"
                 my={4}
               >
                 {todos.map((item, index) => (
-                  <Draggable key={index} draggableId={`${index}`} index={index}>
-                    {(draggableProvided, draggableSnapshot) => (
-                      <Flex
-                        ref={draggableProvided.innerRef}
-                        {...draggableProvided.draggableProps}
-                        {...draggableProvided.dragHandleProps}
-                        justifyContent="space-between"
-                        textDecoration={item.done ? 'line-through' : 'inherit'}
-                        color={item.done ? 'gray.600' : 'inherit'}
-                        borderBottomWidth="1px"
-                        width="100%"
-                        _hover={{
-                          bgColor: 'gray.100',
-                        }}
-                        alignItems="center"
-                        bgColor={'white'}
-                        py={2}
-                        px={1}
-                      >
-                        <HStack>
-                          <DragHandleIcon w={3} h={3} />
-                          <Text noOfLines={1} fontSize="sm">
-                            {item.name}
-                          </Text>
-                        </HStack>
-                        <HStack>
-                          {item.done ? (
-                            <>
-                              <Tooltip
-                                label="Mark as undone"
-                                aria-label="mark as undone"
-                              >
-                                <IconButton
-                                  size="xs"
-                                  variant="outline"
-                                  colorScheme="yellow"
-                                  backgroundColor="white"
-                                  isRound
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    updateTodo({ ...item, done: false }, index);
-                                  }}
-                                  icon={<RepeatIcon />}
-                                  aria-label={'mark as undone'}
-                                />
-                              </Tooltip>
-                              <Tooltip
-                                label="Delete item"
-                                aria-label="Delete item"
-                              >
-                                <IconButton
-                                  size="xs"
-                                  colorScheme="red"
-                                  variant="outline"
-                                  backgroundColor="white"
-                                  isRound
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    deleteTodo(index);
-                                  }}
-                                  icon={<DeleteIcon />}
-                                  aria-label={'Delete item'}
-                                />
-                              </Tooltip>
-                            </>
-                          ) : (
-                            <Tooltip
-                              label="Mark as done"
-                              aria-label="mark as done"
-                            >
-                              <IconButton
-                                size="xs"
-                                variant="outline"
-                                isRound
-                                backgroundColor="white"
-                                colorScheme="gray"
-                                borderColor="gray.900"
-                                color="gray.900"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  updateTodo({ ...item, done: true }, index);
-                                }}
-                                icon={<CheckIcon />}
-                                aria-label={'Mark as done'}
-                              />
-                            </Tooltip>
-                          )}
-                        </HStack>
-                      </Flex>
-                    )}
-                  </Draggable>
+                  <TodoItemComponent
+                    index={index}
+                    item={item}
+                    key={index}
+                    updateTodo={updateTodo}
+                    deleteTodo={deleteTodo}
+                  />
                 ))}
                 {provided.placeholder}
               </Flex>

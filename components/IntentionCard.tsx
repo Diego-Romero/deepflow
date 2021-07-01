@@ -91,23 +91,49 @@ export const IntentionCard: React.FC<Props> = () => {
         </Heading>
       </Flex>
       <Box borderWidth="1px" borderRadius="md" fontSize="sm">
-        <Flex flexDir="row" alignItems="center">
-          <InlineStylesControl
-            editorState={editorState}
-            onToggle={_toggleInlineStyle}
-          />
+        <Flex
+          flexDir="row"
+          alignItems="center"
+          justifyContent="space-between"
+          bgColor="gray.800"
+          color="white"
+          borderTopRadius="md"
+        >
           <BlockStyleControls
             editorState={editorState}
             onToggle={_toggleBlockType}
+          />
+          <InlineStylesControl
+            editorState={editorState}
+            onToggle={_toggleInlineStyle}
           />
         </Flex>
         <Divider />
         <Box
           p={3}
-          borderRadius="sm"
+          borderEndRadius="md"
+          bgColor="gray.50"
           sx={{
             'div.DraftEditor-root': {
-              minH: '200px',
+              minH: '400px',
+            },
+            '.DraftEditor-root h1': {
+              fontSize: '2xl',
+              fontWeight: 'bold',
+            },
+            '.DraftEditor-root h2': {
+              fontSize: 'xl',
+              fontWeight: 'bold',
+            },
+            '.DraftEditor-root h3': {
+              fontSize: 'large',
+              fontWeight: 'bold',
+            },
+            '.DraftEditor-root blockquote': {
+              fontsize: 'large',
+              color: 'gray.600',
+              borderLeftWidth: '3px',
+              pl: '2',
             },
           }}
         >

@@ -3,15 +3,15 @@ import { EditorState } from 'draft-js';
 import React from 'react';
 import { AiOutlineOrderedList, AiOutlineUnorderedList } from 'react-icons/ai';
 import { BiCode } from 'react-icons/bi';
+import { CgQuote } from 'react-icons/cg';
 
 const BLOCK_TYPES = [
-  // { label: 'H1', style: 'header-one' },
-  // { label: 'H2', style: 'header-two' },
-  // { label: 'H3', style: 'header-three' },
+  { label: 'h1', style: 'header-one' },
+  { label: 'h2', style: 'header-two' },
+  { label: 'h3', style: 'header-three' },
   // { label: 'H4', style: 'header-four' },
   // { label: 'H5', style: 'header-five' },
   // { label: 'H6', style: 'header-six' },
-  // { label: 'Blockquote', style: 'blockquote' },
   {
     label: 'UL',
     style: 'unordered-list-item',
@@ -19,6 +19,7 @@ const BLOCK_TYPES = [
   },
   { label: 'OL', style: 'ordered-list-item', icon: <AiOutlineOrderedList /> },
   { label: 'Code Block', style: 'code-block', icon: <BiCode /> },
+  { label: 'Blockquote', style: 'blockquote', icon: <CgQuote /> },
 ];
 
 interface BlockStyleProps {
@@ -38,14 +39,32 @@ export const BlockStyleControls: React.FC<BlockStyleProps> = (props) => {
   return (
     <ButtonGroup variant="ghost" spacing="0" size="sm">
       {BLOCK_TYPES.map((type) => (
-        <IconButton
-          onClick={() => props.onToggle(type.style)}
-          isActive={blockType === type.style}
-          icon={type.icon}
-          fontSize="xl"
-          key={type.style}
-          aria-label={type.label}
-        />
+        <>
+          {type.icon ? (
+            <IconButton
+              onClick={() => props.onToggle(type.style)}
+              colorScheme="whiteAlpha"
+              color="white"
+              isActive={blockType === type.style}
+              icon={type.icon}
+              fontSize="xl"
+              key={type.style}
+              aria-label={type.label}
+            />
+          ) : (
+            <Button
+              onClick={() => props.onToggle(type.style)}
+              colorScheme="whiteAlpha"
+              color="white"
+              isActive={blockType === type.style}
+              fontSize="sm"
+              key={type.style}
+              aria-label={type.label}
+            >
+              {type.label}
+            </Button>
+          )}
+        </>
       ))}
     </ButtonGroup>
   );

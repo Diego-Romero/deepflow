@@ -1,14 +1,7 @@
-import {
-  AddIcon,
-  CheckIcon,
-  DeleteIcon,
-  DragHandleIcon,
-  RepeatIcon,
-} from '@chakra-ui/icons';
+import { AddIcon } from '@chakra-ui/icons';
 import Firebase from 'firebase';
 import {
   Drawer,
-  Text,
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
@@ -16,8 +9,6 @@ import {
   DrawerBody,
   Flex,
   Stack,
-  HStack,
-  Tooltip,
   IconButton,
   DrawerFooter,
   Button,
@@ -32,6 +23,7 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useAuthUser } from 'next-firebase-auth';
 import config from '../utils/config';
 import produce from 'immer';
+import { TodoItemComponent } from './TodoItem';
 
 const reorder = (
   list: TodoItem[],
@@ -154,110 +146,19 @@ export const TodosSideNav: React.FC<Props> = (props) => {
                   flexDir="column"
                   justifyContent="center"
                   alignItems="center"
-                  bgColor={snapshot.isDraggingOver ? 'gray.200' : 'inherit'}
-                  borderWidth={snapshot.isDraggingOver ? 1 : 'inherit'}
+                  // bgColor={snapshot.isDraggingOver ? 'gray.100' : 'inherit'}
+                  // borderWidth={snapshot.isDraggingOver ? 1 : 'inherit'}
                   borderRadius="md"
                   my={4}
                 >
                   {todos.map((item, index) => (
-                    <Draggable
-                      key={index}
-                      draggableId={`${index}`}
+                    <TodoItemComponent
                       index={index}
-                    >
-                      {(draggableProvided, draggableSnapshot) => (
-                        <Flex
-                          ref={draggableProvided.innerRef}
-                          {...draggableProvided.draggableProps}
-                          {...draggableProvided.dragHandleProps}
-                          justifyContent="space-between"
-                          textDecoration={
-                            item.done ? 'line-through' : 'inherit'
-                          }
-                          color={item.done ? 'gray.600' : 'inherit'}
-                          borderBottomWidth="1px"
-                          width="100%"
-                          _hover={{
-                            bgColor: 'gray.100',
-                          }}
-                          alignItems="center"
-                          bgColor="white"
-                          py={2}
-                          px={1}
-                        >
-                          <HStack>
-                            <DragHandleIcon w={3} h={3} />
-                            <Text noOfLines={1}>{item.name}</Text>
-                          </HStack>
-                          <HStack>
-                            {item.done ? (
-                              <>
-                                <Tooltip
-                                  label="Mark as undone"
-                                  aria-label="mark as undone"
-                                >
-                                  <IconButton
-                                    size="sm"
-                                    variant="outline"
-                                    colorScheme="yellow"
-                                    backgroundColor="white"
-                                    isRound
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      updateTodo(
-                                        { ...item, done: false },
-                                        index
-                                      );
-                                    }}
-                                    icon={<RepeatIcon />}
-                                    aria-label={'mark as undone'}
-                                  />
-                                </Tooltip>
-                                <Tooltip
-                                  label="Delete item"
-                                  aria-label="Delete item"
-                                >
-                                  <IconButton
-                                    size="sm"
-                                    colorScheme="red"
-                                    variant="outline"
-                                    backgroundColor="white"
-                                    isRound
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      deleteTodo(index);
-                                    }}
-                                    icon={<DeleteIcon />}
-                                    aria-label={'Delete item'}
-                                  />
-                                </Tooltip>
-                              </>
-                            ) : (
-                              <Tooltip
-                                label="Mark as done"
-                                aria-label="mark as done"
-                              >
-                                <IconButton
-                                  size="sm"
-                                  variant="outline"
-                                  isRound
-                                  backgroundColor="white"
-                                  colorScheme="gray"
-                                  color="gray.900"
-                                  borderColor="gray.900"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    updateTodo({ ...item, done: true }, index);
-                                  }}
-                                  icon={<CheckIcon />}
-                                  aria-label={'Mark as done'}
-                                />
-                              </Tooltip>
-                            )}
-                          </HStack>
-                        </Flex>
-                      )}
-                    </Draggable>
+                      item={item}
+                      key={index}
+                      updateTodo={updateTodo}
+                      deleteTodo={deleteTodo}
+                    />
                   ))}
                   {provided.placeholder}
                 </Flex>
