@@ -19,7 +19,7 @@ import { User } from '../types';
 import { Timer } from './Timer';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { TodosSideNav } from './TodosSideNav';
-import { BsGraphUp, BsListCheck } from 'react-icons/bs';
+import { BsGraphUp, BsKanban, BsListCheck } from 'react-icons/bs';
 
 interface Props {
   user: User | null;
@@ -63,13 +63,13 @@ export const NavBar: React.FC<Props> = (props) => {
                 >
                   Dashboard
                 </MenuItem>
-                {/* <MenuItem
+                <MenuItem
                   icon={<BsKanban />}
-                  isDisabled
-                  display={['flex', null, 'none']}
+                  // isDisabled
+                  display={['none', null, 'flex']}
                 >
                   Boards
-                </MenuItem> */}
+                </MenuItem>
                 <MenuItem onClick={onTodosOpen} icon={<BsListCheck />}>
                   Todos
                 </MenuItem>

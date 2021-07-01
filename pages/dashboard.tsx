@@ -64,7 +64,7 @@ const DashboardPage = () => {
       <Flex justifyContent="center">
         <Grid
           my={8}
-          gridGap={5}
+          gridGap={10}
           width={[
             null,
             'container.sm',
