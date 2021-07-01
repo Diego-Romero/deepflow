@@ -52,7 +52,7 @@ export const WorkedTimesCard: React.FC<Props> = (props) => {
       <Heading size="md" mb={4}>
         Records
       </Heading>
-      <Accordion defaultIndex={[0]} allowMultiple>
+      <Accordion allowMultiple>
         {workedTimes && workedTimes.length > 0 ? (
           workedTimes.reverse().map((time) => (
             <Box key={time.date}>

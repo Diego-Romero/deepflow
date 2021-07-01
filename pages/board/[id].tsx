@@ -58,7 +58,8 @@ const BoardPage = () => {
 
   const getBoardData = () => {
     boardDataDbRef.on('value', (snapshot) => {
-      setBoardData(snapshot.val() as BoardData);
+      const val = snapshot.val() || { columns: [] };
+      setBoardData(val);
     });
   };
 

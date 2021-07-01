@@ -97,12 +97,7 @@ export const CreateBoardModal: React.FC<Props> = ({
                     isRequired
                     inputProps={{ size: 'sm' }}
                   />
-                  <RadioGroupControl
-                    size="sm"
-                    name="template"
-                    label="Template"
-                    helperText="We recommend starting with a template to help you get going"
-                  >
+                  <RadioGroupControl size="sm" name="template" label="Template">
                     <Stack spacing={2}>
                       <Radio size="md" value={TemplateTypes.todoDoingDone}>
                         Default
@@ -110,9 +105,9 @@ export const CreateBoardModal: React.FC<Props> = ({
                       <Radio size="md" value={TemplateTypes.weekdays}>
                         Weekdays
                       </Radio>
-                      <Radio size="md" value={TemplateTypes.blank}>
+                      {/* <Radio size="md" value={TemplateTypes.blank}>
                         Blank
-                      </Radio>
+                      </Radio> */}
                     </Stack>
                   </RadioGroupControl>
                 </Stack>
