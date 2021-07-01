@@ -5,8 +5,10 @@ import {
   IconButton,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
+  useDisclosure,
 } from '@chakra-ui/react';
 import * as React from 'react';
 import { IoMdHome, IoMdLogIn, IoMdLogOut } from 'react-icons/io';
@@ -16,6 +18,8 @@ import config from '../utils/config';
 import { User } from '../types';
 import { Timer } from './Timer';
 import { HamburgerIcon } from '@chakra-ui/icons';
+import { TodosSideNav } from './TodosSideNav';
+import { BsGraphUp, BsListCheck } from 'react-icons/bs';
 
 interface Props {
   user: User | null;
@@ -25,6 +29,11 @@ export const NavBar: React.FC<Props> = (props) => {
   const { user } = props;
   const router = useRouter();
   const AuthUser = useAuthUser();
+  const {
+    isOpen: isTodosOpen,
+    onOpen: onTodosOpen,
+    onClose: onTodosClose,
+  } = useDisclosure();
 
   return (
     <Flex
@@ -45,9 +54,26 @@ export const NavBar: React.FC<Props> = (props) => {
             variant="ghost"
             fontSize="xl"
           />
-          <MenuList color="gray.900" fontSize="sm">
+          <MenuList color="gray.900" fontSize="sm" bgColor="white">
             {AuthUser.email ? (
               <>
+                <MenuItem
+                  icon={<BsGraphUp />}
+                  onClick={() => router.push(config.routes.dashboard)}
+                >
+                  Dashboard
+                </MenuItem>
+                {/* <MenuItem
+                  icon={<BsKanban />}
+                  isDisabled
+                  display={['flex', null, 'none']}
+                >
+                  Boards
+                </MenuItem> */}
+                <MenuItem onClick={onTodosOpen} icon={<BsListCheck />}>
+                  Todos
+                </MenuItem>
+                <MenuDivider />
                 <MenuItem icon={<IoMdLogOut />} onClick={AuthUser.signOut}>
                   Logout
                 </MenuItem>
@@ -83,6 +109,11 @@ export const NavBar: React.FC<Props> = (props) => {
       <HStack spacing={4}>
         {user !== null ? <Timer user={user} /> : null}
       </HStack>
+      {AuthUser.email ? (
+        <>
+          <TodosSideNav isOpen={isTodosOpen} onClose={onTodosClose} />
+        </>
+      ) : null}
     </Flex>
   );
 };

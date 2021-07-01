@@ -40,6 +40,7 @@ export const PomodoroNotesForm: React.FC<Props> = (props) => {
       borderRadius="lg"
       color="white"
       spacing={4}
+      zIndex="popover"
     >
       <Stack spacing={2}>
         <Text size="xs">

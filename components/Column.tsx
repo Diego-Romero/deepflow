@@ -7,6 +7,7 @@ import {
   Tooltip,
   useDisclosure,
   Divider,
+  Grid,
 } from '@chakra-ui/react';
 import React from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
@@ -61,12 +62,12 @@ export const Column: React.FC<Props> = ({
   return (
     <Draggable draggableId={`column-${columnIndex}`} index={columnIndex}>
       {(provided, snapshot) => (
-        <Flex
+        <Grid
           ref={provided.innerRef}
           {...provided.draggableProps}
           mr={4}
           minH="70vh"
-          flexDir="column"
+          // flexDir="column"
           borderRadius="lg"
           width={calculateColSize(columnSize)}
           shadow={snapshot.isDragging ? 'lg' : 'md'}
@@ -75,6 +76,7 @@ export const Column: React.FC<Props> = ({
           borderWidth="1px"
           pb={4}
           px={3}
+          gridTemplateRows="auto 1fr"
         >
           <Flex
             flexDir="row"
@@ -109,7 +111,7 @@ export const Column: React.FC<Props> = ({
             </HStack>
           </Flex>
 
-          <Divider />
+          {/* <Divider /> */}
 
           <Droppable droppableId={`column-${columnIndex}`} type="item">
             {(itemsProvided, itemsSnapshot) => (
@@ -117,8 +119,9 @@ export const Column: React.FC<Props> = ({
                 flexDir="column"
                 ref={itemsProvided.innerRef}
                 {...itemsProvided.droppableProps}
-                bg={itemsSnapshot.isDraggingOver ? 'gray.200' : 'inherit'}
-                height="100%"
+                // bg={itemsSnapshot.isDraggingOver ? 'gray.50' : 'inherit'}
+                // borderWidth={itemsSnapshot.isDraggingOver ? '1px' : 'inherit'}
+                borderRadius="md"
               >
                 {column.items
                   ? column.items.map((item, itemIndex) => (
@@ -134,22 +137,21 @@ export const Column: React.FC<Props> = ({
                     ))
                   : null}
                 {itemsProvided.placeholder}
+                <Tooltip label="New" aria-label="Create new item">
+                  <IconButton
+                    variant="outline"
+                    shadow="sm"
+                    width="auto"
+                    size={'sm'}
+                    my={1}
+                    onClick={onCreateModalOpen}
+                    icon={<AddIcon />}
+                    aria-label={'create new item'}
+                  />
+                </Tooltip>
               </Flex>
             )}
           </Droppable>
-          <Tooltip label="New" aria-label="Create new item">
-            <IconButton
-              variant="outline"
-              shadow="sm"
-              width="auto"
-              size={'sm'}
-              mt={2}
-              mb={2}
-              onClick={onCreateModalOpen}
-              icon={<AddIcon />}
-              aria-label={'create new item'}
-            />
-          </Tooltip>
           <CreateItemModal
             modalOpen={isCreateItemModalOpen}
             modalClose={onCreateModalClose}
@@ -164,7 +166,7 @@ export const Column: React.FC<Props> = ({
             index={columnIndex}
             name={column.name}
           />
-        </Flex>
+        </Grid>
       )}
     </Draggable>
   );

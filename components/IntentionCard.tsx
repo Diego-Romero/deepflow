@@ -90,7 +90,7 @@ export const IntentionCard: React.FC<Props> = () => {
           Intention
         </Heading>
       </Flex>
-      <Box borderWidth="1px" borderRadius="md" fontSize="sm" >
+      <Box borderWidth="1px" borderRadius="md" fontSize="sm">
         <Flex flexDir="row" alignItems="center">
           <InlineStylesControl
             editorState={editorState}
@@ -102,12 +102,15 @@ export const IntentionCard: React.FC<Props> = () => {
           />
         </Flex>
         <Divider />
-        <Box p={3} borderRadius="sm" sx={{
-          'div.DraftEditor-root': {
-            height: "400px"
-          }
-        }}>
-          {/* Editor is styled in global.css styles */}
+        <Box
+          p={3}
+          borderRadius="sm"
+          sx={{
+            'div.DraftEditor-root': {
+              minH: '200px',
+            },
+          }}
+        >
           <Editor
             editorState={editorState}
             onChange={onChange}
