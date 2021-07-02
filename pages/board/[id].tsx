@@ -12,20 +12,20 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import Firebase from 'firebase';
-import { PageLayout } from '../../components/PageLayout';
-import FullPageLoader from '../../components/FullPageLoader';
+import { PageLayout } from '../../components/layouts/PageLayout';
+import FullPageLoader from '../../components/ui/components/FullPageLoader';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import produce from 'immer';
 import { ColumnItem, Board, BoardData, User } from '../../types';
 import { move, reorder, reorderList } from '../../utils/util-functions';
-import { BoardHeader } from '../../components/BoardHeader';
-import { Column } from '../../components/Column';
-import { CreateColumnModal } from '../../components/CreateColumnModal';
+import { BoardHeader } from '../../components/ui/boards/BoardHeader';
+import { Column } from '../../components/ui/boards/Column';
+import { CreateColumnModal } from '../../components/ui/boards/CreateColumnModal';
 import { useRouter } from 'next/router';
 import config from '../../utils/config';
 import { AddIcon } from '@chakra-ui/icons';
 import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
-import { DeleteColumn } from '../../components/DeleteColumn';
+import { DeleteColumn } from '../../components/ui/boards/DeleteColumn';
 
 const MIN_COL_SIZE = 1,
   MAX_COL_SIZE = 5;

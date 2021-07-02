@@ -24,7 +24,7 @@ const firebaseAuthConfig = {
     firebase.auth.GithubAuthProvider.PROVIDER_ID,
     // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
   ],
-  signInSuccessUrl: config.routes.dashboard,
+  signInSuccessUrl: config.routes.home,
   // credentialHelper: "none",
   callbacks: {
     // https://github.com/firebase/firebaseui-web#signinsuccesswithauthresultauthresult-redirecturl

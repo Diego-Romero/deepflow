@@ -5,58 +5,89 @@ import {
   withAuthUser,
   withAuthUserTokenSSR,
 } from 'next-firebase-auth';
-import { PageLayout } from '../components/PageLayout';
-import { Button, Flex, Heading, Stack } from '@chakra-ui/react';
+import { Badge, Box, Flex, Grid, Heading, Link, Stack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import config from '../utils/config';
+import Particles from 'react-tsparticles';
+import { particlesConfig } from '../components/ui/particlesConfig';
+import { LoggedOutLayout } from '../components/layouts/LoggedOutLayout';
+import FirebaseAuth from '../components/FirebaseAuth';
 
 const LandingPage = () => {
-  const AuthUser = useAuthUser();
   const router = useRouter();
+  const authUser = useAuthUser();
+  useEffect(() => {
+    if (authUser) authUser.signOut();
+  }, []);
 
   return (
-    <PageLayout user={null}>
+    <LoggedOutLayout>
       <Flex
-        mt={12}
-        alignItems="center"
-        justifyContent="flex-start"
-        flexDir="column"
+        position="relative"
+        height={'85vh'}
+        width="100vw"
+        justifyContent="center"
+        alignItems={'center'}
       >
-        <Heading mb={8}>Deepflow</Heading>
-        {!AuthUser.email ? (
-          <Stack spacing={0}>
-            <Button
-              colorScheme="purple"
-              size="lg"
-              mb={4}
-              color="white"
-              bgGradient="linear(to-r, cyan.700,purple.500)"
-              _hover={{
-                bgGradient: 'linear(to-r, cyan.600,purple.400)',
-              }}
-              onClick={() => {
-                router.push(config.routes.auth);
-              }}
+        <Stack
+          spacing={6}
+          textAlign="center"
+          color="white"
+          justifyContent="center"
+          alignItems="center"
+          bgColor="transparent"
+        >
+          <Heading size="4xl">Deepflow</Heading>
+          <Heading size="xl">
+            The app to keep you{' '}
+            <Link
+              isExternal
+              href="https://blog.doist.com/deep-work/"
+              textDecor="underline"
             >
-              Login / Register
-            </Button>
-          </Stack>
-        ) : (
-          <Button
-            size="lg"
-            color="white"
-            bgGradient="linear(to-r, cyan.700,purple.500)"
-            _hover={{
-              bgGradient: 'linear(to-r, cyan.600,purple.400)',
-            }}
-            onClick={() => router.push(config.routes.dashboard)}
-            mb={4}
+              focused
+            </Link>
+          </Heading>
+          <Link
+            fontSize="xl"
+            onClick={() => router.push(config.routes.about)}
+            textDecor="underline"
           >
-            Boards
-          </Button>
-        )}
+            Want to know more?
+          </Link>
+          <FirebaseAuth />
+          <Link
+            textDecor="underline"
+            isExternal
+            fontSize="sm"
+            href="https://www.linkedin.com/in/dev-diego-romero/"
+          >
+            Made by Diego Romero
+          </Link>
+          <Badge fontSize="xs" variant="subtle" colorScheme="green">
+            Beta
+          </Badge>
+        </Stack>
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          height={['100vh']}
+          width="100%"
+          bgColor="black"
+          zIndex="-1"
+        >
+          <Particles
+            id="particles"
+            init={() => {}}
+            loaded={() => {}}
+            // @ts-ignore
+            options={particlesConfig}
+          />
+        </Box>
       </Flex>
-    </PageLayout>
+      <Grid></Grid>
+    </LoggedOutLayout>
   );
 };
 
@@ -65,6 +96,6 @@ export const getServerSideProps = withAuthUserTokenSSR({
 })();
 
 export default withAuthUser({
-  // whenAuthed: AuthAction.REDIRECT_TO_APP,
-  // appPageURL: config.routes.dashboard,
+  whenAuthed: AuthAction.REDIRECT_TO_APP,
+  appPageURL: config.routes.dashboard,
 })(LandingPage);

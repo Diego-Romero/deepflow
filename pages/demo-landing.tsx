@@ -6,7 +6,7 @@ import {
 } from 'next-firebase-auth';
 import Header from '../components/Header';
 import DemoPageLinks from '../components/DemoPageLinks';
-import { PageLayout } from '../components/PageLayout';
+import { PageLayout } from '../components/layouts/PageLayout';
 
 const styles = {
   content: {

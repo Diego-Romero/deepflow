@@ -1,7 +1,7 @@
 import { UseToastOptions } from '@chakra-ui/react';
 import moment from 'moment';
 import * as Yup from 'yup';
-import { TemplateTypes } from '../components/CreateBoardModal';
+import { TemplateTypes } from '../components/ui/dashboard/CreateBoardModal';
 import {
   Board,
   Column,

@@ -1,21 +1,10 @@
-// module.exports = {
-//   future: {
-//     webpack5: true,
-//   },
-//   webpack(config, options) {
-//     config.module.rules.push({
-//       test: /\.mp3$/,
-//       use: {
-//         loader: "url-loader",
-//       },
-//     });
-//     return config;
-//   },
-// };
-
 module.exports = {
   webpack(config, options) {
     const { isServer } = options;
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    });
     config.module.rules.push({
       test: /\.(ogg|mp3|wav|mpe?g)$/i,
       exclude: config.exclude,

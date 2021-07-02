@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthUser, withAuthUser, AuthAction } from 'next-firebase-auth';
 import Firebase from 'firebase';
-import FullPageLoader from '../components/FullPageLoader';
-import { PageLayout } from '../components/PageLayout';
+import FullPageLoader from '../components/ui/components/FullPageLoader';
+import { PageLayout } from '../components/layouts/PageLayout';
 import { Flex, Grid, Stack } from '@chakra-ui/react';
 import { User, UserWorkedTime, WorkedTimeWithDate } from '../types';
 import {
@@ -11,10 +11,10 @@ import {
   mapWorkedTimesToIncDate,
 } from '../utils/util-functions';
 import config from '../utils/config';
-import { BoardsCard } from '../components/BoardsCard';
-import { WorkedTimesCard } from '../components/WorkedTimesCard';
-import { TodosCard } from '../components/TodosCard';
-import { IntentionCard } from '../components/IntentionCard';
+import { BoardsCard } from '../components/ui/dashboard/BoardsCard';
+import { WorkedTimesCard } from '../components/ui/dashboard/WorkedTimesCard';
+import { TodosCard } from '../components/ui/dashboard/TodosCard';
+import { IntentionCard } from '../components/ui/dashboard/IntentionCard';
 
 const DashboardPage = () => {
   const [boards, setBoards] = useState<BoardWithId[]>([]);

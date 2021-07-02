@@ -1,6 +1,7 @@
 const config = {
   routes: {
     home: '/',
+    about: 'about',
     user: '/user',
     auth: '/auth',
     dashboard: '/dashboard',
