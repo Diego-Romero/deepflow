@@ -12,9 +12,12 @@ import {
   Stack,
   Link,
   Divider,
+  ListItem,
+  UnorderedList,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { LoggedOutLayout } from '../components/layouts/LoggedOutLayout';
+import config from '../utils/config';
 
 const CardWithImageContent: React.FC<{ imageUrl: string }> = (props) => {
   const { children, imageUrl } = props;
@@ -47,7 +50,7 @@ const About = () => {
         px={5}
         py={12}
       >
-        <Stack maxW="container.lg" spacing={['12']}>
+        <Stack maxW="container.lg" spacing={['14']}>
           <CardWithImageContent imageUrl="/../public/images/goals.svg">
             <Stack spacing={6} textAlign="left">
               <Heading size="lg">Why Deepflow?</Heading>
@@ -98,17 +101,62 @@ const About = () => {
                 Deepflow is a tool that helps you track your focused time and
                 allows you to organise your tasks and todos.
               </Text>
-              {/* <Box position="relative" boxSize={['300px', '400px', '500px']}> */}
             </Stack>
-            <Image
+            <Box>video</Box>
+            {/* <Image
               src={'/../public/images/screenshots/boards-screenshot.png'}
               alt=""
-              // layout="fill"
               width="1280px"
               height="687"
-            />
-            {/* </Box> */}
+            /> */}
           </Grid>
+          <Divider />
+
+          <CardWithImageContent imageUrl="/../public/images/progress_tracking.svg">
+            <Stack spacing={6} textAlign="left">
+              <Heading size="lg">Where is it heading?</Heading>
+              <Text>
+                Currently, I'm collecting user feedback and elaborating a
+                roadmap for the future. But the main priorities for this beta
+                version are:
+              </Text>
+              <UnorderedList pl={4}>
+                <ListItem color="gray.600" textDecor="line-through">
+                  First, allow the user to submit a status/reflection when the
+                  timer ends. Past work records will include this information.
+                </ListItem>
+                <ListItem>
+                  Secondly, elaborate on the reporting of previous work records.
+                  Users would like to quantify their work and know if they are
+                  under or overworking, i.e., how many Pomodoros are they
+                  averaging per week compared to other weeks.
+                </ListItem>
+                <ListItem>
+                  Have a template/s to set the daily intention and goals.
+                </ListItem>
+              </UnorderedList>
+            </Stack>
+          </CardWithImageContent>
+          <CardWithImageContent imageUrl="/../public/images/dev_focus.svg">
+            <Stack spacing={6} textAlign="left">
+              <Heading size="lg">Are you interested?</Heading>
+              <Text>
+                Deepflow is currently a non-profit/open-source project, and
+                please let me know if you would be interested in collaborating.
+                I'm in the looks for:
+              </Text>
+              <UnorderedList pl={4}>
+                <ListItem>Graphic Designer</ListItem>
+                <ListItem>Product Manager</ListItem>
+                <ListItem>User Experience (UX)</ListItem>
+              </UnorderedList>
+            </Stack>
+          </CardWithImageContent>
+          <Flex alignItems="center" justifyContent="center">
+            <Button onClick={() => router.push(config.routes.home)}>
+              Back to home
+            </Button>
+          </Flex>
         </Stack>
       </Flex>
     </LoggedOutLayout>
