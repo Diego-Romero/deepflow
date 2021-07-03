@@ -18,6 +18,7 @@ import {
 import { useRouter } from 'next/router';
 import { LoggedOutLayout } from '../components/layouts/LoggedOutLayout';
 import config from '../utils/config';
+import YouTube from 'react-youtube';
 
 const CardWithImageContent: React.FC<{ imageUrl: string }> = (props) => {
   const { children, imageUrl } = props;
@@ -31,16 +32,20 @@ const CardWithImageContent: React.FC<{ imageUrl: string }> = (props) => {
       >
         <Card>{children}</Card>
         <Box position="relative" boxSize={['300px', '400px', 'auto']}>
-          <Image
-            src={imageUrl}
-            alt="image"
-            layout="fill"
-          />
+          <Image src={imageUrl} alt="image" layout="fill" />
         </Box>
       </Grid>
       <Divider />
     </Stack>
   );
+};
+const youtubeOptions = {
+  // height: '390',
+  // width: '640',
+  playerVars: {
+    // https://developers.google.com/youtube/player_parameters
+    // autoplay: 1,
+  },
 };
 
 const About = () => {
@@ -98,17 +103,30 @@ const About = () => {
               </Text>
             </Stack>
           </CardWithImageContent>
-          <Grid gridTemplateColumns={['1fr 4fr']}>
-            <Stack spacing={4}>
-              <Heading>How does it works?</Heading>
-              <Text>
-                Deepflow is a tool that helps you track your focused time and
-                allows you to organise your tasks and todos.
-              </Text>
-            </Stack>
-            <Box>video</Box>
-          </Grid>
-          <Divider />
+
+          <Stack spacing={8}>
+            <Grid
+              gridTemplateRows={['auto auto', null, '1fr']}
+              gridTemplateColumns={['1fr', null, '1fr 1fr', '2fr 1fr']}
+              gridColumnGap="8"
+            >
+              <Box position="relative" boxSize={['300px', '400px', 'auto']}>
+                <YouTube
+                  videoId="A3RsoN5fAz4"
+                  opts={youtubeOptions}
+                  onReady={(e) => null}
+                />
+              </Box>
+              <Stack spacing={4}>
+                <Heading size="lg"> How does it works?</Heading>
+                <Text>
+                  Deepflow is a tool that helps you track your focused time and
+                  allows you to organise your tasks and todos.
+                </Text>
+              </Stack>
+            </Grid>
+            <Divider />
+          </Stack>
 
           <CardWithImageContent imageUrl="/images/progress_tracking.svg">
             <Stack spacing={6} textAlign="left">
