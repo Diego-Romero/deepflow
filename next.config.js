@@ -1,10 +1,12 @@
-module.exports = {
+const withImages = require('next-images');
+
+module.exports = withImages({
   webpack(config, options) {
     const { isServer } = options;
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    });
+    // config.module.rules.push({
+    //   test: /\.svg$/,
+    //   use: ['@svgr/webpack'],
+    // });
     config.module.rules.push({
       test: /\.(ogg|mp3|wav|mpe?g)$/i,
       exclude: config.exclude,
@@ -25,4 +27,4 @@ module.exports = {
 
     return config;
   },
-};
+});

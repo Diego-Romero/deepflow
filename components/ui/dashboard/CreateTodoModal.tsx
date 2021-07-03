@@ -30,7 +30,7 @@ const validationSchema = Yup.object().shape({
 interface Props {
   modalOpen: boolean;
   modalClose: () => void;
-	createTodo: (name: string) => void;
+  createTodo: (name: string) => void;
 }
 
 export const CreateTodoModal: React.FC<Props> = ({ modalOpen, modalClose }) => {

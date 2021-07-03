@@ -13,7 +13,10 @@ import config from '../../../utils/config';
 import { User } from '../../../types';
 import { BsKanban, BsListCheck } from 'react-icons/bs';
 import { TodosSideNav } from './TodosSideNav';
-import { BoardWithId, mapBoardsFromFirebase } from '../../../utils/util-functions';
+import {
+  BoardWithId,
+  mapBoardsFromFirebase,
+} from '../../../utils/util-functions';
 import { useEffect, useState } from 'react';
 import { BoardsSideNav } from './BoardsSideNav';
 import { BsGraphUp } from 'react-icons/bs';

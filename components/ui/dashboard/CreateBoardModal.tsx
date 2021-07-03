@@ -13,7 +13,10 @@ import { InputControl, RadioGroupControl } from 'formik-chakra-ui';
 import React from 'react';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
-import { createTemplateColumns, validation } from '../../../utils/util-functions';
+import {
+  createTemplateColumns,
+  validation,
+} from '../../../utils/util-functions';
 import Firebase from 'firebase';
 import config from '../../../utils/config';
 import { Board } from '../../../types';

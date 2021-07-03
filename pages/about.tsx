@@ -1,5 +1,5 @@
 import React from 'react';
-import { withAuthUser, AuthAction } from 'next-firebase-auth';
+import { withAuthUser } from 'next-firebase-auth';
 import Image from 'next/image';
 import { Card } from '../components/ui/Card';
 import {
@@ -31,7 +31,11 @@ const CardWithImageContent: React.FC<{ imageUrl: string }> = (props) => {
       >
         <Card>{children}</Card>
         <Box position="relative" boxSize={['300px', '400px', 'auto']}>
-          <Image src={imageUrl} alt="Picture of the author" layout="fill" />
+          <Image
+            src={imageUrl}
+            alt="image"
+            layout="fill"
+          />
         </Box>
       </Grid>
       <Divider />
@@ -51,7 +55,7 @@ const About = () => {
         py={12}
       >
         <Stack maxW="container.lg" spacing={['14']}>
-          <CardWithImageContent imageUrl="/../public/images/goals.svg">
+          <CardWithImageContent imageUrl="/images/goals.svg">
             <Stack spacing={6} textAlign="left">
               <Heading size="lg">Why Deepflow?</Heading>
               <Text>
@@ -103,16 +107,10 @@ const About = () => {
               </Text>
             </Stack>
             <Box>video</Box>
-            {/* <Image
-              src={'/../public/images/screenshots/boards-screenshot.png'}
-              alt=""
-              width="1280px"
-              height="687"
-            /> */}
           </Grid>
           <Divider />
 
-          <CardWithImageContent imageUrl="/../public/images/progress_tracking.svg">
+          <CardWithImageContent imageUrl="/images/progress_tracking.svg">
             <Stack spacing={6} textAlign="left">
               <Heading size="lg">Where is it heading?</Heading>
               <Text>
@@ -132,12 +130,17 @@ const About = () => {
                   averaging per week compared to other weeks.
                 </ListItem>
                 <ListItem>
-                  Have a template/s to set the daily intention and goals.
+                  Thirdly, make adding and updating todos a more comprehensive
+                  process.{' '}
+                </ListItem>
+                <ListItem>
+                  Lastly, have a template/s to set the daily intention and
+                  goals.
                 </ListItem>
               </UnorderedList>
             </Stack>
           </CardWithImageContent>
-          <CardWithImageContent imageUrl="/../public/images/dev_focus.svg">
+          <CardWithImageContent imageUrl="/images/dev_focus.svg">
             <Stack spacing={6} textAlign="left">
               <Heading size="lg">Are you interested?</Heading>
               <Text>
@@ -148,7 +151,7 @@ const About = () => {
               <UnorderedList pl={4}>
                 <ListItem>Graphic Designer</ListItem>
                 <ListItem>Product Manager</ListItem>
-                <ListItem>User Experience (UX)</ListItem>
+                <ListItem>User Experience Expert (UX)</ListItem>
               </UnorderedList>
             </Stack>
           </CardWithImageContent>
