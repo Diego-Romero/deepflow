@@ -70,6 +70,7 @@ const About = () => {
                 <Link
                   textDecor="underline"
                   href="https://blog.doist.com/deep-work/"
+                  isExternal
                 >
                   Deep Work
                 </Link>
@@ -110,18 +111,35 @@ const About = () => {
               gridTemplateColumns={['1fr', null, '1fr 1fr', '2fr 1fr']}
               gridColumnGap="8"
             >
-              <Box position="relative" boxSize={['300px', '400px', 'auto']}>
+              <Box position="relative" display={['none', null, null, 'block']}>
                 <YouTube
                   videoId="A3RsoN5fAz4"
                   opts={youtubeOptions}
                   onReady={(e) => null}
                 />
               </Box>
+
+              <Box
+                position="relative"
+                display={['block', null, null, 'none']}
+                boxSize={['300px', '400px', 'auto']}
+              >
+                <Image src={'/images/coding.svg'} alt="image" layout="fill" />
+              </Box>
               <Stack spacing={4}>
                 <Heading size="lg"> How does it works?</Heading>
                 <Text>
                   Deepflow is a tool that helps you track your focused time and
-                  allows you to organise your tasks and todos.
+                  allows you to organise your tasks and todo's.
+                </Text>
+                <Text>
+                  <Link
+                    textDecor="underline"
+                    href="https://www.youtube.com/watch?v=A3RsoN5fAz4"
+                    isExternal
+                  >
+                    Watch Demo on Youtube
+                  </Link>
                 </Text>
               </Stack>
             </Grid>
@@ -144,8 +162,15 @@ const About = () => {
                 <ListItem>
                   Secondly, elaborate on the reporting of previous work records.
                   Users would like to quantify their work and know if they are
-                  under or overworking, i.e., how many Pomodoros are they
-                  averaging per week compared to other weeks.
+                  under or overworking, i.e., how many
+                  <Link
+                    textDecor="underline"
+                    isExternal
+                    href="https://todoist.com/productivity-methods/pomodoro-technique"
+                  >
+                    Pomodoros
+                  </Link>
+                  are they averaging per week compared to other weeks.
                 </ListItem>
                 <ListItem>
                   Thirdly, make adding and updating todos a more comprehensive
