@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import * as React from 'react';
-import { IoMdHome, IoMdLogIn, IoMdLogOut } from 'react-icons/io';
+import { IoMdHome, IoMdLogOut } from 'react-icons/io';
 import { useAuthUser } from 'next-firebase-auth';
 import { useRouter } from 'next/router';
 import config from '../../../utils/config';
@@ -90,7 +90,8 @@ export const NavBar: React.FC<Props> = (props) => {
             )}
             <MenuItem
               icon={<BsInfoCircle />}
-              onClick={() => router.push(config.routes.about)}
+              bgColor="white"
+              onClick={() => router.push('/about')}
             >
               About
             </MenuItem>
